@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_sub_reply_post_bg"
+    android:padding="10dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_replay_content"
+        style="@style/GlobalTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        />
+
+</android.support.constraint.ConstraintLayout>

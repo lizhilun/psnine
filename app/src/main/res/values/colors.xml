@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#03A9F4</color>
+    <color name="colorPrimaryDark">#0288D1</color>
+    <color name="colorAccent">#448AFF</color>
+    <color name="colorDivideLine">#dfdfdf</color>
+    <color name="colorTextColor">#212121</color>
+    <color name="colorSecondaryTextColor">#757575</color>
+    <color name="colorContentBg">#FFFFFFFF</color>
+    <color name="colorForwardWeiboBg">#EEEEEE</color>
+    <color name="colorDivideView">#EEEEEE</color>
+    <color name="colorSearchBarBg">#FFF7F8F9</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+
+    <color name="bg_button_disable">#aeaeae</color>
+    <color name="color_dialog_button_text_enable">@color/colorPrimary</color>
+    <color name="color_dialog_button_text_disable">#cc999999</color>
+
+    <color name="color_game_completion_unfinished">#FF666666</color>
+    <color name="color_game_completion_rate_low">#FFDA314B</color>
+    <color name="color_game_completion_rate_just_so_so">#FFFAA732</color>
+    <color name="color_game_completion_rate_ok">#FF8CC14C</color>
+    <color name="color_game_completion_rate_good">#FF00A8E6</color>
+
+    <color name="color_game_cup_bg_platinum">#FFD5D9E4</color>
+    <color name="color_game_cup_bg_gold">#FFF6E5C8</color>
+    <color name="color_game_cup_bg_silver">#FFDCDCDC</color>
+    <color name="color_game_cup_bg_bronze">#FFE4CDC1</color>
+    <color name="color_game_cup_tips_bg">#FFF5FAEC</color>
+    <color name="color_game_cup_tips_text">#FF659F14</color>
+    <color name="color_game_cup_get_time_bg">#FFF5FAEC</color>
+    <color name="color_game_cup_get_bg">#FFEFEACA</color>
+
+    <color name="color_label_game_type_text_color">@color/white</color>
+    <color name="color_bg_label_PS4_game">#8662DD</color>
+    <color name="color_bg_label_PS3_game">#F05561</color>
+    <color name="color_bg_label_PSV_game">#0AAAE9</color>
+
+    <color name="color_sub_reply_post_bg">#EEEEEE</color>
+    <color name="color_sub_reply_post_writer_id_bg">#F9F9F9</color>
+    <color name="color_sub_reply_post_writer_id_text">#696969</color>
+    <color name="color_sub_reply_post_at_user_id_text">#507DAF</color>
+
+    <color name="color_perfect_rate_extremely_easy">#659F13</color>
+    <color name="color_perfect_rate_easy">#3A87AD</color>
+    <color name="color_perfect_rate_normal">#3A88AE</color>
+    <color name="color_perfect_rate_troublesome">#C8A66B</color>
+    <color name="color_perfect_rate_hard">#C19A57</color>
+    <color name="color_perfect_rate_extremely_hard">#BC5351</color>
+    <color name="color_perfect_rate_impossible">#BA4C4A</color>
+</resources>

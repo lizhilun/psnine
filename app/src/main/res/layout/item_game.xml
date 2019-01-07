@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/content_padding_top_edge"
+    android:paddingEnd="@dimen/content_padding_start_edge"
+    android:paddingStart="@dimen/content_padding_start_edge"
+    android:paddingTop="@dimen/content_padding_top_edge">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_game_icon"
+        android:layout_width="@dimen/game_item_cover_width"
+        android:layout_height="@dimen/game_item_cover_height"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_game_name"
+        style="@style/GlobalSmallTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/barrier_end"
+        app:layout_constraintStart_toEndOf="@+id/iv_game_icon"
+        app:layout_constraintTop_toTopOf="@+id/iv_game_icon"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_cup_info"
+        style="@style/GlobalSecondaryTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_game_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_game_name"/>
+
+    <LinearLayout
+        android:id="@+id/ll_game_type_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/tv_game_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_cup_info"
+        app:layout_goneMarginTop="10dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_label_ps3"
+            style="@style/LabelGameTypeStyle"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:background="@color/color_bg_label_PS3_game"
+            android:text="PS3"
+            />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_label_psv"
+            style="@style/LabelGameTypeStyle"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:background="@color/color_bg_label_PSV_game"
+            android:text="PSV"
+
+            />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_label_ps4"
+            style="@style/LabelGameTypeStyle"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:background="@color/color_bg_label_PS4_game"
+            android:text="PS4"
+            />
+    </LinearLayout>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_last_update_time"
+        style="@style/GlobalSecondarySmallerTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/ll_game_type_label"
+        app:layout_constraintStart_toEndOf="@+id/ll_game_type_label"
+        app:layout_constraintTop_toTopOf="@+id/ll_game_type_label"/>
+
+    <com.daimajia.numberprogressbar.NumberProgressBar
+        android:id="@+id/npb_completion_rate"
+        android:layout_width="@dimen/game_item_completion_rate_bar_width"
+        android:layout_height="@dimen/game_item_completion_rate_bar_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:progress_text_visibility="invisible"
+        custom:progress_unreached_color="@color/color_game_completion_unfinished"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_completion_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/npb_completion_rate"
+        app:layout_constraintStart_toStartOf="@+id/npb_completion_rate"
+        app:layout_constraintTop_toTopOf="@+id/npb_completion_rate"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_perfect_difficult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/global_text_size_small"
+        app:layout_constraintBottom_toTopOf="@+id/tv_perfect_rate"
+        app:layout_constraintEnd_toEndOf="@+id/tv_perfect_rate"
+        app:layout_constraintStart_toStartOf="@+id/tv_perfect_rate"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_perfect_rate"
+        style="@style/GlobalSecondarySmallerTextStyle"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_perfect_difficult"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <android.support.constraint.Barrier
+        android:id="@+id/barrier_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="npb_completion_rate, tv_perfect_rate"/>
+
+</android.support.constraint.ConstraintLayout>

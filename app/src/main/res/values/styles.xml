@@ -1,0 +1,97 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/colorContentBg</item>
+        <item name="android:statusBarColor">@color/colorContentBg</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="GlobalTextStyle">
+        <item name="android:textSize">@dimen/global_text_size</item>
+        <item name="android:textColor">@color/colorTextColor</item>
+    </style>
+
+    <style name="GlobalSmallTextStyle">
+        <item name="android:textSize">@dimen/global_text_size_small</item>
+        <item name="android:textColor">@color/colorTextColor</item>
+    </style>
+
+    <style name="GlobalSecondaryTextStyle">
+        <item name="android:textSize">@dimen/global_text_size_smaller</item>
+        <item name="android:textColor">@color/colorSecondaryTextColor</item>
+    </style>
+
+    <style name="GlobalSecondarySmallerTextStyle">
+        <item name="android:textSize">@dimen/global_text_size_smallest</item>
+        <item name="android:textColor">@color/colorSecondaryTextColor</item>
+    </style>
+
+    <style name="BottomTabImageStyle">
+        <item name="android:layout_width">@dimen/bottom_tab_image_size</item>
+        <item name="android:layout_height">@dimen/bottom_tab_image_size</item>
+    </style>
+
+    <style name="BottomTabTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/bottom_tab_text_size</item>
+        <item name="android:textColor">@drawable/color_bottom_tab_text</item>
+    </style>
+
+    <style name="GlobalDialogStyle" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <style name="DialogButtonTextStyle">
+        <item name="android:textSize">@dimen/global_text_size</item>
+        <item name="android:textColor">@drawable/color_dialog_button_text</item>
+        <item name="android:layout_height">@dimen/dialog_button_height</item>
+        <item name="android:layout_width">@dimen/dialog_button_width</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="GlobalLayoutParentStyle">
+        <item name="android:paddingTop">@dimen/global_content_padding_status_bar</item>
+    </style>
+
+    <style name="GlobalBackButtonStyle">
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="android:paddingTop">@dimen/content_padding_status_bar_padding</item>
+        <item name="android:paddingBottom">@dimen/content_padding_status_bar_padding</item>
+        <item name="android:paddingStart">@dimen/content_padding_start_edge</item>
+        <item name="android:paddingEnd">@dimen/content_padding_start_edge</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:src">@mipmap/ic_back</item>
+    </style>
+
+    <style name="LabelGameTypeStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">1dp</item>
+        <item name="android:paddingBottom">1dp</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:textColor">@color/color_label_game_type_text_color</item>
+        <item name="android:textSize">@dimen/global_text_size_smaller</item>
+    </style>
+
+    <style name="FabButtonStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="fab_colorNormal">@color/colorPrimary</item>
+        <item name="fab_colorPressed">@color/colorPrimaryDark</item>
+        <item name="fab_colorRipple">@color/colorAccent</item>
+        <item name="fab_size">normal</item>
+    </style>
+
+</resources>

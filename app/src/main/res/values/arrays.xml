@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="game_platform_list">
+        <item>@string/all</item>
+        <item>PSV</item>
+        <item>PS3</item>
+        <item>PS4</item>
+    </string-array>
+
+    <string-array name="game_sort_condition">
+        <item>@string/newest</item>
+        <item>@string/fastest_completion</item>
+        <item>@string/slowest_completion</item>
+        <item>@string/perfect_difficult</item>
+    </string-array>
+</resources>

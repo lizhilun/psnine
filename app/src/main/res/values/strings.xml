@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">Psnine</string>
+
+    <string name="home">首页</string>
+    <string name="game">游戏</string>
+    <string name="me">我</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+    <string name="platinum">白</string>
+    <string name="gold">金</string>
+    <string name="silver">银</string>
+    <string name="bronze">铜</string>
+    <string name="all">全部</string>
+    <string name="platform">平台</string>
+    <string name="sort">排序</string>
+
+    <string name="notify_failed_to_get_permission">权限获取失败</string>
+    <string name="notify_permission_be_refused">权限获取被拒绝，请重新授权</string>
+
+    <string name="total_game_count">总游戏</string>
+    <string name="perfect_game_count">完美数</string>
+    <string name="pit_game_count">坑数</string>
+    <string name="completion_rate">完成率</string>
+    <string name="total_cup_count">总奖杯</string>
+
+    <string name="game_progress">完成度</string>
+    <string name="perfect_rate">完美率</string>
+    <string name="first_cup">首个杯</string>
+    <string name="last_cup">最后杯</string>
+    <string name="total_time">总耗时</string>
+
+    <string name="hint_game_search">支持中文模糊搜索</string>
+    <string name="recent_hot">近期热门</string>
+
+    <string name="extremely_easy">极易</string>
+    <string name="easy">容易</string>
+    <string name="normal">普通</string>
+    <string name="troublesome">麻烦</string>
+    <string name="hard">困难</string>
+    <string name="extremely_hard">噩梦</string>
+    <string name="impossible">地狱</string>
+
+    <string name="synchronize_level">同步等级</string>
+    <string name="synchronize_game">同步游戏</string>
+    <string name="sort_condition">排序方式</string>
+
+    <string name="newest">最新</string>
+    <string name="fastest_completion">进度最快</string>
+    <string name="slowest_completion">进度最慢</string>
+    <string name="perfect_difficult">完美难度</string>
+
+</resources>
