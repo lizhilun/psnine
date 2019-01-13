@@ -12,7 +12,7 @@ import demo.lizl.com.psnine.util.Constant
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.activity_post_detail.*
 
-class PostDetailActivity : BaseActivity(), IPostDetailActivityView
+class PostDetailActivity : BaseActivity<PostDetailActivityPresenter>(), IPostDetailActivityView
 {
 
     override fun getLayoutResId(): Int

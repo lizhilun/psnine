@@ -13,7 +13,7 @@ import demo.lizl.com.psnine.presenter.LoginActivityPresenter
 import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.EventBus
 
-class LoginActivity : BaseActivity(), ILoginActivityView
+class LoginActivity : BaseActivity<LoginActivityPresenter>(), ILoginActivityView
 {
     override fun getLayoutResId(): Int
     {

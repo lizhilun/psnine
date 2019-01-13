@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import demo.lizl.com.psnine.presenter.BasePresenter
 import org.greenrobot.eventbus.EventBus
 
-abstract class BaseFragment : Fragment()
+abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
 {
     protected var TAG = this.javaClass.simpleName
 
-    protected lateinit var presenter: BasePresenter
+    protected lateinit var presenter: T
 
     protected var isFragmentVisible = false
 

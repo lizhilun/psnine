@@ -19,7 +19,7 @@ import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
 import org.jsoup.select.Elements
 
-class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePresenter(context, iView)
+class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePresenter<IUserFragmentView>(context, iView)
 {
 
     private var gameItemCount = 0
@@ -52,8 +52,6 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
     private var sortGameCondition = SORT_GAME_BY_TIME
     private var sortGamePlatform = GAME_PLATFORM_ALL
 
-    private fun getIView() = iView as IUserFragmentView
-
     fun setPsnId(psnId: String)
     {
         curPsnId = if (TextUtils.isEmpty(psnId))
@@ -85,7 +83,7 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
 
             val userItemInfo = UserInfoItem(userId, avatarUrl, userLevel, userExperience, userCupInfo)
 
-            GlobalScope.launch(Dispatchers.Main) { getIView().onUserInfoRefresh(userItemInfo) }
+            GlobalScope.launch(Dispatchers.Main) { iView.onUserInfoRefresh(userItemInfo) }
 
             val gameTableElement = psnInfoElement[1].select("td")
             val totalGameCount = (gameTableElement[0].childNodes()[0] as TextNode).text().toInt()
@@ -95,7 +93,7 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
             val totalCupCount = (gameTableElement[4].childNodes()[0] as TextNode).text().toInt()
 
             val userGameInfoItem = UserGameInfoItem(totalGameCount, perfectGameCount, pitGameCount, gameCompletionRate, totalCupCount)
-            GlobalScope.launch(Dispatchers.Main) { getIView().onUserGameInfoRefresh(userGameInfoItem) }
+            GlobalScope.launch(Dispatchers.Main) { iView.onUserGameInfoRefresh(userGameInfoItem) }
 
             refreshGameList(sortGamePlatform, SORT_GAME_BY_TIME)
         }
@@ -123,14 +121,14 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
             val gameElementList = listElementList.select("tr")
             val gameList = getGameListFromGameElementList(gameElementList)
 
-            GlobalScope.launch(Dispatchers.Main) { getIView().onUserGameListUpdate(gameList) }
+            GlobalScope.launch(Dispatchers.Main) { iView.onUserGameListUpdate(gameList) }
 
             gameItemCount = gameCountInfo.substring(1, gameCountInfo.length - 1).toInt()
             loadedGameCount = gameList.size
 
             if (gameItemCount <= loadedGameCount)
             {
-                getIView().onNoMoreGame()
+                iView.onNoMoreGame()
             }
         }
     }
@@ -147,12 +145,12 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
             val gameElementList = doc.getElementsByClass("list")[0].select("tr")
             val gameList = getGameListFromGameElementList(gameElementList)
 
-            GlobalScope.launch(Dispatchers.Main) { getIView().onMoreGameLoadFinish(gameList) }
+            GlobalScope.launch(Dispatchers.Main) { iView.onMoreGameLoadFinish(gameList) }
 
             loadedGameCount += gameList.size
             if (gameItemCount <= loadedGameCount)
             {
-                getIView().onNoMoreGame()
+                iView.onNoMoreGame()
             }
         }
     }
@@ -258,7 +256,7 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
 
                 if (url!! == AppConfig.BASE_REQUEST_URL + "psnid/" + AppConfig.CUR_PSN_ID)
                 {
-                    getIView().onInfoUpdateFinish()
+                    iView.onInfoUpdateFinish()
                 }
 
                 return super.shouldOverrideUrlLoading(view, url)
@@ -279,7 +277,7 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
                 Log.d(TAG, "showSource:$title")
 
                 GlobalScope.launch(Dispatchers.Main) {
-                    getIView().onInfoUpdateFailed(title)
+                    iView.onInfoUpdateFailed(title)
                 }
             }
         }

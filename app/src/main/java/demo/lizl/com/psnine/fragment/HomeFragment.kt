@@ -11,7 +11,7 @@ import demo.lizl.com.psnine.presenter.HomeFragmentPresenter
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : BaseFragment(), IHomeFragmentView
+class HomeFragment : BaseFragment<HomeFragmentPresenter>(), IHomeFragmentView
 {
     private lateinit var postListAdapter: PostListAdapter
 
@@ -20,12 +20,10 @@ class HomeFragment : BaseFragment(), IHomeFragmentView
         return R.layout.fragment_home
     }
 
-    private fun getPresenter() = presenter as HomeFragmentPresenter
-
     override fun initPresenter()
     {
         presenter = HomeFragmentPresenter(activity as Context, this)
-        getPresenter().refreshPostList()
+        presenter.refreshPostList()
     }
 
     override fun initView()
@@ -33,8 +31,8 @@ class HomeFragment : BaseFragment(), IHomeFragmentView
         refresh_layout.setEnableLoadMore(true)
         refresh_layout.setRefreshHeader(UiUtil.getDefaultRefreshHeader(activity as Context))
         refresh_layout.setEnableRefresh(true)
-        refresh_layout.setOnRefreshListener { getPresenter().refreshPostList() }
-        refresh_layout.setOnLoadMoreListener { getPresenter().LoadMorePost() }
+        refresh_layout.setOnRefreshListener { presenter.refreshPostList() }
+        refresh_layout.setOnLoadMoreListener { presenter.LoadMorePost() }
 
         postListAdapter = PostListAdapter()
         rv_post_list.layoutManager = LinearLayoutManager(activity)
@@ -44,7 +42,7 @@ class HomeFragment : BaseFragment(), IHomeFragmentView
         {
             override fun onPostItemClick(postItem: PostItem)
             {
-                ((activity as BaseActivity).turnToPostDetailActivity(postItem.postDetailUrl))
+                ((activity as BaseActivity<*>).turnToPostDetailActivity(postItem.postDetailUrl))
             }
         })
 
@@ -52,7 +50,7 @@ class HomeFragment : BaseFragment(), IHomeFragmentView
         {
             override fun onPostAvatarClick(postItem: PostItem)
             {
-                ((activity as BaseActivity).turnToUserDetailActivity(postItem.postWriterId))
+                ((activity as BaseActivity<*>).turnToUserDetailActivity(postItem.postWriterId))
             }
         })
     }

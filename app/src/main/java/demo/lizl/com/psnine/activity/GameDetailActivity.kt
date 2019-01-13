@@ -13,7 +13,7 @@ import demo.lizl.com.psnine.util.GlideUtil
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.activity_game_detail.*
 
-class GameDetailActivity : BaseActivity(), IGameDetailActivityView
+class GameDetailActivity : BaseActivity<GameDetailActivityPresenter>(), IGameDetailActivityView
 {
     override fun getLayoutResId(): Int
     {
@@ -25,21 +25,19 @@ class GameDetailActivity : BaseActivity(), IGameDetailActivityView
         presenter = GameDetailActivityPresenter(this, this)
     }
 
-    private fun getPresenter() = presenter as GameDetailActivityPresenter
-
     override fun initView()
     {
         val bundle = intent.extras!!
         val gameDetailUrl = bundle.getString(Constant.BUNDLE_DATA_STRING, "")
 
-        getPresenter().setGameDetailUrl(gameDetailUrl)
-        getPresenter().refreshGameDetailInfo()
+        presenter.setGameDetailUrl(gameDetailUrl)
+        presenter.refreshGameDetailInfo()
 
         refresh_layout.setEnableLoadMore(false)
         refresh_layout.setRefreshHeader(UiUtil.getDefaultRefreshHeader(this))
         refresh_layout.setEnableRefresh(true)
         refresh_layout.isNestedScrollingEnabled = false
-        refresh_layout.setOnRefreshListener { getPresenter().refreshGameDetailInfo() }
+        refresh_layout.setOnRefreshListener { presenter.refreshGameDetailInfo() }
 
         ic_back.setOnClickListener { finish() }
     }

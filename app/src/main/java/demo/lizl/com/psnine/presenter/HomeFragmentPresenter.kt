@@ -10,12 +10,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
-class HomeFragmentPresenter(context: Context, iView: IHomeFragmentView) : BasePresenter(context, iView)
+class HomeFragmentPresenter(context: Context, iView: IHomeFragmentView) : BasePresenter<IHomeFragmentView>(context, iView)
 {
 
     private var curPostPage = 1
-
-    fun getIView() = iView as IHomeFragmentView
 
     fun refreshPostList()
     {
@@ -27,7 +25,7 @@ class HomeFragmentPresenter(context: Context, iView: IHomeFragmentView) : BasePr
                 val postList = getPostItemListFromPostPage(curPostPage)
 
                 GlobalScope.launch(Dispatchers.Main) {
-                    getIView().onPostListRefresh(postList)
+                    iView.onPostListRefresh(postList)
                 }
             }
             catch (e: Exception)
@@ -47,7 +45,7 @@ class HomeFragmentPresenter(context: Context, iView: IHomeFragmentView) : BasePr
                 val postList = getPostItemListFromPostPage(curPostPage)
 
                 GlobalScope.launch(Dispatchers.Main) {
-                    getIView().onPostListLoadMore(postList)
+                    iView.onPostListLoadMore(postList)
                 }
             }
             catch (e: Exception)

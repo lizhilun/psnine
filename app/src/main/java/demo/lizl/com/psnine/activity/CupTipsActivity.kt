@@ -11,7 +11,7 @@ import demo.lizl.com.psnine.util.GlideUtil
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.activity_cup_tips.*
 
-class CupTipsActivity : BaseActivity(), ICupTipsActivityView
+class CupTipsActivity : BaseActivity<CupTipsActivityPresenter>(), ICupTipsActivityView
 {
 
     override fun getLayoutResId(): Int
@@ -24,20 +24,18 @@ class CupTipsActivity : BaseActivity(), ICupTipsActivityView
         presenter = CupTipsActivityPresenter(this, this)
     }
 
-    private fun getPresenter() = presenter as CupTipsActivityPresenter
-
     override fun initView()
     {
         val bundle = intent.extras!!
         val cupTipsUrl = bundle.getString(Constant.BUNDLE_DATA_STRING, "")
 
-        getPresenter().setCupTipsUrl(cupTipsUrl)
-        getPresenter().refreshTipsList()
+        presenter.setCupTipsUrl(cupTipsUrl)
+        presenter.refreshTipsList()
 
         refresh_layout.setEnableLoadMore(false)
         refresh_layout.setRefreshHeader(UiUtil.getDefaultRefreshHeader(this))
         refresh_layout.setEnableRefresh(true)
-        refresh_layout.setOnRefreshListener { getPresenter().refreshTipsList() }
+        refresh_layout.setOnRefreshListener { presenter.refreshTipsList() }
 
         ic_back.setOnClickListener { finish() }
     }

@@ -4,12 +4,12 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.support.design.widget.TabLayout
 import android.support.v4.app.ActivityCompat
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.adapter.FragmentPageAdapter
 import demo.lizl.com.psnine.customview.dialog.BaseDialog
 import demo.lizl.com.psnine.customview.dialog.DialogOperationConfirm
-import demo.lizl.com.psnine.fragment.BaseFragment
 import demo.lizl.com.psnine.fragment.GameFragment
 import demo.lizl.com.psnine.fragment.HomeFragment
 import demo.lizl.com.psnine.fragment.UserFragment
@@ -19,10 +19,10 @@ import demo.lizl.com.psnine.util.ToastUtil
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity(), IMainActivityView
+class MainActivity : BaseActivity<MainActivityPresenter>(), IMainActivityView
 {
 
-    private lateinit var fragmentList: List<BaseFragment>
+    private lateinit var fragmentList: List<Fragment>
     private var dialogOperationConfirm: DialogOperationConfirm? = null
 
     private val REQUEST_CODE_READ_EX_PERMISSION = 23
@@ -34,7 +34,6 @@ class MainActivity : BaseActivity(), IMainActivityView
 
     override fun initPresenter()
     {
-
         presenter = MainActivityPresenter(this, this)
 
         checkReadStoragePermission()
@@ -51,7 +50,7 @@ class MainActivity : BaseActivity(), IMainActivityView
         val gameFragment = GameFragment()
         val userFragment = UserFragment()
 
-        fragmentList = listOf<BaseFragment>(homeFragment, gameFragment, userFragment)
+        fragmentList = listOf(homeFragment, gameFragment, userFragment)
         val fragmentPagerAdapter = FragmentPageAdapter(fragmentList, supportFragmentManager)
         vp_fragment_container.adapter = fragmentPagerAdapter
         vp_fragment_container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tl_bottom))

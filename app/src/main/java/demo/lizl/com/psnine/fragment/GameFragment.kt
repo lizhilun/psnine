@@ -15,7 +15,7 @@ import demo.lizl.com.psnine.presenter.GameFragmentPresenter
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_game.*
 
-class GameFragment : BaseFragment(), IGameFragmentView
+class GameFragment : BaseFragment<GameFragmentPresenter>(), IGameFragmentView
 {
 
     private lateinit var hotGameListAdapter: GameListAdapter
@@ -29,10 +29,8 @@ class GameFragment : BaseFragment(), IGameFragmentView
     override fun initPresenter()
     {
         presenter = GameFragmentPresenter(activity as Context, this)
-        getPresenter().getHitGameList()
+        presenter.getHitGameList()
     }
-
-    private fun getPresenter() = presenter as GameFragmentPresenter
 
     override fun initView()
     {
@@ -41,7 +39,7 @@ class GameFragment : BaseFragment(), IGameFragmentView
         refresh_layout.setEnableRefresh(false)
         refresh_layout.setEnableLoadMore(false)
         refresh_layout.isNestedScrollingEnabled = false
-        refresh_layout.setOnLoadMoreListener { getPresenter().loadMoreSearchResult() }
+        refresh_layout.setOnLoadMoreListener { presenter.loadMoreSearchResult() }
 
         searchResultListAdapter = GameListAdapter()
         rv_search_result_list.layoutManager = LinearLayoutManager(activity)
@@ -55,7 +53,7 @@ class GameFragment : BaseFragment(), IGameFragmentView
         {
             override fun onGameItemClick(gameInfoItem: GameInfoItem)
             {
-                (activity as BaseActivity).turnToGameDetailActivity(gameInfoItem.gameDetailUrl)
+                (activity as BaseActivity<*>).turnToGameDetailActivity(gameInfoItem.gameDetailUrl)
             }
         })
 
@@ -63,7 +61,7 @@ class GameFragment : BaseFragment(), IGameFragmentView
         {
             override fun onGameItemClick(gameInfoItem: GameInfoItem)
             {
-                (activity as BaseActivity).turnToGameDetailActivity(gameInfoItem.gameDetailUrl)
+                (activity as BaseActivity<*>).turnToGameDetailActivity(gameInfoItem.gameDetailUrl)
             }
         })
 
@@ -81,7 +79,7 @@ class GameFragment : BaseFragment(), IGameFragmentView
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int)
             {
-                getPresenter().searchGame(p0!!.toString())
+                presenter.searchGame(p0!!.toString())
             }
         })
         et_search.filters = arrayOf(UiUtil.getNoWrapInputFilter(), InputFilter.LengthFilter(15))

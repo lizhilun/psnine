@@ -28,7 +28,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
-class UserFragment : BaseFragment(), IUserFragmentView
+class UserFragment : BaseFragment<UserFragmentPresenter>(), IUserFragmentView
 {
     private lateinit var gameListAdapter: GameListAdapter
 
@@ -42,8 +42,6 @@ class UserFragment : BaseFragment(), IUserFragmentView
     {
         return R.layout.fragment_user
     }
-
-    private fun getPresenter() = presenter as UserFragmentPresenter
 
     override fun initPresenter()
     {
@@ -64,9 +62,9 @@ class UserFragment : BaseFragment(), IUserFragmentView
         iv_back.visibility = if (emptyPsnId) View.GONE else View.VISIBLE
         fab_synchronize_level.visibility = if (emptyPsnId) View.VISIBLE else View.GONE
         fab_synchronize_game.visibility = if (emptyPsnId) View.VISIBLE else View.GONE
-        getPresenter().setPsnId(psnId)
+        presenter.setPsnId(psnId)
 
-        getPresenter().refreshUserPage()
+        presenter.refreshUserPage()
 
         gameListAdapter = GameListAdapter()
         rv_game_list.layoutManager = LinearLayoutManager(activity)
@@ -93,7 +91,7 @@ class UserFragment : BaseFragment(), IUserFragmentView
                     getString(R.string.perfect_difficult) -> UserFragmentPresenter.SORT_GAME_BY_PERFECT_DIFFICULT
                     else -> UserFragmentPresenter.SORT_GAME_BY_TIME
                 }
-                getPresenter().refreshGameList(platform, condition)
+                presenter.refreshGameList(platform, condition)
             }
         })
 
@@ -101,20 +99,20 @@ class UserFragment : BaseFragment(), IUserFragmentView
         refresh_layout.setRefreshFooter(UiUtil.getDefaultRefreshFooter(activity as Context))
         refresh_layout.setEnableRefresh(false)
         refresh_layout.isNestedScrollingEnabled = false
-        refresh_layout.setOnRefreshListener { getPresenter().refreshUserPage() }
-        refresh_layout.setOnLoadMoreListener { getPresenter().loadMoreGameList() }
+        refresh_layout.setOnRefreshListener { presenter.refreshUserPage() }
+        refresh_layout.setOnLoadMoreListener { presenter.loadMoreGameList() }
 
         fam_menu.setClosedOnTouchOutside(true)
 
         fab_synchronize_level.setOnClickListener {
             showLoadingDialog()
-            getPresenter().updateUserLevel()
+            presenter.updateUserLevel()
             fam_menu.close(true)
         }
 
         fab_synchronize_game.setOnClickListener {
             showLoadingDialog()
-            getPresenter().updateUserGame()
+            presenter.updateUserGame()
             fam_menu.close(true)
         }
 
@@ -134,7 +132,7 @@ class UserFragment : BaseFragment(), IUserFragmentView
         {
             override fun onGameItemClick(gameInfoItem: GameInfoItem)
             {
-                (activity as BaseActivity).turnToGameDetailActivity(gameInfoItem.gameDetailUrl)
+                (activity as BaseActivity<*>).turnToGameDetailActivity(gameInfoItem.gameDetailUrl)
             }
         })
     }
@@ -185,7 +183,7 @@ class UserFragment : BaseFragment(), IUserFragmentView
     {
         dialogLoading?.dismiss()
         ToastUtil.showToast(R.string.notify_success_to_update_info)
-        getPresenter().refreshUserPage()
+        presenter.refreshUserPage()
     }
 
     override fun onInfoUpdateFailed(reason: String)
@@ -201,7 +199,7 @@ class UserFragment : BaseFragment(), IUserFragmentView
             {
                 if (reason == getString(R.string.notify_need_login_first))
                 {
-                    (activity as BaseActivity).turnToLoginActivity()
+                    (activity as BaseActivity<*>).turnToLoginActivity()
                 }
             }
         })
@@ -220,6 +218,6 @@ class UserFragment : BaseFragment(), IUserFragmentView
     fun onLoginResponse(loginEvent: LoginEvent)
     {
         Log.d(TAG, "onLoginResponse::" + loginEvent.result)
-        getPresenter().refreshUserPage()
+        presenter.refreshUserPage()
     }
 }

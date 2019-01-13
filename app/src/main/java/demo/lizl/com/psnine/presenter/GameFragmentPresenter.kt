@@ -9,10 +9,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
-class GameFragmentPresenter(context: Context, iView: IGameFragmentView) : BasePresenter(context, iView)
+class GameFragmentPresenter(context: Context, iView: IGameFragmentView) : BasePresenter<IGameFragmentView>(context, iView)
 {
-
-    private fun getIView() = iView as IGameFragmentView
 
     private var curSearchStr = ""
     private var curSearchPage = 1
@@ -49,7 +47,7 @@ class GameFragmentPresenter(context: Context, iView: IGameFragmentView) : BasePr
                 hotGameList.add(gameInfoItem)
             }
 
-            GlobalScope.launch(Dispatchers.Main) { getIView().onHotGameListRefresh(hotGameList) }
+            GlobalScope.launch(Dispatchers.Main) { iView.onHotGameListRefresh(hotGameList) }
         }
     }
 
@@ -60,7 +58,7 @@ class GameFragmentPresenter(context: Context, iView: IGameFragmentView) : BasePr
             curSearchPage = 1
             curSearchStr = searchStr
             val gameList = getSearchResult(searchStr, curSearchPage)
-            GlobalScope.launch(Dispatchers.Main) { getIView().onGameSearchRefresh(gameList, curSeachResultCount) }
+            GlobalScope.launch(Dispatchers.Main) { iView.onGameSearchRefresh(gameList, curSeachResultCount) }
         }
     }
 
@@ -70,7 +68,7 @@ class GameFragmentPresenter(context: Context, iView: IGameFragmentView) : BasePr
 
             curSearchPage++
             val gameList = getSearchResult(curSearchStr, curSearchPage)
-            GlobalScope.launch(Dispatchers.Main) { getIView().onGameSearchLoadMore(gameList, curSeachResultCount) }
+            GlobalScope.launch(Dispatchers.Main) { iView.onGameSearchLoadMore(gameList, curSeachResultCount) }
         }
     }
 

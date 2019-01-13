@@ -7,7 +7,7 @@ import demo.lizl.com.psnine.iview.IUserDetailActivityView
 import demo.lizl.com.psnine.presenter.UserDetailActivityPresenter
 import demo.lizl.com.psnine.util.Constant
 
-class UserDetailActivity : BaseActivity(), IUserDetailActivityView
+class UserDetailActivity : BaseActivity<UserDetailActivityPresenter>(), IUserDetailActivityView
 {
     override fun getLayoutResId(): Int
     {

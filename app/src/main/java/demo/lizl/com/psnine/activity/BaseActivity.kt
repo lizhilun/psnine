@@ -7,11 +7,11 @@ import android.util.Log
 import demo.lizl.com.psnine.presenter.BasePresenter
 import demo.lizl.com.psnine.util.Constant
 
-abstract class BaseActivity : AppCompatActivity()
+abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity()
 {
     protected val TAG = this.javaClass.simpleName
 
-    protected lateinit var presenter: BasePresenter
+    protected lateinit var presenter: T
 
     abstract fun getLayoutResId(): Int
 

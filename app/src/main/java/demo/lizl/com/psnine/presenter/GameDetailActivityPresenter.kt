@@ -13,7 +13,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
-class GameDetailActivityPresenter(context: Context, iView: IGameDetailActivityView) : BasePresenter(context, iView)
+class GameDetailActivityPresenter(context: Context, iView: IGameDetailActivityView) : BasePresenter<IGameDetailActivityView>(context, iView)
 {
 
     private lateinit var requestUrl: String
@@ -30,7 +30,6 @@ class GameDetailActivityPresenter(context: Context, iView: IGameDetailActivityVi
         }
     }
 
-    private fun getIView() = iView as IGameDetailActivityView
 
     fun refreshGameDetailInfo()
     {
@@ -70,7 +69,7 @@ class GameDetailActivityPresenter(context: Context, iView: IGameDetailActivityVi
                         totalTime = cupInfoElement[2].ownText()
                     }
 
-                    GlobalScope.launch(Dispatchers.Main) { getIView().onUserGameCupInfoRefresh(gameProgress, firstCupTime, lastCupTime, totalTime) }
+                    GlobalScope.launch(Dispatchers.Main) { iView.onUserGameCupInfoRefresh(gameProgress, firstCupTime, lastCupTime, totalTime) }
                 }
             }
 
@@ -79,7 +78,7 @@ class GameDetailActivityPresenter(context: Context, iView: IGameDetailActivityVi
             val gameInfoItem = GameInfoItem(gameCoverUrl, gameName, "")
             gameInfoItem.gameCupInfo = gameCupInfo
 
-            GlobalScope.launch(Dispatchers.Main) { getIView().onGameInfoRefresh(gameInfoItem) }
+            GlobalScope.launch(Dispatchers.Main) { iView.onGameInfoRefresh(gameInfoItem) }
 
             val allGameCupListElement = doc.getElementsByClass("list")
             val gameCupViewList = mutableListOf<GameCupListView>()
@@ -134,7 +133,7 @@ class GameDetailActivityPresenter(context: Context, iView: IGameDetailActivityVi
                 gameCupViewList.add(gameCupView)
             }
 
-            GlobalScope.launch(Dispatchers.Main) { getIView().onGameCupInfoRefresh(gameCupViewList) }
+            GlobalScope.launch(Dispatchers.Main) { iView.onGameCupInfoRefresh(gameCupViewList) }
         }
     }
 }
