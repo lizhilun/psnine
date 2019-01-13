@@ -2,10 +2,16 @@ package demo.lizl.com.psnine.fragment
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import demo.lizl.com.psnine.R
+import demo.lizl.com.psnine.activity.BaseActivity
 import demo.lizl.com.psnine.activity.MainActivity
 import demo.lizl.com.psnine.adapter.GameListAdapter
+import demo.lizl.com.psnine.customview.dialog.BaseDialog
 import demo.lizl.com.psnine.customview.dialog.DialogGameSortCondition
+import demo.lizl.com.psnine.customview.dialog.DialogLoading
+import demo.lizl.com.psnine.customview.dialog.DialogOperationConfirm
+import demo.lizl.com.psnine.event.LoginEvent
 import demo.lizl.com.psnine.iview.IUserFragmentView
 import demo.lizl.com.psnine.model.GameInfoItem
 import demo.lizl.com.psnine.model.UserGameInfoItem
@@ -13,16 +19,22 @@ import demo.lizl.com.psnine.model.UserInfoItem
 import demo.lizl.com.psnine.presenter.UserFragmentPresenter
 import demo.lizl.com.psnine.util.Constant
 import demo.lizl.com.psnine.util.GlideUtil
+import demo.lizl.com.psnine.util.ToastUtil
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_user.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 
 class UserFragment : BaseFragment(), IUserFragmentView
 {
-
     private lateinit var gameListAdapter: GameListAdapter
 
     private lateinit var dialogGameSortCondition: DialogGameSortCondition
+
+    private var dialogLoading: DialogLoading? = null
+
+    private var dialogOperationConfirm: DialogOperationConfirm? = null
 
     override fun getLayoutResId(): Int
     {
@@ -34,6 +46,7 @@ class UserFragment : BaseFragment(), IUserFragmentView
     override fun initPresenter()
     {
         presenter = UserFragmentPresenter(activity as Context, this)
+        needRegisterEventBus = true
     }
 
     override fun initView()
@@ -86,11 +99,13 @@ class UserFragment : BaseFragment(), IUserFragmentView
         fam_menu.setClosedOnTouchOutside(true)
 
         fab_synchronize_level.setOnClickListener {
+            showLoadingDialog()
             getPresenter().updateUserLevel()
             fam_menu.close(true)
         }
 
         fab_synchronize_game.setOnClickListener {
+            showLoadingDialog()
             getPresenter().updateUserGame()
             fam_menu.close(true)
         }
@@ -149,5 +164,47 @@ class UserFragment : BaseFragment(), IUserFragmentView
     override fun onNoMoreGame()
     {
         refresh_layout.setEnableLoadMore(false)
+    }
+
+    override fun onInfoUpdateFinish()
+    {
+        dialogLoading?.dismiss()
+        ToastUtil.showToast(R.string.notify_success_to_update_info)
+        getPresenter().refreshUserPage()
+    }
+
+    override fun onInfoUpdateFailed(reason: String)
+    {
+        dialogLoading?.dismiss()
+
+        dialogOperationConfirm = DialogOperationConfirm(activity as Context, getString(R.string.notify_failed_to_update_info), reason)
+        dialogOperationConfirm?.show()
+
+        dialogOperationConfirm?.setOnConfirmButtonClickListener(object : BaseDialog.OnConfirmButtonClickListener
+        {
+            override fun onConfirmButtonClick()
+            {
+                if (reason == getString(R.string.notify_need_login_first))
+                {
+                    (activity as BaseActivity).turnToLoginActivity()
+                }
+            }
+        })
+    }
+
+    private fun showLoadingDialog()
+    {
+        if (dialogLoading == null)
+        {
+            dialogLoading = DialogLoading(activity as Context)
+        }
+        dialogLoading?.show()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onLoginResponse(loginEvent: LoginEvent)
+    {
+        Log.d(TAG, "onLoginResponse::" + loginEvent.result)
+        getPresenter().refreshUserPage()
     }
 }

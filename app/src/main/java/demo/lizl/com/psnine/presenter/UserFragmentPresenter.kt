@@ -2,7 +2,10 @@ package demo.lizl.com.psnine.presenter
 
 import android.content.Context
 import android.text.TextUtils
-import demo.lizl.com.psnine.activity.BaseActivity
+import android.util.Log
+import android.webkit.JavascriptInterface
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.iview.IUserFragmentView
 import demo.lizl.com.psnine.model.GameInfoItem
@@ -25,6 +28,8 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
 
     private var curPsnId = AppConfig.CUR_PSN_ID
 
+    private val webView = WebView(context)
+
     companion object
     {
         const val SORT_GAME_BY_TIME = 1
@@ -36,6 +41,11 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
         const val GAME_PLATFORM_PSV = 2
         const val GAME_PLATFORM_PS3 = 3
         const val GAME_PLATFORM_PS4 = 4
+    }
+
+    init
+    {
+        initWebView()
     }
 
 
@@ -144,13 +154,13 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
     fun updateUserLevel()
     {
         val requestUrl = AppConfig.BASE_REQUEST_URL + "psnid/$curPsnId/upbase"
-        (context as BaseActivity).turnToLoginActivity(requestUrl)
+        webView.loadUrl(requestUrl)
     }
 
     fun updateUserGame()
     {
         val requestUrl = AppConfig.BASE_REQUEST_URL + "psnid/$curPsnId/upgame"
-        (context as BaseActivity).turnToLoginActivity(requestUrl)
+        webView.loadUrl(requestUrl)
     }
 
     private fun getGameListFromGameElementList(gameElementList: Elements): List<GameInfoItem>
@@ -203,5 +213,75 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
             else -> "all"
         }
         return AppConfig.BASE_REQUEST_URL + "psnid/" + curPsnId + "/psngame?ob=$sortCondition&pf=$gamePlatform&dlc=all&page=$curGamePage"
+    }
+
+    private fun initWebView()
+    {
+        webView.addJavascriptInterface(InJavaScriptLocalObj(), "java_obj")
+        val wSetting = webView.settings
+        wSetting.javaScriptEnabled = true
+        wSetting.domStorageEnabled = true
+
+        webView.webViewClient = object : WebViewClient()
+        {
+            override fun onPageFinished(view: WebView?, url: String?)
+            {
+                Log.d(TAG, "onPageFinished:$url")
+
+                if (url!! == AppConfig.BASE_REQUEST_URL + "psnid/" + AppConfig.CUR_PSN_ID)
+                {
+                    return
+                }
+
+                // 获取页面内容
+                view!!.loadUrl(
+                        "javascript:window.java_obj.showSource(" + "document.getElementsByTagName('html')[0].innerHTML);"
+                );
+
+                // 获取解析<meta name="share-description" content="获取到的值">
+                view.loadUrl(
+                        "javascript:window.java_obj.showDescription(" + "document.querySelector('meta[name=\"share-description\"]').getAttribute('content')" + ");"
+                );
+
+                super.onPageFinished(view, url)
+            }
+
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean
+            {
+                Log.d(TAG, "shouldOverrideUrlLoading:$url")
+
+                if (url!! == AppConfig.BASE_REQUEST_URL + "psnid/" + AppConfig.CUR_PSN_ID)
+                {
+                    getIView().onInfoUpdateFinish()
+                }
+
+                return super.shouldOverrideUrlLoading(view, url)
+            }
+        }
+    }
+
+    inner class InJavaScriptLocalObj
+    {
+        @JavascriptInterface
+        fun showSource(html: String)
+        {
+            GlobalScope.launch {
+
+                val doc = Jsoup.parse(html)
+                val title = doc.getElementsByTag("title")[0].text()
+
+                Log.d(TAG, "showSource:$title")
+
+                GlobalScope.launch(Dispatchers.Main) {
+                    getIView().onInfoUpdateFailed(title)
+                }
+            }
+        }
+
+        @JavascriptInterface
+        fun showDescription(str: String)
+        {
+
+        }
     }
 }

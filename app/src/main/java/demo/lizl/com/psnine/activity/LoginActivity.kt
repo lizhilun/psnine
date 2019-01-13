@@ -5,11 +5,13 @@ import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import demo.lizl.com.psnine.R
+import demo.lizl.com.psnine.config.AppConfig
+import demo.lizl.com.psnine.constant.AppConstant
+import demo.lizl.com.psnine.event.LoginEvent
 import demo.lizl.com.psnine.iview.ILoginActivityView
 import demo.lizl.com.psnine.presenter.LoginActivityPresenter
-import demo.lizl.com.psnine.util.Constant
-import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.activity_login.*
+import org.greenrobot.eventbus.EventBus
 
 class LoginActivity : BaseActivity(), ILoginActivityView
 {
@@ -25,14 +27,7 @@ class LoginActivity : BaseActivity(), ILoginActivityView
 
     override fun initView()
     {
-        val bundle = intent.extras!!
-        val loginUrl = bundle.getString(Constant.BUNDLE_DATA_STRING, "")
-
-        refresh_layout.setEnableLoadMore(false)
-        refresh_layout.setRefreshHeader(UiUtil.getDefaultRefreshHeader(this))
-        refresh_layout.setEnableRefresh(true)
-        refresh_layout.setOnRefreshListener { wv_view.reload() }
-
+        val loginUrl = AppConfig.BASE_REQUEST_URL + "sign/in"
         wv_view.loadUrl(loginUrl)
 
         val wSetting = wv_view.settings
@@ -53,6 +48,12 @@ class LoginActivity : BaseActivity(), ILoginActivityView
                 if (TextUtils.isEmpty(url))
                 {
                     return true
+                }
+
+                if (url!! == AppConfig.BASE_REQUEST_URL || url == AppConfig.BASE_REQUEST_URL + "psnid/" + AppConfig.CUR_PSN_ID)
+                {
+                    EventBus.getDefault().post(LoginEvent(AppConstant.LOGIN_RESULT_SUCCESS))
+                    finish()
                 }
 
                 return super.shouldOverrideUrlLoading(view, url)

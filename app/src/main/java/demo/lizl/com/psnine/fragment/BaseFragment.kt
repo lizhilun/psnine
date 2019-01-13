@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import demo.lizl.com.psnine.presenter.BasePresenter
+import org.greenrobot.eventbus.EventBus
 
 abstract class BaseFragment : Fragment()
 {
@@ -15,6 +16,8 @@ abstract class BaseFragment : Fragment()
     protected lateinit var presenter: BasePresenter
 
     protected var isFragmentVisible = false
+
+    protected var needRegisterEventBus = false
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -33,6 +36,11 @@ abstract class BaseFragment : Fragment()
 
         initPresenter()
         presenter.init()
+
+        if (needRegisterEventBus && !EventBus.getDefault().isRegistered(this))
+        {
+            EventBus.getDefault().register(this)
+        }
     }
 
     override fun onStart()
@@ -73,6 +81,8 @@ abstract class BaseFragment : Fragment()
         super.onDestroy()
 
         isFragmentVisible = false
+
+        if (needRegisterEventBus) EventBus.getDefault().unregister(this)
     }
 
     abstract fun getLayoutResId(): Int

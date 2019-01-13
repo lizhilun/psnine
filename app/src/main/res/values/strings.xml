@@ -13,6 +13,7 @@
     <string name="all">全部</string>
     <string name="platform">平台</string>
     <string name="sort">排序</string>
+    <string name="in_loading">同步中</string>
 
     <string name="notify_failed_to_get_permission">权限获取失败</string>
     <string name="notify_permission_be_refused">权限获取被拒绝，请重新授权</string>
@@ -48,5 +49,9 @@
     <string name="fastest_completion">进度最快</string>
     <string name="slowest_completion">进度最慢</string>
     <string name="perfect_difficult">完美难度</string>
+
+    <string name="notify_need_login_first">你需要先登录才能同步数据</string>
+    <string name="notify_failed_to_update_info">同步失败</string>
+    <string name="notify_success_to_update_info">同步成功</string>
 
 </resources>

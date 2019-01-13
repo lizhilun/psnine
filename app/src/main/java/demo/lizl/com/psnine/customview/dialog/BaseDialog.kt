@@ -4,12 +4,15 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import demo.lizl.com.psnine.R
 import kotlinx.android.synthetic.main.layout_base_dialog.*
 
 
-abstract class BaseDialog(context: Context, val title: String) : Dialog(context, R.style.GlobalDialogStyle)
+abstract class BaseDialog(context: Context, val title: String, private val hasBottomButton: Boolean) : Dialog(context, R.style.GlobalDialogStyle)
 {
+    constructor(context: Context, title: String) : this(context, title, true)
+
     protected val TAG = javaClass.simpleName
 
     private var onConfirmButtonClickListener: OnConfirmButtonClickListener? = null
@@ -26,6 +29,7 @@ abstract class BaseDialog(context: Context, val title: String) : Dialog(context,
         val contentView = layoutInflater.inflate(getDialogContentViewResId(), null)
         fl_content_view.addView(contentView)
 
+        group_bottom_view.visibility = if (hasBottomButton) View.VISIBLE else View.GONE
         tv_title.text = title
 
         tv_confirm.setOnClickListener {

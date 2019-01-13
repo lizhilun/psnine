@@ -54,13 +54,9 @@ abstract class BaseActivity : AppCompatActivity()
         startActivity(intent)
     }
 
-    fun turnToLoginActivity(loginUrl: String)
+    fun turnToLoginActivity()
     {
-        val intent = Intent(this, LoginActivity::class.java)
-        val bundle = Bundle()
-        bundle.putString(Constant.BUNDLE_DATA_STRING, loginUrl)
-        intent.putExtras(bundle)
-        startActivity(intent)
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     override fun onResume()

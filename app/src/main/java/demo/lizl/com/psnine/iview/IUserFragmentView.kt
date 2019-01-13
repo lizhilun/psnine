@@ -15,4 +15,8 @@ interface IUserFragmentView : IBaseView
     fun onMoreGameLoadFinish(gameList: List<GameInfoItem>)
 
     fun onNoMoreGame()
+
+    fun onInfoUpdateFinish()
+
+    fun onInfoUpdateFailed(reason: String)
 }

@@ -243,4 +243,9 @@
             fab:fab_label="@string/sort_condition"/>
 
     </com.github.clans.fab.FloatingActionMenu>
+
+    <WebView
+        android:id="@+id/wv_view"
+        android:layout_width="1px"
+        android:layout_height="1px"/>
 </android.support.constraint.ConstraintLayout>
