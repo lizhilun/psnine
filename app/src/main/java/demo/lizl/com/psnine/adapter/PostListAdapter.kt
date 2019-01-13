@@ -1,7 +1,5 @@
 package demo.lizl.com.psnine.adapter
 
-import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,31 +8,23 @@ import demo.lizl.com.psnine.model.PostItem
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.item_post.view.*
 
-class PostListAdapter(val context: Context, private val postList: List<PostItem>) : RecyclerView.Adapter<PostListAdapter.ViewHolder>()
+class PostListAdapter: BaseAdapter<PostItem, PostListAdapter.ViewHolder>()
 {
 
-    private var layoutInflater: LayoutInflater? = null
-
     private var onPostItemClickListener: OnPostItemClickListener? = null
+    private var onPostAvatarClickListener: OnPostAvatarClickListener? = null
 
-    init
+    override fun createCustomViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
-        layoutInflater = LayoutInflater.from(context)
+        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_post, parent, false))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
+    override fun bindCustomViewHolder(holder: ViewHolder, postItem: PostItem, position: Int)
     {
-        return ViewHolder(layoutInflater!!.inflate(R.layout.item_post, parent, false))
+        holder.onBindViewHolder(postItem)
     }
 
-    override fun getItemCount() = postList.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int)
-    {
-        holder.onBindViewHolder(postList[position])
-    }
-
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
     {
         fun onBindViewHolder(postItem: PostItem)
         {
@@ -43,6 +33,7 @@ class PostListAdapter(val context: Context, private val postList: List<PostItem>
             itemView.tv_post_writer.text = postItem.postWriterId
             itemView.tv_last_update_time.text = postItem.lateUpdateTime
 
+            itemView.iv_post_icon.setOnClickListener { onPostAvatarClickListener?.onPostAvatarClick(postItem) }
             itemView.setOnClickListener { onPostItemClickListener?.onPostItemClick(postItem) }
         }
     }
@@ -52,8 +43,18 @@ class PostListAdapter(val context: Context, private val postList: List<PostItem>
         fun onPostItemClick(postItem: PostItem)
     }
 
+    interface OnPostAvatarClickListener
+    {
+        fun onPostAvatarClick(postItem: PostItem)
+    }
+
     fun setOnPostItemClickListener(onPostItemClickListener: OnPostItemClickListener)
     {
         this.onPostItemClickListener = onPostItemClickListener;
+    }
+
+    fun setOnPostAvatarClickListener(onPostAvatarClickListener: OnPostAvatarClickListener)
+    {
+        this.onPostAvatarClickListener = onPostAvatarClickListener
     }
 }

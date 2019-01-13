@@ -27,12 +27,21 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent">
 
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_back"
+                        style="@style/GlobalBackButtonStyle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tv_user_account"
                         style="@style/GlobalTextStyle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="60dp"
+                        android:layout_marginStart="60dp"
                         android:layout_marginTop="@dimen/content_padding_status_bar_padding"
+                        android:gravity="center"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>

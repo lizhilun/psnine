@@ -2,10 +2,12 @@ package demo.lizl.com.psnine.fragment
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.activity.BaseActivity
-import demo.lizl.com.psnine.activity.MainActivity
+import demo.lizl.com.psnine.activity.UserDetailActivity
 import demo.lizl.com.psnine.adapter.GameListAdapter
 import demo.lizl.com.psnine.customview.dialog.BaseDialog
 import demo.lizl.com.psnine.customview.dialog.DialogGameSortCondition
@@ -51,12 +53,18 @@ class UserFragment : BaseFragment(), IUserFragmentView
 
     override fun initView()
     {
+        var psnId = ""
         val bundle = activity!!.intent.extras
         if (bundle != null)
         {
-            val psnId = bundle.getString(Constant.BUNDLE_DATA_STRING, "")
-            getPresenter().setPsnId(psnId)
+            psnId = bundle.getString(Constant.BUNDLE_DATA_STRING, "")
         }
+
+        val emptyPsnId = TextUtils.isEmpty(psnId)
+        iv_back.visibility = if (emptyPsnId) View.GONE else View.VISIBLE
+        fab_synchronize_level.visibility = if (emptyPsnId) View.VISIBLE else View.GONE
+        fab_synchronize_game.visibility = if (emptyPsnId) View.VISIBLE else View.GONE
+        getPresenter().setPsnId(psnId)
 
         getPresenter().refreshUserPage()
 
@@ -91,7 +99,7 @@ class UserFragment : BaseFragment(), IUserFragmentView
 
         refresh_layout.setRefreshHeader(UiUtil.getDefaultRefreshHeader(activity as Context))
         refresh_layout.setRefreshFooter(UiUtil.getDefaultRefreshFooter(activity as Context))
-        refresh_layout.setEnableRefresh(true)
+        refresh_layout.setEnableRefresh(false)
         refresh_layout.isNestedScrollingEnabled = false
         refresh_layout.setOnRefreshListener { getPresenter().refreshUserPage() }
         refresh_layout.setOnLoadMoreListener { getPresenter().loadMoreGameList() }
@@ -115,11 +123,18 @@ class UserFragment : BaseFragment(), IUserFragmentView
             fam_menu.close(true)
         }
 
+        iv_back.setOnClickListener {
+            if (activity is UserDetailActivity)
+            {
+                (activity as UserDetailActivity).finish()
+            }
+        }
+
         gameListAdapter.setGameItemClickListener(object : GameListAdapter.GameItemClickListener
         {
             override fun onGameItemClick(gameInfoItem: GameInfoItem)
             {
-                (activity as MainActivity).turnToGameDetailActivity(gameInfoItem.gameDetailUrl)
+                (activity as BaseActivity).turnToGameDetailActivity(gameInfoItem.gameDetailUrl)
             }
         })
     }

@@ -9,12 +9,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Element
 
 class HomeFragmentPresenter(context: Context, iView: IHomeFragmentView) : BasePresenter(context, iView)
 {
 
-    private val requestUrl = AppConfig.BASE_REQUEST_URL
+    private var curPostPage = 1
 
     fun getIView() = iView as IHomeFragmentView
 
@@ -23,43 +22,9 @@ class HomeFragmentPresenter(context: Context, iView: IHomeFragmentView) : BasePr
         GlobalScope.launch {
             try
             {
-                val doc = Jsoup.connect(requestUrl).get()
+                curPostPage = 1
 
-                val element = doc.getElementsByClass("list")[0].childNodes()
-
-                val postList = mutableListOf<PostItem>()
-
-                for (ement in element)
-                {
-                    if (ement is Element)
-                    {
-                        val imageEment = ement.getElementsByTag("img")
-                        val imageUrl = imageEment.attr("src")
-                        val imageWidth = imageEment.attr("width")
-                        val imageHeight = imageEment.attr("height")
-                        val text = ement.getElementsByClass("title font16").text()
-                        val userId = ement.getElementsByClass("psnnode").text()
-                        val timeInfo = ement.getElementsByClass("meta").text()
-                        val postDetailUrl = ement.getElementsByClass("title font16").select("a").attr("href")
-
-                        val timeInfoList = timeInfo.split(" ")
-                        val time = if (timeInfoList.size == 3)
-                        {
-                            timeInfoList[1]
-                        }
-                        else if (timeInfoList.size == 4)
-                        {
-                            timeInfoList[1] + " " + timeInfoList[2]
-                        }
-                        else
-                        {
-                            ""
-                        }
-
-                        val postItem = PostItem(imageUrl, text, userId, time, postDetailUrl)
-                        postList.add(postItem)
-                    }
-                }
+                val postList = getPostItemListFromPostPage(curPostPage)
 
                 GlobalScope.launch(Dispatchers.Main) {
                     getIView().onPostListRefresh(postList)
@@ -70,5 +35,51 @@ class HomeFragmentPresenter(context: Context, iView: IHomeFragmentView) : BasePr
                 Log.e(TAG, e.toString())
             }
         }
+    }
+
+    fun LoadMorePost()
+    {
+        GlobalScope.launch {
+            try
+            {
+                curPostPage++
+
+                val postList = getPostItemListFromPostPage(curPostPage)
+
+                GlobalScope.launch(Dispatchers.Main) {
+                    getIView().onPostListLoadMore(postList)
+                }
+            }
+            catch (e: Exception)
+            {
+                Log.e(TAG, e.toString())
+            }
+        }
+    }
+
+    private fun getPostItemListFromPostPage(postPage: Int): List<PostItem>
+    {
+        val requestUrl = AppConfig.BASE_REQUEST_URL + "topic?page=$postPage"
+
+        val doc = Jsoup.connect(requestUrl).get()
+
+        val elements = doc.getElementsByClass("list")[0].select("li")
+
+        val postList = mutableListOf<PostItem>()
+
+        for (postElement in elements)
+        {
+            val imageElement = postElement.getElementsByTag("img")
+            val imageUrl = imageElement.attr("src")
+            val postDetailElement = postElement.getElementsByClass("title font16")[0]
+            val text = postDetailElement.text()
+            val postDetailUrl = postDetailElement.select("a").attr("href")
+            val userId = postElement.getElementsByClass("psnnode").text()
+            val timeInfo = postElement.getElementsByClass("meta")[0].ownText()
+            val postItem = PostItem(imageUrl, text, userId, timeInfo, postDetailUrl)
+            postList.add(postItem)
+        }
+
+        return postList
     }
 }

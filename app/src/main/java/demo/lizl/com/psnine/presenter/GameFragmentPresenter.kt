@@ -14,6 +14,10 @@ class GameFragmentPresenter(context: Context, iView: IGameFragmentView) : BasePr
 
     private fun getIView() = iView as IGameFragmentView
 
+    private var curSearchStr = ""
+    private var curSearchPage = 1
+    private var curSeachResultCount = 0
+
     fun getHitGameList()
     {
         GlobalScope.launch {
@@ -53,38 +57,58 @@ class GameFragmentPresenter(context: Context, iView: IGameFragmentView) : BasePr
     {
         GlobalScope.launch {
 
-            val requestUrl = AppConfig.BASE_REQUEST_URL + "psngame?title=" + searchStr
-            val doc = Jsoup.connect(requestUrl).get()
-
-            val gameList = mutableListOf<GameInfoItem>()
-            val gameElementList = doc.getElementsByClass("box mt20")[0].select("tr")
-            for (gameElement in gameElementList)
-            {
-                val aElementList = gameElement.getElementsByTag("a")
-                val gameCoverUrl = aElementList[0].getElementsByTag("img").attr("src")
-                val gameDetailUrl = aElementList[0].attr("href")
-                val gameName = aElementList[1].ownText()
-                val isPS4Game = gameElement.getElementsByClass("pf_ps4").size > 0
-                val isPS3Game = gameElement.getElementsByClass("pf_ps3").size > 0
-                val isPSVGame = gameElement.getElementsByClass("pf_psv").size > 0
-
-                val platinumCount = gameElement.getElementsByClass("text-platinum")[0].text()
-                val goldCount = gameElement.getElementsByClass("text-gold")[0].text()
-                val silverCount = gameElement.getElementsByClass("text-silver")[0].text()
-                val bronzeCount = gameElement.getElementsByClass("text-bronze")[0].text()
-                val gameCupInfo = "$platinumCount $goldCount $silverCount $bronzeCount"
-                val perfectRate = gameElement.getElementsByClass("twoge h-p")[0].getElementsByTag("em").text()
-
-                val gameInfoItem = GameInfoItem(gameCoverUrl, gameName, gameDetailUrl)
-                gameInfoItem.isPS3Game = isPS3Game
-                gameInfoItem.isPS4Game = isPS4Game
-                gameInfoItem.isPSVGame = isPSVGame
-                gameInfoItem.gameCupInfo = gameCupInfo
-                gameInfoItem.perfectRate = perfectRate
-                gameList.add(gameInfoItem)
-            }
-
-            GlobalScope.launch(Dispatchers.Main) { getIView().onGameSearchRefresh(gameList) }
+            curSearchPage = 1
+            curSearchStr = searchStr
+            val gameList = getSearchResult(searchStr, curSearchPage)
+            GlobalScope.launch(Dispatchers.Main) { getIView().onGameSearchRefresh(gameList, curSeachResultCount) }
         }
+    }
+
+    fun loadMoreSearchResult()
+    {
+        GlobalScope.launch {
+
+            curSearchPage++
+            val gameList = getSearchResult(curSearchStr, curSearchPage)
+            GlobalScope.launch(Dispatchers.Main) { getIView().onGameSearchLoadMore(gameList, curSeachResultCount) }
+        }
+    }
+
+    private fun getSearchResult(searchStr: String, resultPage: Int): List<GameInfoItem>
+    {
+        val requestUrl = AppConfig.BASE_REQUEST_URL + "psngame?title=$searchStr&page=$resultPage"
+        val doc = Jsoup.connect(requestUrl).get()
+
+        val gameList = mutableListOf<GameInfoItem>()
+        val gameElementList = doc.getElementsByClass("box mt20")[0].select("tr")
+        for (gameElement in gameElementList)
+        {
+            val aElementList = gameElement.getElementsByTag("a")
+            val gameCoverUrl = aElementList[0].getElementsByTag("img").attr("src")
+            val gameDetailUrl = aElementList[0].attr("href")
+            val gameName = aElementList[1].ownText()
+            val isPS4Game = gameElement.getElementsByClass("pf_ps4").size > 0
+            val isPS3Game = gameElement.getElementsByClass("pf_ps3").size > 0
+            val isPSVGame = gameElement.getElementsByClass("pf_psv").size > 0
+
+            val platinumCount = gameElement.getElementsByClass("text-platinum")[0].text()
+            val goldCount = gameElement.getElementsByClass("text-gold")[0].text()
+            val silverCount = gameElement.getElementsByClass("text-silver")[0].text()
+            val bronzeCount = gameElement.getElementsByClass("text-bronze")[0].text()
+            val gameCupInfo = "$platinumCount $goldCount $silverCount $bronzeCount"
+            val perfectRate = gameElement.getElementsByClass("twoge h-p")[0].getElementsByTag("em").text()
+
+            val resultCountInfo = doc.getElementsByClass("dropmenu")[0].getElementsByClass("h-p").text()
+            curSeachResultCount = resultCountInfo.substring(1, resultCountInfo.length - 1).toInt()
+
+            val gameInfoItem = GameInfoItem(gameCoverUrl, gameName, gameDetailUrl)
+            gameInfoItem.isPS3Game = isPS3Game
+            gameInfoItem.isPS4Game = isPS4Game
+            gameInfoItem.isPSVGame = isPSVGame
+            gameInfoItem.gameCupInfo = gameCupInfo
+            gameInfoItem.perfectRate = perfectRate
+            gameList.add(gameInfoItem)
+        }
+        return gameList
     }
 }

@@ -114,7 +114,13 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
             val doc = Jsoup.connect(requestUrl).get()
 
             val gameCountInfo = doc.getElementsByClass("dropmenu")[0].getElementsByClass("h-p").text()
-            val gameElementList = doc.getElementsByClass("list")[0].select("tr")
+            val listElementList = doc.getElementsByClass("list")
+            if (listElementList.size == 0)
+            {
+                return@launch
+            }
+
+            val gameElementList = listElementList.select("tr")
             val gameList = getGameListFromGameElementList(gameElementList)
 
             GlobalScope.launch(Dispatchers.Main) { getIView().onUserGameListUpdate(gameList) }
