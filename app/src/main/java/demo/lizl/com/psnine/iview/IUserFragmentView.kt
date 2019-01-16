@@ -10,11 +10,9 @@ interface IUserFragmentView : IBaseView
 
     fun onUserGameInfoRefresh(userGameInfoItem: UserGameInfoItem)
 
-    fun onUserGameListUpdate(gameList: List<GameInfoItem>)
+    fun onUserGameListUpdate(gameList: List<GameInfoItem>, gameTotalCount : Int)
 
-    fun onMoreGameLoadFinish(gameList: List<GameInfoItem>)
-
-    fun onNoMoreGame()
+    fun onMoreGameLoadFinish(gameList: List<GameInfoItem>, gameTotalCount : Int)
 
     fun onInfoUpdateFinish()
 

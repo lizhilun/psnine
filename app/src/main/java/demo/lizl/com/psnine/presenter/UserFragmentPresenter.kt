@@ -24,7 +24,6 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
 
     private var gameItemCount = 0
     private var curGamePage = 1
-    private var loadedGameCount = 0
 
     private var curPsnId = AppConfig.CUR_PSN_ID
 
@@ -121,15 +120,9 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
             val gameElementList = listElementList.select("tr")
             val gameList = getGameListFromGameElementList(gameElementList)
 
-            GlobalScope.launch(Dispatchers.Main) { iView.onUserGameListUpdate(gameList) }
-
             gameItemCount = gameCountInfo.substring(1, gameCountInfo.length - 1).toInt()
-            loadedGameCount = gameList.size
+            GlobalScope.launch(Dispatchers.Main) { iView.onUserGameListUpdate(gameList, gameItemCount) }
 
-            if (gameItemCount <= loadedGameCount)
-            {
-                iView.onNoMoreGame()
-            }
         }
     }
 
@@ -142,16 +135,12 @@ class UserFragmentPresenter(context: Context, iView: IUserFragmentView) : BasePr
             val requestUrl = getRequestGameListUrl()
             val doc = Jsoup.connect(requestUrl).get()
 
+            val gameCountInfo = doc.getElementsByClass("dropmenu")[0].getElementsByClass("h-p").text()
+            gameItemCount = gameCountInfo.substring(1, gameCountInfo.length - 1).toInt()
             val gameElementList = doc.getElementsByClass("list")[0].select("tr")
             val gameList = getGameListFromGameElementList(gameElementList)
 
-            GlobalScope.launch(Dispatchers.Main) { iView.onMoreGameLoadFinish(gameList) }
-
-            loadedGameCount += gameList.size
-            if (gameItemCount <= loadedGameCount)
-            {
-                iView.onNoMoreGame()
-            }
+            GlobalScope.launch(Dispatchers.Main) { iView.onMoreGameLoadFinish(gameList, gameItemCount) }
         }
     }
 

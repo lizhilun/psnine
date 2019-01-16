@@ -98,6 +98,7 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), IUserFragmentView
         refresh_layout.setRefreshHeader(UiUtil.getDefaultRefreshHeader(activity as Context))
         refresh_layout.setRefreshFooter(UiUtil.getDefaultRefreshFooter(activity as Context))
         refresh_layout.setEnableRefresh(false)
+        refresh_layout.setEnableLoadMore(false)
         refresh_layout.isNestedScrollingEnabled = false
         refresh_layout.setOnRefreshListener { presenter.refreshUserPage() }
         refresh_layout.setOnLoadMoreListener { presenter.loadMoreGameList() }
@@ -157,26 +158,23 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), IUserFragmentView
         tv_cup_total_number.text = userGameInfoItem.cupCount.toString()
     }
 
-    override fun onUserGameListUpdate(gameList: List<GameInfoItem>)
+    override fun onUserGameListUpdate(gameList: List<GameInfoItem>, gameTotalCount: Int)
     {
         refresh_layout.finishRefresh()
 
         gameListAdapter.clear()
         gameListAdapter.addAll(gameList)
 
-        refresh_layout.setEnableLoadMore(true)
+        refresh_layout.setEnableLoadMore(gameListAdapter.data.size < gameTotalCount)
     }
 
-    override fun onMoreGameLoadFinish(gameList: List<GameInfoItem>)
+    override fun onMoreGameLoadFinish(gameList: List<GameInfoItem>, gameTotalCount: Int)
     {
         refresh_layout.finishLoadMore()
 
         gameListAdapter.insertAll(gameList, gameListAdapter.data.size)
-    }
 
-    override fun onNoMoreGame()
-    {
-        refresh_layout.setEnableLoadMore(false)
+        refresh_layout.setEnableLoadMore(gameListAdapter.data.size < gameTotalCount)
     }
 
     override fun onInfoUpdateFinish()
