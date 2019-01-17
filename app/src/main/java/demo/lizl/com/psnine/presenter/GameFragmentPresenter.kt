@@ -3,6 +3,7 @@ package demo.lizl.com.psnine.presenter
 import android.content.Context
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.iview.IGameFragmentView
+import demo.lizl.com.psnine.model.DiscountGameItem
 import demo.lizl.com.psnine.model.GameInfoItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -14,7 +15,10 @@ class GameFragmentPresenter(context: Context, iView: IGameFragmentView) : BasePr
 
     private var curSearchStr = ""
     private var curSearchPage = 1
-    private var curSeachResultCount = 0
+    private var curSearchResultCount = 0
+
+    private var curDiscountGamePage = 1
+    private var curDiscountGameCount = 0
 
     fun getHitGameList()
     {
@@ -51,6 +55,31 @@ class GameFragmentPresenter(context: Context, iView: IGameFragmentView) : BasePr
         }
     }
 
+    fun refreshDiscountGameList()
+    {
+        GlobalScope.launch {
+
+            curDiscountGamePage = 1
+
+            val discountGameList = getDiscountGameList(curDiscountGamePage)
+
+            GlobalScope.launch(Dispatchers.Main) { iView.onDiscountGameListRefresh(discountGameList, curDiscountGameCount) }
+        }
+    }
+
+    fun loadMoreDiscountGameList()
+    {
+        GlobalScope.launch {
+
+            curDiscountGamePage++
+
+            val discountGameList = getDiscountGameList(curDiscountGamePage)
+
+            GlobalScope.launch(Dispatchers.Main) { iView.onDiscountGameListLoadMore(discountGameList, curDiscountGameCount) }
+        }
+
+    }
+
     fun searchGame(searchStr: String)
     {
         GlobalScope.launch {
@@ -58,7 +87,7 @@ class GameFragmentPresenter(context: Context, iView: IGameFragmentView) : BasePr
             curSearchPage = 1
             curSearchStr = searchStr
             val gameList = getSearchResult(searchStr, curSearchPage)
-            GlobalScope.launch(Dispatchers.Main) { iView.onGameSearchRefresh(gameList, curSeachResultCount) }
+            GlobalScope.launch(Dispatchers.Main) { iView.onGameSearchRefresh(gameList, curSearchResultCount) }
         }
     }
 
@@ -68,8 +97,51 @@ class GameFragmentPresenter(context: Context, iView: IGameFragmentView) : BasePr
 
             curSearchPage++
             val gameList = getSearchResult(curSearchStr, curSearchPage)
-            GlobalScope.launch(Dispatchers.Main) { iView.onGameSearchLoadMore(gameList, curSeachResultCount) }
+            GlobalScope.launch(Dispatchers.Main) { iView.onGameSearchLoadMore(gameList, curSearchResultCount) }
         }
+    }
+
+    private fun getDiscountGameList(pageIndex: Int): List<DiscountGameItem>
+    {
+        val requestUrl = AppConfig.BASE_REQUEST_URL + "dd?type=all&region=all&pf=all&ddstatus=on&page=$pageIndex"
+        val doc = Jsoup.connect(requestUrl).get()
+
+        val resultCountInfo = doc.getElementsByClass("dropmenu")[0].getElementsByClass("h-p").text()
+        curDiscountGameCount = resultCountInfo.substring(1, resultCountInfo.length - 1).toInt()
+
+        val discountGameList = mutableListOf<DiscountGameItem>()
+        val discountGameElementList = doc.getElementsByClass("dd_ul")[0].select("li")
+        for (discountGameElement in discountGameElementList)
+        {
+            val gameCoverUrl = discountGameElement.getElementsByTag("img").attr("src")
+            val discountRate = discountGameElement.getElementsByClass("dd_tag_plus").text()
+
+            val ps4PlatformElement = discountGameElement.getElementsByClass("dd_pf pf_ps4")
+            val psvPlatformElement = discountGameElement.getElementsByClass("dd_pf pf_psv")
+            val ps3PlatformElement = discountGameElement.getElementsByClass("dd_pf pf_ps3")
+
+            val gamePlatform = when
+            {
+                ps4PlatformElement.size > 0 -> ps4PlatformElement.text()
+                psvPlatformElement.size > 0 -> psvPlatformElement.text()
+                ps3PlatformElement.size > 0 -> ps3PlatformElement.text()
+                else -> ""
+            }
+
+            val isLowest = discountGameElement.getElementsByClass("dd_status dd_status_best").size > 0
+            val gameNameInfo = discountGameElement.getElementsByClass("dd_title mb10").text()
+            val gameName = gameNameInfo.substring(gameNameInfo.indexOf("《") + 1, gameNameInfo.lastIndexOf("》"))
+            val discountInfoElements = discountGameElement.getElementsByClass("dd_text")
+            val discountTime = discountInfoElements[discountInfoElements.size - 1].text()
+            val oriPrice = discountGameElement.getElementsByClass("dd_price_old").text()
+            val notMemberPrice = discountGameElement.getElementsByClass("dd_price_off").text()
+            val memberPriceElement = discountGameElement.getElementsByClass("dd_price_plus")
+            val memberPrice = if (memberPriceElement.size > 0) memberPriceElement.text() else ""
+
+            val discountGameItem = DiscountGameItem(gameName, gameCoverUrl, discountRate, discountTime, gamePlatform, isLowest, oriPrice, notMemberPrice, memberPrice)
+            discountGameList.add(discountGameItem)
+        }
+        return discountGameList
     }
 
     private fun getSearchResult(searchStr: String, resultPage: Int): List<GameInfoItem>
@@ -97,7 +169,7 @@ class GameFragmentPresenter(context: Context, iView: IGameFragmentView) : BasePr
             val perfectRate = gameElement.getElementsByClass("twoge h-p")[0].getElementsByTag("em").text()
 
             val resultCountInfo = doc.getElementsByClass("dropmenu")[0].getElementsByClass("h-p").text()
-            curSeachResultCount = resultCountInfo.substring(1, resultCountInfo.length - 1).toInt()
+            curSearchResultCount = resultCountInfo.substring(1, resultCountInfo.length - 1).toInt()
 
             val gameInfoItem = GameInfoItem(gameCoverUrl, gameName, gameDetailUrl)
             gameInfoItem.isPS3Game = isPS3Game

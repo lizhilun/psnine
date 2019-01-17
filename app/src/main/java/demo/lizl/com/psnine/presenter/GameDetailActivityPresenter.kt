@@ -39,8 +39,7 @@ class GameDetailActivityPresenter(context: Context, iView: IGameDetailActivityVi
             val doc = Jsoup.connect(requestUrl).get()
 
             val gameNameInfo = doc.getElementsByTag("title").text()
-            val index = gameNameInfo.indexOf("》")
-            val gameName = gameNameInfo.substring(1, index)
+            val gameName = gameNameInfo.substring(gameNameInfo.indexOf("《") + 1, gameNameInfo.lastIndexOf("》"))
 
             val gameInfoElement = doc.getElementsByClass("box pd10")[0]
             val gameCoverUrl = gameInfoElement.getElementsByTag("img").attr("src")

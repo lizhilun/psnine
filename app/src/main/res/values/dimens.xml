@@ -52,4 +52,6 @@
     <dimen name="game_cup_list_view_cup_image_size">50dp</dimen>
     <dimen name="game_cup_list_view_cup_image_bg_size">70dp</dimen>
 
+    <dimen name="discount_game_item_cover_size">100dp</dimen>
+
 </resources>

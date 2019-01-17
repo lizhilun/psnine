@@ -49,7 +49,7 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_label_ps3"
-            style="@style/LabelGameTypeStyle"
+            style="@style/TextLabelStyle"
             android:layout_width="wrap_content"
             android:layout_marginEnd="5dp"
             android:background="@color/color_bg_label_PS3_game"
@@ -58,7 +58,7 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_label_psv"
-            style="@style/LabelGameTypeStyle"
+            style="@style/TextLabelStyle"
             android:layout_width="wrap_content"
             android:layout_marginEnd="5dp"
             android:background="@color/color_bg_label_PSV_game"
@@ -68,7 +68,7 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_label_ps4"
-            style="@style/LabelGameTypeStyle"
+            style="@style/TextLabelStyle"
             android:layout_width="wrap_content"
             android:layout_marginEnd="5dp"
             android:background="@color/color_bg_label_PS4_game"

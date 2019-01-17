@@ -32,6 +32,7 @@
 
     <string name="hint_game_search">支持中文模糊搜索</string>
     <string name="recent_hot">近期热门</string>
+    <string name="discount_game">折扣列表</string>
 
     <string name="extremely_easy">极易</string>
     <string name="easy">容易</string>
@@ -53,5 +54,7 @@
     <string name="notify_need_login_first">你需要先登录才能同步数据</string>
     <string name="notify_failed_to_update_info">同步失败</string>
     <string name="notify_success_to_update_info">同步成功</string>
+
+    <string name="history_lowest">史低</string>
 
 </resources>

@@ -40,31 +40,32 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tv_hot"
-            style="@style/GlobalSmallTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/recent_hot"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_search_bar"/>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_game"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingEnd="@dimen/content_padding_start_edge"
+            android:paddingStart="@dimen/content_padding_start_edge"
+            app:layout_constraintTop_toBottomOf="@+id/ll_search_bar"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorHeight="1dp"
+            app:tabTextAppearance="@style/GlobalSmallTextStyle"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_hot_game_list"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_game"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:overScrollMode="never"
+            android:layout_marginTop="10dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_hot"
-            app:layout_goneMarginTop="20dp"/>
+            app:layout_constraintTop_toBottomOf="@+id/tab_game"
+            />
 
         <android.support.constraint.Group
-            android:id="@+id/group_hot_game"
+            android:id="@+id/group_game"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="tv_hot, rv_hot_game_list"/>
+            app:constraint_referenced_ids="tab_game, vp_game"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_search_result_list"
@@ -72,7 +73,7 @@
             android:layout_height="0dp"
             android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_hot"
+            app:layout_constraintTop_toBottomOf="@+id/ll_search_bar"
             app:layout_goneMarginTop="20dp"/>
 
     </android.support.constraint.ConstraintLayout>

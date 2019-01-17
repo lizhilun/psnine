@@ -34,7 +34,7 @@
     <color name="color_game_cup_get_time_bg">#FFF5FAEC</color>
     <color name="color_game_cup_get_bg">#FFEFEACA</color>
 
-    <color name="color_label_game_type_text_color">@color/white</color>
+    <color name="color_text_label_text_color">@color/white</color>
     <color name="color_bg_label_PS4_game">#8662DD</color>
     <color name="color_bg_label_PS3_game">#F05561</color>
     <color name="color_bg_label_PSV_game">#0AAAE9</color>
@@ -51,4 +51,8 @@
     <color name="color_perfect_rate_hard">#C19A57</color>
     <color name="color_perfect_rate_extremely_hard">#BC5351</color>
     <color name="color_perfect_rate_impossible">#BA4C4A</color>
+
+    <color name="color_discount_game_item_rate_bg">#FFE312</color>
+    <color name="color_member_price_text_color">#ffc001</color>
+    <color name="color_history_lowest_label_bg">#D9534F</color>
 </resources>

@@ -165,7 +165,8 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), IUserFragmentView
         gameListAdapter.clear()
         gameListAdapter.addAll(gameList)
 
-        refresh_layout.setEnableLoadMore(gameListAdapter.data.size < gameTotalCount)
+        refresh_layout.setEnableLoadMore(true)
+        refresh_layout.setNoMoreData(gameListAdapter.data.size >= gameTotalCount)
     }
 
     override fun onMoreGameLoadFinish(gameList: List<GameInfoItem>, gameTotalCount: Int)
@@ -174,7 +175,7 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), IUserFragmentView
 
         gameListAdapter.insertAll(gameList, gameListAdapter.data.size)
 
-        refresh_layout.setEnableLoadMore(gameListAdapter.data.size < gameTotalCount)
+        refresh_layout.setNoMoreData(gameListAdapter.data.size >= gameTotalCount)
     }
 
     override fun onInfoUpdateFinish()
