@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.item_discount_game.view.*
 class DiscountGameListAdapter : BaseAdapter<DiscountGameItem, DiscountGameListAdapter.ViewHolder>()
 {
 
+    private var onDiscountGameItemClickListener: OnDiscountGameItemClickListener? = null
+
     override fun createCustomViewHolder(parent: ViewGroup, position: Int): ViewHolder
     {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_discount_game, parent, false))
@@ -48,6 +50,18 @@ class DiscountGameListAdapter : BaseAdapter<DiscountGameItem, DiscountGameListAd
                         else -> ContextCompat.getColor(context, R.color.color_bg_label_PS4_game)
                     }
             )
+
+            itemView.setOnClickListener { onDiscountGameItemClickListener?.onDiscountGameItemClick(discountGameItem) }
         }
+    }
+
+    interface OnDiscountGameItemClickListener
+    {
+        fun onDiscountGameItemClick(discountGameItem: DiscountGameItem)
+    }
+
+    fun setOnDiscountGameItemClickListener(onDiscountGameItemClickListener: OnDiscountGameItemClickListener)
+    {
+        this.onDiscountGameItemClickListener = onDiscountGameItemClickListener
     }
 }

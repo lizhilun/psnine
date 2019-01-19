@@ -14,6 +14,8 @@ import demo.lizl.com.psnine.activity.BaseActivity
 import demo.lizl.com.psnine.adapter.DiscountGameListAdapter
 import demo.lizl.com.psnine.adapter.GameListAdapter
 import demo.lizl.com.psnine.adapter.ViewPagerAdapter
+import demo.lizl.com.psnine.customview.dialog.BaseDialog
+import demo.lizl.com.psnine.customview.dialog.DialogOperationConfirm
 import demo.lizl.com.psnine.iview.IGameFragmentView
 import demo.lizl.com.psnine.model.DiscountGameItem
 import demo.lizl.com.psnine.model.GameInfoItem
@@ -26,6 +28,8 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), IGameFragmentView
     private lateinit var hotGameListAdapter: GameListAdapter
     private lateinit var searchResultListAdapter: GameListAdapter
     private lateinit var discountGameListAdapter: DiscountGameListAdapter
+
+    private var dialogOperationConfirm: DialogOperationConfirm? = null
 
     private val tabTitleList = mutableListOf<String>()
 
@@ -119,6 +123,26 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), IGameFragmentView
             override fun onGameItemClick(gameInfoItem: GameInfoItem)
             {
                 (activity as BaseActivity<*>).turnToGameDetailActivity(gameInfoItem.gameDetailUrl)
+            }
+        })
+
+        discountGameListAdapter.setOnDiscountGameItemClickListener(object : DiscountGameListAdapter.OnDiscountGameItemClickListener
+        {
+            override fun onDiscountGameItemClick(discountGameItem: DiscountGameItem)
+            {
+                dialogOperationConfirm = DialogOperationConfirm(
+                        activity as Context, getString(R.string.title_sure_to_open_psn_store), getString(R.string.notify_sure_to_open_psn_store)
+                )
+
+                dialogOperationConfirm?.setOnConfirmButtonClickListener(object : BaseDialog.OnConfirmButtonClickListener
+                {
+                    override fun onConfirmButtonClick()
+                    {
+                        val psnGameUrl = "https://store.playstation.com/zh-hans-hk/product/" + discountGameItem.psnGameId
+                        UiUtil.turnToWebBrowser(activity as Context, psnGameUrl)
+                    }
+                })
+                dialogOperationConfirm?.show()
             }
         })
 
@@ -243,5 +267,12 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), IGameFragmentView
 
         searchResultListAdapter.insertAll(gameList, searchResultListAdapter.data.size)
         refresh_layout.setNoMoreData(searchResultListAdapter.data.size >= resultTotalCount)
+    }
+
+    override fun onStop()
+    {
+        super.onStop()
+
+        dialogOperationConfirm?.dismiss()
     }
 }

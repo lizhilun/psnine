@@ -103,7 +103,7 @@ class GameFragmentPresenter(context: Context, iView: IGameFragmentView) : BasePr
 
     private fun getDiscountGameList(pageIndex: Int): List<DiscountGameItem>
     {
-        val requestUrl = AppConfig.BASE_REQUEST_URL + "dd?type=all&region=all&pf=all&ddstatus=on&page=$pageIndex"
+        val requestUrl = AppConfig.BASE_REQUEST_URL + "dd?type=all&region=all&pf=hk&ddstatus=on&page=$pageIndex"
         val doc = Jsoup.connect(requestUrl).get()
 
         val resultCountInfo = doc.getElementsByClass("dropmenu")[0].getElementsByClass("h-p").text()
@@ -137,8 +137,13 @@ class GameFragmentPresenter(context: Context, iView: IGameFragmentView) : BasePr
             val notMemberPrice = discountGameElement.getElementsByClass("dd_price_off").text()
             val memberPriceElement = discountGameElement.getElementsByClass("dd_price_plus")
             val memberPrice = if (memberPriceElement.size > 0) memberPriceElement.text() else ""
+            val psnGameInfo = discountInfoElements[2].select("a").attr("onclick")
+            val firstQuaIndex = psnGameInfo.indexOf("'")
+            val secondQuaIndex = psnGameInfo.indexOf("'", firstQuaIndex + 1)
+            val psnGameId = psnGameInfo.substring(firstQuaIndex + 1, secondQuaIndex)
 
-            val discountGameItem = DiscountGameItem(gameName, gameCoverUrl, discountRate, discountTime, gamePlatform, isLowest, oriPrice, notMemberPrice, memberPrice)
+            val discountGameItem = DiscountGameItem(gameName, gameCoverUrl, discountRate, discountTime,
+                    gamePlatform, isLowest, oriPrice, notMemberPrice, memberPrice, psnGameId)
             discountGameList.add(discountGameItem)
         }
         return discountGameList

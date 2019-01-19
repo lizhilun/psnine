@@ -10,7 +10,6 @@ import com.scwang.smartrefresh.header.DeliveryHeader
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
-import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
 
 
@@ -83,7 +82,7 @@ class UiUtil
         fun getDefaultRefreshHeader(context: Context): RefreshHeader
         {
             val defaultHeader = DeliveryHeader(context)
-            defaultHeader.setBackgroundColor(ContextCompat.getColor(context, R.color.colorDivideView))
+            defaultHeader.setBackgroundColor(ContextCompat.getColor(context, demo.lizl.com.psnine.R.color.colorDivideView))
             return defaultHeader
         }
 
@@ -101,6 +100,17 @@ class UiUtil
         fun getNoWrapInputFilter(): InputFilter
         {
             return noWrapInputFilter
+        }
+
+        /**
+         * 跳转到浏览器
+         */
+        fun turnToWebBrowser(context: Context, requestUrl: String)
+        {
+            val intent = Intent()
+            intent.action = "android.intent.action.VIEW"
+            intent.data = Uri.parse(requestUrl)
+            context.startActivity(intent)
         }
     }
 }
