@@ -8,7 +8,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
-class CupTipsActivityPresenter(context: Context, iView: ICupTipsActivityView) : BasePresenter<ICupTipsActivityView>(context, iView)
+class CupTipsActivityPresenter(context: Context, iView: ICupTipsActivityView) :
+    BasePresenter<ICupTipsActivityView>(context, iView)
 {
 
     private lateinit var requestUrl: String
@@ -72,8 +73,8 @@ class CupTipsActivityPresenter(context: Context, iView: ICupTipsActivityView) : 
                     val aElementList = subReplyPostElement.getElementsByTag("a")
                     val subWriterUrl = aElementList[1].attr("href")
                     val subWriterId = aElementList[1].ownText()
-                    val atUserUrl = aElementList[2].attr("href")
-                    val atUserId = aElementList[2].ownText()
+                    val atUserUrl = if (aElementList.size > 2) aElementList[2].attr("href") else ""
+                    val atUserId = if (aElementList.size > 2) aElementList[2].ownText() else ""
                     val subPostTime = newPostElement.getElementsByClass("h-p")[0].text()
 
                     val subReplyPostItem = ReplyPostItem("", subContent, subWriterId, subPostTime, subWriterUrl)
