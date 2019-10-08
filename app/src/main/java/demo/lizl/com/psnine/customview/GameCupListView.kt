@@ -8,9 +8,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.mvp.activity.CupTipsActivity
 import demo.lizl.com.psnine.adapter.GameCupListAdapter
 import demo.lizl.com.psnine.bean.GameCupItem
+import demo.lizl.com.psnine.mvp.activity.CupTipsActivity
 import demo.lizl.com.psnine.util.Constant
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.layout_game_list_view.view.*
@@ -52,16 +52,12 @@ class GameCupListView(context: Context, attrs: AttributeSet?, defStyle: Int) : F
         rv_game_cup_list.layoutManager = LinearLayoutManager(context)
         rv_game_cup_list.adapter = gameCupListAdapter
 
-        gameCupListAdapter.setOnCupItemClickListener(object : GameCupListAdapter.OnCupItemClickListener
-        {
-            override fun onCupItemClick(gameCupItem: GameCupItem)
-            {
-                turnToCupTipsActivity(gameCupItem.cupTipsUrl)
-            }
-        })
+        gameCupListAdapter.setOnCupItemClickListener {
+            turnToCupTipsActivity(it.cupTipsUrl)
+        }
     }
 
-    fun turnToCupTipsActivity(cupTipsUrl: String)
+    private fun turnToCupTipsActivity(cupTipsUrl: String)
     {
         val intent = Intent(context, CupTipsActivity::class.java)
         val bundle = Bundle()

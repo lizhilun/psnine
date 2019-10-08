@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.item_game.view.*
 
 class GameListAdapter : BaseAdapter<GameInfoItem, GameListAdapter.ViewHolder>()
 {
-    private var gameItemClickListener: GameItemClickListener? = null
+    private var gameItemClickListener: ((GameInfoItem) -> Unit)? = null
 
     override fun createCustomViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
@@ -49,7 +49,7 @@ class GameListAdapter : BaseAdapter<GameInfoItem, GameListAdapter.ViewHolder>()
                     completionRate < 25 -> ContextCompat.getColor(context, R.color.color_game_completion_rate_low)
                     completionRate < 50 -> ContextCompat.getColor(context, R.color.color_game_completion_rate_just_so_so)
                     completionRate < 75 -> ContextCompat.getColor(context, R.color.color_game_completion_rate_ok)
-                    else -> ContextCompat.getColor(context, R.color.color_game_completion_rate_good)
+                    else                -> ContextCompat.getColor(context, R.color.color_game_completion_rate_good)
                 }
                 val barHeight = context.resources.getDimensionPixelOffset(R.dimen.game_item_completion_rate_bar_height)
                 itemView.npb_completion_rate.visibility = View.VISIBLE
@@ -96,17 +96,17 @@ class GameListAdapter : BaseAdapter<GameInfoItem, GameListAdapter.ViewHolder>()
                         preferctReateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_troublesome)
                         prefectRateText = context.getString(R.string.troublesome)
                     }
-                    perfectRate > 5L ->
+                    perfectRate > 5L  ->
                     {
                         preferctReateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_hard)
                         prefectRateText = context.getString(R.string.hard)
                     }
-                    perfectRate > 0L ->
+                    perfectRate > 0L  ->
                     {
                         preferctReateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_extremely_hard)
                         prefectRateText = context.getString(R.string.extremely_hard)
                     }
-                    else ->
+                    else              ->
                     {
                         preferctReateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_impossible)
                         prefectRateText = context.getString(R.string.impossible)
@@ -126,16 +126,11 @@ class GameListAdapter : BaseAdapter<GameInfoItem, GameListAdapter.ViewHolder>()
                 itemView.tv_cup_info.text = gameInfoItem.gameCupInfo
             }
 
-            itemView.setOnClickListener { gameItemClickListener?.onGameItemClick(gameInfoItem) }
+            itemView.setOnClickListener { gameItemClickListener?.invoke(gameInfoItem) }
         }
     }
 
-    interface GameItemClickListener
-    {
-        fun onGameItemClick(gameInfoItem: GameInfoItem)
-    }
-
-    fun setGameItemClickListener(gameItemClickListener: GameItemClickListener)
+    fun setGameItemClickListener(gameItemClickListener: (GameInfoItem) -> Unit)
     {
         this.gameItemClickListener = gameItemClickListener
     }

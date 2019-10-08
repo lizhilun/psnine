@@ -36,21 +36,13 @@ class HomeFragment : BaseFragment<HomeFragmentPresenter>(), HomeFragmentContract
         rv_post_list.layoutManager = LinearLayoutManager(activity)
         rv_post_list.adapter = postListAdapter
 
-        postListAdapter.setOnPostItemClickListener(object : PostListAdapter.OnPostItemClickListener
-        {
-            override fun onPostItemClick(postItem: PostItem)
-            {
-                ((activity as BaseActivity<*>).turnToPostDetailActivity(postItem.postDetailUrl))
-            }
-        })
+        postListAdapter.setOnPostItemClickListener {
+            ((activity as BaseActivity<*>).turnToPostDetailActivity(it.postDetailUrl))
+        }
 
-        postListAdapter.setOnPostAvatarClickListener(object : PostListAdapter.OnPostAvatarClickListener
-        {
-            override fun onPostAvatarClick(postItem: PostItem)
-            {
-                ((activity as BaseActivity<*>).turnToUserDetailActivity(postItem.postWriterId))
-            }
-        })
+        postListAdapter.setOnPostAvatarClickListener {
+            ((activity as BaseActivity<*>).turnToUserDetailActivity(it.postWriterId))
+        }
 
         presenter.refreshPostList()
     }

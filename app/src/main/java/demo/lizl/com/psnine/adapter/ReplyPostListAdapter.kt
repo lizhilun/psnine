@@ -48,7 +48,6 @@ class ReplyPostListAdapter(val context: Context, private val postList: List<Repl
                 itemView.rv_sub_reply_poet_list.layoutManager = LinearLayoutManager(context)
                 itemView.rv_sub_reply_poet_list.adapter = subReplyListAdapter
             }
-
         }
     }
 }

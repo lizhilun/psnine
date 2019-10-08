@@ -100,13 +100,9 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
             }
         }
 
-        gameListAdapter.setGameItemClickListener(object : GameListAdapter.GameItemClickListener
-        {
-            override fun onGameItemClick(gameInfoItem: GameInfoItem)
-            {
-                (activity as BaseActivity<*>).turnToGameDetailActivity(gameInfoItem.gameDetailUrl)
-            }
-        })
+        gameListAdapter.setGameItemClickListener {
+            (activity as BaseActivity<*>).turnToGameDetailActivity(it.gameDetailUrl)
+        }
 
         presenter.refreshUserPage()
     }
@@ -162,9 +158,7 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
     {
         dialogLoading?.dismiss()
 
-        dialogOperationConfirm = DialogOperationConfirm(
-                activity as Context, getString(R.string.notify_failed_to_update_info), reason
-        )
+        dialogOperationConfirm = DialogOperationConfirm(activity as Context, getString(R.string.notify_failed_to_update_info), reason)
         dialogOperationConfirm?.show()
 
         dialogOperationConfirm?.setOnConfirmButtonClickListener(object : BaseDialog.OnConfirmButtonClickListener
@@ -197,29 +191,25 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
     private fun showGameSortConditionDialog()
     {
         dialogGameSortCondition = DialogGameSortCondition(activity as Context)
-        dialogGameSortCondition?.setOnConfirmButtonClickListener(object : DialogGameSortCondition.OnConfirmButtonClickListener
-        {
-            override fun onConfirmButtonClick(gamePlatform: String, sortCondition: String)
+        dialogGameSortCondition?.setOnConfirmButtonClickListener { gamePlatform, sortCondition ->
+            val platform = when (gamePlatform)
             {
-                val platform = when (gamePlatform)
-                {
-                    getString(R.string.all) -> UserFragmentPresenter.GAME_PLATFORM_ALL
-                    "PSV"                   -> UserFragmentPresenter.GAME_PLATFORM_PSV
-                    "PS3"                   -> UserFragmentPresenter.GAME_PLATFORM_PS3
-                    "PS4"                   -> UserFragmentPresenter.GAME_PLATFORM_PS4
-                    else                    -> UserFragmentPresenter.GAME_PLATFORM_ALL
-                }
-                val condition = when (sortCondition)
-                {
-                    getString(R.string.newest)             -> UserFragmentPresenter.SORT_GAME_BY_TIME
-                    getString(R.string.fastest_completion) -> UserFragmentPresenter.SORT_GAME_BY_FASTEST_PROGRESE
-                    getString(R.string.slowest_completion) -> UserFragmentPresenter.SORT_GAME_BY_SLOWEST_PROGRESE
-                    getString(R.string.perfect_difficult)  -> UserFragmentPresenter.SORT_GAME_BY_PERFECT_DIFFICULT
-                    else                                   -> UserFragmentPresenter.SORT_GAME_BY_TIME
-                }
-                presenter.refreshGameList(platform, condition)
+                getString(R.string.all) -> UserFragmentPresenter.GAME_PLATFORM_ALL
+                "PSV"                   -> UserFragmentPresenter.GAME_PLATFORM_PSV
+                "PS3"                   -> UserFragmentPresenter.GAME_PLATFORM_PS3
+                "PS4"                   -> UserFragmentPresenter.GAME_PLATFORM_PS4
+                else                    -> UserFragmentPresenter.GAME_PLATFORM_ALL
             }
-        })
+            val condition = when (sortCondition)
+            {
+                getString(R.string.newest)             -> UserFragmentPresenter.SORT_GAME_BY_TIME
+                getString(R.string.fastest_completion) -> UserFragmentPresenter.SORT_GAME_BY_FASTEST_PROGRESE
+                getString(R.string.slowest_completion) -> UserFragmentPresenter.SORT_GAME_BY_SLOWEST_PROGRESE
+                getString(R.string.perfect_difficult)  -> UserFragmentPresenter.SORT_GAME_BY_PERFECT_DIFFICULT
+                else                                   -> UserFragmentPresenter.SORT_GAME_BY_TIME
+            }
+            presenter.refreshGameList(platform, condition)
+        }
         dialogGameSortCondition?.show()
     }
 }

@@ -6,7 +6,7 @@ import kotlinx.android.synthetic.main.dialog_game_sort_condition.*
 
 class DialogGameSortCondition(context: Context) : BaseDialog(context, context.getString(R.string.sort_condition))
 {
-    private var onConfirmButtonClickListener: OnConfirmButtonClickListener? = null
+    private var onConfirmButtonClickListener: ((String, String) -> Unit)? = null
 
     override fun getDialogContentViewResId(): Int
     {
@@ -26,15 +26,10 @@ class DialogGameSortCondition(context: Context) : BaseDialog(context, context.ge
 
     override fun onConfirmButtonClick()
     {
-        onConfirmButtonClickListener?.onConfirmButtonClick(sp_game_platform.text.toString(), sp_sort_condition.text.toString())
+        onConfirmButtonClickListener?.invoke(sp_game_platform.text.toString(), sp_sort_condition.text.toString())
     }
 
-    interface OnConfirmButtonClickListener
-    {
-        fun onConfirmButtonClick(gamePlatform: String, sortCondition: String)
-    }
-
-    fun setOnConfirmButtonClickListener(onConfirmButtonClickListener: OnConfirmButtonClickListener)
+    fun setOnConfirmButtonClickListener(onConfirmButtonClickListener: (gamePlatform: String, sortCondition: String) -> Unit)
     {
         this.onConfirmButtonClickListener = onConfirmButtonClickListener
     }

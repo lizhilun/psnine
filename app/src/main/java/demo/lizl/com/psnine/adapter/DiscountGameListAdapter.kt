@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_discount_game.view.*
 class DiscountGameListAdapter : BaseAdapter<DiscountGameItem, DiscountGameListAdapter.ViewHolder>()
 {
 
-    private var onDiscountGameItemClickListener: OnDiscountGameItemClickListener? = null
+    private var onDiscountGameItemClickListener: ((DiscountGameItem) -> Unit)? = null
 
     override fun createCustomViewHolder(parent: ViewGroup, position: Int): ViewHolder
     {
@@ -51,16 +51,11 @@ class DiscountGameListAdapter : BaseAdapter<DiscountGameItem, DiscountGameListAd
                     }
             )
 
-            itemView.setOnClickListener { onDiscountGameItemClickListener?.onDiscountGameItemClick(discountGameItem) }
+            itemView.setOnClickListener { onDiscountGameItemClickListener?.invoke(discountGameItem) }
         }
     }
 
-    interface OnDiscountGameItemClickListener
-    {
-        fun onDiscountGameItemClick(discountGameItem: DiscountGameItem)
-    }
-
-    fun setOnDiscountGameItemClickListener(onDiscountGameItemClickListener: OnDiscountGameItemClickListener)
+    fun setOnDiscountGameItemClickListener(onDiscountGameItemClickListener : (discountGameItem : DiscountGameItem) -> Unit)
     {
         this.onDiscountGameItemClickListener = onDiscountGameItemClickListener
     }

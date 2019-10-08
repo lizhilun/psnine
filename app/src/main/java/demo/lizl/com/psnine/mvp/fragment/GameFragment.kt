@@ -42,7 +42,7 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
 
     override fun isNeedRegisterEventBus() = false
 
-    override fun initPresenter() = GameFragmentPresenter( this)
+    override fun initPresenter() = GameFragmentPresenter(this)
 
     override fun initView()
     {
@@ -109,41 +109,29 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
 
         refresh_layout.setOnLoadMoreListener { loadMoreData() }
 
-        searchResultListAdapter.setGameItemClickListener(object : GameListAdapter.GameItemClickListener
-        {
-            override fun onGameItemClick(gameInfoItem: GameInfoItem)
-            {
-                (activity as BaseActivity<*>).turnToGameDetailActivity(gameInfoItem.gameDetailUrl)
-            }
-        })
+        searchResultListAdapter.setGameItemClickListener {
+            (activity as BaseActivity<*>).turnToGameDetailActivity(it.gameDetailUrl)
+        }
 
-        hotGameListAdapter.setGameItemClickListener(object : GameListAdapter.GameItemClickListener
-        {
-            override fun onGameItemClick(gameInfoItem: GameInfoItem)
-            {
-                (activity as BaseActivity<*>).turnToGameDetailActivity(gameInfoItem.gameDetailUrl)
-            }
-        })
+        hotGameListAdapter.setGameItemClickListener {
+            (activity as BaseActivity<*>).turnToGameDetailActivity(it.gameDetailUrl)
+        }
 
-        discountGameListAdapter.setOnDiscountGameItemClickListener(object : DiscountGameListAdapter.OnDiscountGameItemClickListener
-        {
-            override fun onDiscountGameItemClick(discountGameItem: DiscountGameItem)
-            {
-                dialogOperationConfirm = DialogOperationConfirm(
-                        activity as Context, getString(R.string.title_sure_to_open_psn_store), getString(R.string.notify_sure_to_open_psn_store)
-                )
+        discountGameListAdapter.setOnDiscountGameItemClickListener {
+            dialogOperationConfirm =
+                DialogOperationConfirm(activity as Context, getString(R.string.title_sure_to_open_psn_store), getString(R.string.notify_sure_to_open_psn_store))
 
-                dialogOperationConfirm?.setOnConfirmButtonClickListener(object : BaseDialog.OnConfirmButtonClickListener
+            dialogOperationConfirm?.setOnConfirmButtonClickListener(object : BaseDialog.OnConfirmButtonClickListener
+            {
+                override fun onConfirmButtonClick()
                 {
-                    override fun onConfirmButtonClick()
-                    {
-                        val psnGameUrl = "https://store.playstation.com/zh-hans-hk/product/" + discountGameItem.psnGameId
-                        UiUtil.turnToWebBrowser(activity as Context, psnGameUrl)
-                    }
-                })
-                dialogOperationConfirm?.show()
-            }
-        })
+                    val psnGameUrl = "https://store.playstation.com/zh-hans-hk/product/" + it.psnGameId
+                    UiUtil.turnToWebBrowser(activity as Context, psnGameUrl)
+                }
+            })
+            dialogOperationConfirm?.show()
+
+        }
 
         et_search.addTextChangedListener(object : TextWatcher
         {

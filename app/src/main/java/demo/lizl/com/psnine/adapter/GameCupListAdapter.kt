@@ -21,23 +21,15 @@ class GameCupListAdapter(val context: Context, private val gameCupList: List<Gam
     private val colorCupGet = ContextCompat.getColor(context, R.color.color_game_cup_get_bg)
     private val colorCupNotGet = ContextCompat.getColor(context, R.color.transparent)
 
-    private var onCupItemClickListener: OnCupItemClickListener? = null
+    private var onCupItemClickListener: ((GameCupItem) -> Unit)? = null
 
     init
     {
         layoutInflater = LayoutInflater.from(context)
-        colorByCupType.append(
-                Constant.GAME_CUP_TYPE_PLATINUM, ContextCompat.getColor(context, R.color.color_game_cup_bg_platinum)
-        )
-        colorByCupType.append(
-                Constant.GAME_CUP_TYPE_GOLD, ContextCompat.getColor(context, R.color.color_game_cup_bg_gold)
-        )
-        colorByCupType.append(
-                Constant.GAME_CUP_TYPE_SILVER, ContextCompat.getColor(context, R.color.color_game_cup_bg_silver)
-        )
-        colorByCupType.append(
-                Constant.GAME_CUP_TYPE_BRONZE, ContextCompat.getColor(context, R.color.color_game_cup_bg_bronze)
-        )
+        colorByCupType.append(Constant.GAME_CUP_TYPE_PLATINUM, ContextCompat.getColor(context, R.color.color_game_cup_bg_platinum))
+        colorByCupType.append(Constant.GAME_CUP_TYPE_GOLD, ContextCompat.getColor(context, R.color.color_game_cup_bg_gold))
+        colorByCupType.append(Constant.GAME_CUP_TYPE_SILVER, ContextCompat.getColor(context, R.color.color_game_cup_bg_silver))
+        colorByCupType.append(Constant.GAME_CUP_TYPE_BRONZE, ContextCompat.getColor(context, R.color.color_game_cup_bg_bronze))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
@@ -76,17 +68,12 @@ class GameCupListAdapter(val context: Context, private val gameCupList: List<Gam
             itemView.tv_cup_description.text = gameCupItem.cupDes
             itemView.tv_cup_time_get_time.text = gameCupItem.cupGetTime.replace(" ", "\n")
 
-            itemView.setOnClickListener { onCupItemClickListener?.onCupItemClick(gameCupItem) }
+            itemView.setOnClickListener { onCupItemClickListener?.invoke(gameCupItem) }
 
         }
     }
 
-    interface OnCupItemClickListener
-    {
-        fun onCupItemClick(gameCupItem: GameCupItem)
-    }
-
-    fun setOnCupItemClickListener(onCupItemClickListener: OnCupItemClickListener)
+    fun setOnCupItemClickListener(onCupItemClickListener: (GameCupItem) -> Unit)
     {
         this.onCupItemClickListener = onCupItemClickListener
     }

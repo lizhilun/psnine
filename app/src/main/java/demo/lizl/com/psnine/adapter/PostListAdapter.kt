@@ -8,11 +8,11 @@ import demo.lizl.com.psnine.bean.PostItem
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.item_post.view.*
 
-class PostListAdapter: BaseAdapter<PostItem, PostListAdapter.ViewHolder>()
+class PostListAdapter : BaseAdapter<PostItem, PostListAdapter.ViewHolder>()
 {
 
-    private var onPostItemClickListener: OnPostItemClickListener? = null
-    private var onPostAvatarClickListener: OnPostAvatarClickListener? = null
+    private var onPostItemClickListener: ((PostItem) -> Unit)? = null
+    private var onPostAvatarClickListener: ((PostItem) -> Unit)? = null
 
     override fun createCustomViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
@@ -33,27 +33,17 @@ class PostListAdapter: BaseAdapter<PostItem, PostListAdapter.ViewHolder>()
             itemView.tv_post_writer.text = postItem.postWriterId
             itemView.tv_last_update_time.text = postItem.lateUpdateTime
 
-            itemView.iv_post_icon.setOnClickListener { onPostAvatarClickListener?.onPostAvatarClick(postItem) }
-            itemView.setOnClickListener { onPostItemClickListener?.onPostItemClick(postItem) }
+            itemView.iv_post_icon.setOnClickListener { onPostAvatarClickListener?.invoke(postItem) }
+            itemView.setOnClickListener { onPostItemClickListener?.invoke(postItem) }
         }
     }
 
-    interface OnPostItemClickListener
-    {
-        fun onPostItemClick(postItem: PostItem)
-    }
-
-    interface OnPostAvatarClickListener
-    {
-        fun onPostAvatarClick(postItem: PostItem)
-    }
-
-    fun setOnPostItemClickListener(onPostItemClickListener: OnPostItemClickListener)
+    fun setOnPostItemClickListener(onPostItemClickListener: ((PostItem) -> Unit))
     {
         this.onPostItemClickListener = onPostItemClickListener;
     }
 
-    fun setOnPostAvatarClickListener(onPostAvatarClickListener: OnPostAvatarClickListener)
+    fun setOnPostAvatarClickListener(onPostAvatarClickListener: ((PostItem) -> Unit))
     {
         this.onPostAvatarClickListener = onPostAvatarClickListener
     }
