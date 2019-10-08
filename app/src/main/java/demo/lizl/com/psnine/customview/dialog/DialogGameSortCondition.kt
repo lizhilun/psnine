@@ -4,7 +4,6 @@ import android.content.Context
 import demo.lizl.com.psnine.R
 import kotlinx.android.synthetic.main.dialog_game_sort_condition.*
 
-
 class DialogGameSortCondition(context: Context) : BaseDialog(context, context.getString(R.string.sort_condition))
 {
     private var onConfirmButtonClickListener: OnConfirmButtonClickListener? = null
