@@ -8,9 +8,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.activity.CupTipsActivity
+import demo.lizl.com.psnine.mvp.activity.CupTipsActivity
 import demo.lizl.com.psnine.adapter.GameCupListAdapter
-import demo.lizl.com.psnine.model.GameCupItem
+import demo.lizl.com.psnine.bean.GameCupItem
 import demo.lizl.com.psnine.util.Constant
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.layout_game_list_view.view.*

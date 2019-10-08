@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.model.GameInfoItem
+import demo.lizl.com.psnine.bean.GameInfoItem
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.item_game.view.*
 

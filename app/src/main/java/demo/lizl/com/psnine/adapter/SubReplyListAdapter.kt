@@ -14,7 +14,7 @@ import android.view.ViewGroup
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.customview.CustomLinkMovementMethod
-import demo.lizl.com.psnine.model.ReplyPostItem
+import demo.lizl.com.psnine.bean.ReplyPostItem
 import kotlinx.android.synthetic.main.item_sub_reply_post_item.view.*
 import java.util.*
 

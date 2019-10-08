@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.model.ReplyPostItem
+import demo.lizl.com.psnine.bean.ReplyPostItem
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.item_reply_post.view.*
 

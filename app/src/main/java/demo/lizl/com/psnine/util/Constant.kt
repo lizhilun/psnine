@@ -13,5 +13,8 @@ class Constant
         const val GAME_CUP_TYPE_GOLD = 2
         const val GAME_CUP_TYPE_SILVER = 3
         const val GAME_CUP_TYPE_BRONZE = 4
+
+        const val LOGIN_RESULT_FAILED = 0
+        const val LOGIN_RESULT_SUCCESS = 1
     }
 }
