@@ -17,6 +17,7 @@
 
     <string name="notify_failed_to_get_permission">权限获取失败</string>
     <string name="notify_permission_be_refused">权限获取被拒绝，请重新授权</string>
+    <string name="notify_permission_be_refused_and_never_ask_again">权限获取被拒绝，请在设置界面中开启</string>
 
     <string name="total_game_count">总游戏</string>
     <string name="perfect_game_count">完美数</string>
