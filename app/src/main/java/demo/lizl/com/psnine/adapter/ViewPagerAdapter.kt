@@ -1,8 +1,8 @@
 package demo.lizl.com.psnine.adapter
 
-import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager.widget.PagerAdapter
 
 class ViewPagerAdapter(private val viewList: List<View>) : PagerAdapter()
 {
@@ -38,7 +38,7 @@ class ViewPagerAdapter(private val viewList: List<View>) : PagerAdapter()
     {
         return if (!viewList.contains(`object`))
         {
-            PagerAdapter.POSITION_NONE
+            POSITION_NONE
         }
         else viewList.indexOf(`object`)
     }

@@ -1,6 +1,6 @@
 package demo.lizl.com.psnine.mvp.activity
 
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.adapter.ReplyPostListAdapter
 import demo.lizl.com.psnine.bean.ReplyPostItem

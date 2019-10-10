@@ -1,7 +1,7 @@
 package demo.lizl.com.psnine.adapter
 
 import android.graphics.Paint
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +17,7 @@ class DiscountGameListAdapter : BaseAdapter<DiscountGameItem, DiscountGameListAd
 
     override fun createCustomViewHolder(parent: ViewGroup, position: Int): ViewHolder
     {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_discount_game, parent, false))
+        return ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.item_discount_game, parent, false))
     }
 
     override fun bindCustomViewHolder(holder: ViewHolder, discountGameItem: DiscountGameItem, position: Int)
@@ -29,7 +29,7 @@ class DiscountGameListAdapter : BaseAdapter<DiscountGameItem, DiscountGameListAd
     {
         fun onBindViewHolder(discountGameItem: DiscountGameItem)
         {
-            GlideUtil.displayImage(context, discountGameItem.gameCoverUrl, itemView.iv_game_cover)
+            GlideUtil.displayImage(getContext(), discountGameItem.gameCoverUrl, itemView.iv_game_cover)
             itemView.tv_discount_rate.text = discountGameItem.discountRate
             itemView.tv_game_name.text = discountGameItem.gameName
             itemView.tv_platform.text = discountGameItem.gamePlatform
@@ -44,10 +44,10 @@ class DiscountGameListAdapter : BaseAdapter<DiscountGameItem, DiscountGameListAd
             itemView.tv_platform.setBackgroundColor(
                     when (discountGameItem.gamePlatform)
                     {
-                        "PS3" -> ContextCompat.getColor(context, R.color.color_bg_label_PS3_game)
-                        "PSV" -> ContextCompat.getColor(context, R.color.color_bg_label_PSV_game)
-                        "PS4" -> ContextCompat.getColor(context, R.color.color_bg_label_PS4_game)
-                        else -> ContextCompat.getColor(context, R.color.color_bg_label_PS4_game)
+                        "PS3" -> ContextCompat.getColor(getContext(), R.color.color_bg_label_PS3_game)
+                        "PSV" -> ContextCompat.getColor(getContext(), R.color.color_bg_label_PSV_game)
+                        "PS4" -> ContextCompat.getColor(getContext(), R.color.color_bg_label_PS4_game)
+                        else -> ContextCompat.getColor(getContext(), R.color.color_bg_label_PS4_game)
                     }
             )
 

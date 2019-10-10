@@ -3,7 +3,7 @@ package demo.lizl.com.psnine.util
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.text.InputFilter
 import android.text.Spanned
 import com.scwang.smartrefresh.header.DeliveryHeader

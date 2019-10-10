@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_platform_str"
         style="@style/GlobalSmallTextStyle"
         android:layout_width="50dp"
@@ -29,7 +29,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/tv_platform_str"
         app:popupTextAlignment="start"/>
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_sort_str"
         style="@style/GlobalSmallTextStyle"
         android:layout_width="0dp"
@@ -53,4 +53,4 @@
         app:popupTextAlignment="start"
         />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

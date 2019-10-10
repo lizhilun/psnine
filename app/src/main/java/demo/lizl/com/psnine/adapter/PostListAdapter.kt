@@ -16,7 +16,7 @@ class PostListAdapter : BaseAdapter<PostItem, PostListAdapter.ViewHolder>()
 
     override fun createCustomViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_post, parent, false))
+        return ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.item_post, parent, false))
     }
 
     override fun bindCustomViewHolder(holder: ViewHolder, postItem: PostItem, position: Int)
@@ -28,7 +28,7 @@ class PostListAdapter : BaseAdapter<PostItem, PostListAdapter.ViewHolder>()
     {
         fun onBindViewHolder(postItem: PostItem)
         {
-            GlideUtil.displayImage(context, postItem.imageUrl, itemView.iv_post_icon)
+            GlideUtil.displayImage(getContext(), postItem.imageUrl, itemView.iv_post_icon)
             itemView.tv_post_title.text = postItem.postTitle
             itemView.tv_post_writer.text = postItem.postWriterId
             itemView.tv_last_update_time.text = postItem.lateUpdateTime

@@ -7,28 +7,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_game_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/content_padding_top_edge_small"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ic_back"
                     style="@style/GlobalBackButtonStyle"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_game_name"
                     style="@style/GlobalTextStyle"
                     android:layout_width="0dp"
@@ -50,7 +50,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_game_name"/>
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_game_cup_info"
                     style="@style/GlobalSecondaryTextStyle"
                     android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iv_game_cover"/>
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_game_progress"
                     style="@style/GlobalSmallTextStyle"
                     android:layout_width="0dp"
@@ -72,7 +72,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_game_cup_info"/>
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_game_progress_des"
                     style="@style/GlobalSecondarySmallerTextStyle"
                     android:layout_width="0dp"
@@ -83,7 +83,7 @@
                     app:layout_constraintStart_toStartOf="@+id/tv_game_progress"
                     app:layout_constraintTop_toBottomOf="@+id/tv_game_progress"/>
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_first_cup_time"
                     style="@style/GlobalSmallTextStyle"
                     android:layout_width="0dp"
@@ -95,7 +95,7 @@
                     app:layout_constraintStart_toEndOf="@+id/tv_game_progress"
                     app:layout_constraintTop_toTopOf="@+id/tv_game_progress"/>
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_first_cup_time_des"
                     style="@style/GlobalSecondarySmallerTextStyle"
                     android:layout_width="0dp"
@@ -106,7 +106,7 @@
                     app:layout_constraintStart_toStartOf="@+id/tv_first_cup_time"
                     app:layout_constraintTop_toBottomOf="@+id/tv_first_cup_time"/>
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_last_cup_time"
                     style="@style/GlobalSmallTextStyle"
                     android:layout_width="0dp"
@@ -118,7 +118,7 @@
                     app:layout_constraintStart_toEndOf="@+id/tv_first_cup_time"
                     app:layout_constraintTop_toTopOf="@+id/tv_game_progress"/>
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_last_cup_time_des"
                     style="@style/GlobalSecondarySmallerTextStyle"
                     android:layout_width="0dp"
@@ -129,7 +129,7 @@
                     app:layout_constraintStart_toStartOf="@+id/tv_last_cup_time"
                     app:layout_constraintTop_toBottomOf="@+id/tv_last_cup_time"/>
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_total_time"
                     style="@style/GlobalSmallTextStyle"
                     android:layout_width="0dp"
@@ -141,7 +141,7 @@
                     app:layout_constraintStart_toEndOf="@+id/tv_last_cup_time"
                     app:layout_constraintTop_toTopOf="@+id/tv_game_progress"/>
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_total_time_des"
                     style="@style/GlobalSecondarySmallerTextStyle"
                     android:layout_width="0dp"
@@ -152,7 +152,7 @@
                     app:layout_constraintStart_toStartOf="@+id/tv_total_time"
                     app:layout_constraintTop_toBottomOf="@+id/tv_total_time"/>
 
-                <android.support.constraint.Group
+                <androidx.constraintlayout.widget.Group
                     android:id="@+id/group_user_game_cup_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -160,7 +160,7 @@
                     app:constraint_referenced_ids="tv_game_progress,tv_game_progress_des
                     ,tv_first_cup_time,tv_first_cup_time_des,tv_last_cup_time,tv_last_cup_time_des
                     ,tv_total_time,tv_total_time_des"/>
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:id="@+id/ll_game_cup_view"
@@ -168,8 +168,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@+id/cl_game_info"/>
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>

@@ -1,6 +1,6 @@
 package demo.lizl.com.psnine.adapter
 
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +16,7 @@ class GameListAdapter : BaseAdapter<GameInfoItem, GameListAdapter.ViewHolder>()
 
     override fun createCustomViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_game, parent, false))
+        return ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.item_game, parent, false))
     }
 
     override fun bindCustomViewHolder(holder: ViewHolder, gameInfoItem: GameInfoItem, position: Int)
@@ -28,7 +28,7 @@ class GameListAdapter : BaseAdapter<GameInfoItem, GameListAdapter.ViewHolder>()
     {
         fun onBindViewHolder(gameInfoItem: GameInfoItem)
         {
-            GlideUtil.displayImage(context, gameInfoItem.coverUrl, itemView.iv_game_icon)
+            GlideUtil.displayImage(getContext(), gameInfoItem.coverUrl, itemView.iv_game_icon)
             itemView.tv_game_name.text = gameInfoItem.gameName
             itemView.tv_last_update_time.text = gameInfoItem.lastUpdateTime
             itemView.tv_completion_rate.text = gameInfoItem.completionRate
@@ -46,12 +46,12 @@ class GameListAdapter : BaseAdapter<GameInfoItem, GameListAdapter.ViewHolder>()
 
                 val reachedColor = when
                 {
-                    completionRate < 25 -> ContextCompat.getColor(context, R.color.color_game_completion_rate_low)
-                    completionRate < 50 -> ContextCompat.getColor(context, R.color.color_game_completion_rate_just_so_so)
-                    completionRate < 75 -> ContextCompat.getColor(context, R.color.color_game_completion_rate_ok)
-                    else                -> ContextCompat.getColor(context, R.color.color_game_completion_rate_good)
+                    completionRate < 25 -> ContextCompat.getColor(getContext(), R.color.color_game_completion_rate_low)
+                    completionRate < 50 -> ContextCompat.getColor(getContext(), R.color.color_game_completion_rate_just_so_so)
+                    completionRate < 75 -> ContextCompat.getColor(getContext(), R.color.color_game_completion_rate_ok)
+                    else                -> ContextCompat.getColor(getContext(), R.color.color_game_completion_rate_good)
                 }
-                val barHeight = context.resources.getDimensionPixelOffset(R.dimen.game_item_completion_rate_bar_height)
+                val barHeight = getContext().resources.getDimensionPixelOffset(R.dimen.game_item_completion_rate_bar_height)
                 itemView.npb_completion_rate.visibility = View.VISIBLE
                 itemView.npb_completion_rate.unreachedBarHeight = barHeight.toFloat()
                 itemView.npb_completion_rate.reachedBarHeight = barHeight.toFloat()
@@ -78,38 +78,38 @@ class GameListAdapter : BaseAdapter<GameInfoItem, GameListAdapter.ViewHolder>()
                 {
                     perfectRate > 60L ->
                     {
-                        preferctReateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_extremely_easy)
-                        prefectRateText = context.getString(R.string.extremely_easy)
+                        preferctReateTextColor = ContextCompat.getColor(getContext(), R.color.color_perfect_rate_extremely_easy)
+                        prefectRateText = getContext().getString(R.string.extremely_easy)
                     }
                     perfectRate > 40L ->
                     {
-                        preferctReateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_easy)
-                        prefectRateText = context.getString(R.string.easy)
+                        preferctReateTextColor = ContextCompat.getColor(getContext(), R.color.color_perfect_rate_easy)
+                        prefectRateText = getContext().getString(R.string.easy)
                     }
                     perfectRate > 25L ->
                     {
-                        preferctReateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_normal)
-                        prefectRateText = context.getString(R.string.normal)
+                        preferctReateTextColor = ContextCompat.getColor(getContext(), R.color.color_perfect_rate_normal)
+                        prefectRateText = getContext().getString(R.string.normal)
                     }
                     perfectRate > 15L ->
                     {
-                        preferctReateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_troublesome)
-                        prefectRateText = context.getString(R.string.troublesome)
+                        preferctReateTextColor = ContextCompat.getColor(getContext(), R.color.color_perfect_rate_troublesome)
+                        prefectRateText = getContext().getString(R.string.troublesome)
                     }
                     perfectRate > 5L  ->
                     {
-                        preferctReateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_hard)
-                        prefectRateText = context.getString(R.string.hard)
+                        preferctReateTextColor = ContextCompat.getColor(getContext(), R.color.color_perfect_rate_hard)
+                        prefectRateText = getContext().getString(R.string.hard)
                     }
                     perfectRate > 0L  ->
                     {
-                        preferctReateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_extremely_hard)
-                        prefectRateText = context.getString(R.string.extremely_hard)
+                        preferctReateTextColor = ContextCompat.getColor(getContext(), R.color.color_perfect_rate_extremely_hard)
+                        prefectRateText = getContext().getString(R.string.extremely_hard)
                     }
                     else              ->
                     {
-                        preferctReateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_impossible)
-                        prefectRateText = context.getString(R.string.impossible)
+                        preferctReateTextColor = ContextCompat.getColor(getContext(), R.color.color_perfect_rate_impossible)
+                        prefectRateText = getContext().getString(R.string.impossible)
                     }
                 }
                 itemView.tv_perfect_difficult.setTextColor(preferctReateTextColor)

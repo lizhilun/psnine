@@ -1,6 +1,6 @@
 package demo.lizl.com.psnine.mvp.activity
 
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.View
 import android.widget.LinearLayout
 import demo.lizl.com.psnine.R

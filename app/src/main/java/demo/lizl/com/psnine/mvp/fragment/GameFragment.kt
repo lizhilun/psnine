@@ -1,9 +1,9 @@
 package demo.lizl.com.psnine.mvp.fragment
 
 import android.content.Context
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextUtils
@@ -225,7 +225,7 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
         discountGameListAdapter.addAll(discountGameList)
 
         refresh_layout.setEnableLoadMore(true)
-        hasNoMoreDiscountGame = discountGameListAdapter.data.size >= totalCount
+        hasNoMoreDiscountGame = discountGameListAdapter.getData().size >= totalCount
         refresh_layout.setNoMoreData(hasNoMoreDiscountGame)
     }
 
@@ -233,8 +233,8 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
     {
         refresh_layout.finishLoadMore()
 
-        discountGameListAdapter.insertAll(discountGameList, discountGameListAdapter.data.size)
-        hasNoMoreDiscountGame = discountGameListAdapter.data.size >= totalCount
+        discountGameListAdapter.insertAll(discountGameList, discountGameListAdapter.getData().size)
+        hasNoMoreDiscountGame = discountGameListAdapter.getData().size >= totalCount
         refresh_layout.setNoMoreData(hasNoMoreDiscountGame)
     }
 
@@ -245,15 +245,15 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
 
         rv_search_result_list.scrollToPosition(0)
         refresh_layout.setEnableLoadMore(true)
-        refresh_layout.setNoMoreData(searchResultListAdapter.data.size >= resultTotalCount)
+        refresh_layout.setNoMoreData(searchResultListAdapter.getData().size >= resultTotalCount)
     }
 
     override fun onGameSearchLoadMore(gameList: List<GameInfoItem>, resultTotalCount: Int)
     {
         refresh_layout.finishLoadMore()
 
-        searchResultListAdapter.insertAll(gameList, searchResultListAdapter.data.size)
-        refresh_layout.setNoMoreData(searchResultListAdapter.data.size >= resultTotalCount)
+        searchResultListAdapter.insertAll(gameList, searchResultListAdapter.getData().size)
+        refresh_layout.setNoMoreData(searchResultListAdapter.getData().size >= resultTotalCount)
     }
 
     override fun onStop()

@@ -2,7 +2,7 @@ package demo.lizl.com.psnine.mvp.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import demo.lizl.com.psnine.mvp.BasePresenter
 import demo.lizl.com.psnine.util.Constant

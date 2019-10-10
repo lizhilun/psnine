@@ -1,7 +1,7 @@
 package demo.lizl.com.psnine.mvp.fragment
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.adapter.PostListAdapter
 import demo.lizl.com.psnine.bean.PostItem
@@ -57,6 +57,6 @@ class HomeFragment : BaseFragment<HomeFragmentPresenter>(), HomeFragmentContract
     override fun onPostListLoadMore(postList: List<PostItem>)
     {
         refresh_layout.finishLoadMore()
-        postListAdapter.insertAll(postList, postListAdapter.data.size)
+        postListAdapter.insertAll(postList, postListAdapter.getData().size)
     }
 }

@@ -2,10 +2,10 @@ package demo.lizl.com.psnine.mvp.activity
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.support.design.widget.TabLayout
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
+import com.google.android.material.tabs.TabLayout
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.adapter.FragmentPageAdapter
 import demo.lizl.com.psnine.customview.dialog.BaseDialog

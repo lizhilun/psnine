@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/tools"
@@ -10,14 +10,14 @@
     android:paddingStart="@dimen/content_padding_start_edge"
     android:paddingTop="@dimen/content_padding_top_edge">
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_game_icon"
         android:layout_width="@dimen/game_item_cover_width"
         android:layout_height="@dimen/game_item_cover_height"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_game_name"
         style="@style/GlobalSmallTextStyle"
         android:layout_width="0dp"
@@ -28,7 +28,7 @@
         app:layout_constraintStart_toEndOf="@+id/iv_game_icon"
         app:layout_constraintTop_toTopOf="@+id/iv_game_icon"/>
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_cup_info"
         style="@style/GlobalSecondaryTextStyle"
         android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_cup_info"
         app:layout_goneMarginTop="10dp">
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_label_ps3"
             style="@style/TextLabelStyle"
             android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
             android:text="PS3"
             />
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_label_psv"
             style="@style/TextLabelStyle"
             android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
 
             />
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_label_ps4"
             style="@style/TextLabelStyle"
             android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
             />
     </LinearLayout>
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_last_update_time"
         style="@style/GlobalSecondarySmallerTextStyle"
         android:layout_width="wrap_content"
@@ -95,7 +95,7 @@
         app:progress_text_visibility="invisible"
         custom:progress_unreached_color="@color/color_game_completion_unfinished"/>
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_completion_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
         app:layout_constraintStart_toStartOf="@+id/npb_completion_rate"
         app:layout_constraintTop_toTopOf="@+id/npb_completion_rate"/>
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_perfect_difficult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
         app:layout_constraintVertical_chainStyle="packed"
         />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_perfect_rate"
         style="@style/GlobalSecondarySmallerTextStyle"
         android:layout_width="54dp"
@@ -130,11 +130,11 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_perfect_difficult"
         app:layout_constraintVertical_chainStyle="packed"/>
 
-    <android.support.constraint.Barrier
+    <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="start"
         app:constraint_referenced_ids="npb_completion_rate, tv_perfect_rate"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
