@@ -2,11 +2,11 @@ package demo.lizl.com.psnine.adapter
 
 import android.graphics.Paint
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.bean.DiscountGameItem
+import demo.lizl.com.psnine.mvp.presenter.GameUtil
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.item_discount_game.view.*
 
@@ -34,16 +34,8 @@ class DiscountGameListAdapter : BaseQuickAdapter<DiscountGameItem, DiscountGameL
             itemView.tv_not_member_price.text = discountGameItem.notMemberPrice
             itemView.tv_member_price.text = discountGameItem.memberPrice
             itemView.tv_is_lowest.visibility = if (discountGameItem.isLowest) View.VISIBLE else View.GONE
-
             itemView.tv_original_price.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
-
-            itemView.tv_platform.setBackgroundColor(ContextCompat.getColor(context, when (discountGameItem.gamePlatform)
-            {
-                "PS3" -> R.color.color_bg_label_PS3_game
-                "PSV" -> R.color.color_bg_label_PSV_game
-                "PS4" -> R.color.color_bg_label_PS4_game
-                else  -> R.color.color_bg_label_PS4_game
-            }))
+            itemView.tv_platform.setBackgroundColor(GameUtil.getPlatformColor(discountGameItem.gamePlatform))
 
             itemView.setOnClickListener { onDiscountGameItemClickListener?.invoke(discountGameItem) }
         }

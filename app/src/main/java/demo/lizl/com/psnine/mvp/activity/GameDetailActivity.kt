@@ -1,8 +1,8 @@
 package demo.lizl.com.psnine.mvp.activity
 
-import android.view.View
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.bean.GameInfoItem
 import demo.lizl.com.psnine.constant.AppConstant
@@ -61,7 +61,7 @@ class GameDetailActivity : BaseActivity<GameDetailActivityPresenter>(), GameDeta
 
     override fun onUserGameCupInfoRefresh(gameProgress: String, firstCupTime: String, lastCupTime: String, totalTime: String)
     {
-        group_user_game_cup_info.visibility = View.VISIBLE
+        group_user_game_cup_info.isVisible = true
         tv_game_progress.text = gameProgress
         tv_first_cup_time.text = firstCupTime
         tv_last_cup_time.text = lastCupTime

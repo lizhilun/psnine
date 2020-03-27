@@ -16,7 +16,6 @@ import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.constant.EventConstant
 import demo.lizl.com.psnine.mvp.activity.GameDetailActivity
 import demo.lizl.com.psnine.mvp.activity.LoginActivity
-import demo.lizl.com.psnine.mvp.activity.UserDetailActivity
 import demo.lizl.com.psnine.mvp.contract.UserFragmentContract
 import demo.lizl.com.psnine.mvp.presenter.UserFragmentPresenter
 import demo.lizl.com.psnine.util.ActivityUtil
@@ -36,12 +35,7 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
 
     override fun initView()
     {
-        var psnId = ""
-        val bundle = activity!!.intent.extras
-        if (bundle != null)
-        {
-            psnId = bundle.getString(AppConstant.BUNDLE_DATA_STRING, "")
-        }
+        val psnId = activity?.intent?.extras?.getString(AppConstant.BUNDLE_DATA_STRING, "").orEmpty()
 
         val emptyPsnId = TextUtils.isEmpty(psnId)
         iv_back.visibility = if (emptyPsnId) View.GONE else View.VISIBLE
@@ -80,16 +74,9 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
             fam_menu.close(true)
         }
 
-        iv_back.setOnClickListener {
-            if (activity is UserDetailActivity)
-            {
-                (activity as UserDetailActivity).finish()
-            }
-        }
+        iv_back.setOnClickListener { activity?.onBackPressed() }
 
-        gameListAdapter.setGameItemClickListener {
-            ActivityUtil.turnToActivity(GameDetailActivity::class.java, it.gameDetailUrl)
-        }
+        gameListAdapter.setGameItemClickListener { ActivityUtil.turnToActivity(GameDetailActivity::class.java, it.gameDetailUrl) }
 
         LiveEventBus.get(EventConstant.EVENT_LOGIN_RESULT, Boolean::class.java).observe(this, Observer {
             if (it) presenter.refreshUserPage()

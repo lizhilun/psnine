@@ -1,6 +1,5 @@
 package demo.lizl.com.psnine.mvp.activity
 
-import android.text.TextUtils
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -28,22 +27,19 @@ class LoginActivity : BaseActivity<EmptyPresenter>(), EmptyContract.View
 
         wv_view.webViewClient = object : WebViewClient()
         {
-            override fun onPageFinished(view: WebView?, url: String?)
+            override fun onPageFinished(view: WebView, url: String)
             {
                 Log.d(TAG, "onPageFinished:$url")
                 super.onPageFinished(view, url)
             }
 
-            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean
             {
                 Log.d(TAG, "shouldOverrideUrlLoading:$url")
 
-                if (TextUtils.isEmpty(url))
-                {
-                    return true
-                }
+                if (url.isBlank()) return true
 
-                if (url!! == AppConfig.BASE_REQUEST_URL || url == AppConfig.BASE_REQUEST_URL + "psnid/" + AppConfig.CUR_PSN_ID)
+                if (url == AppConfig.BASE_REQUEST_URL || url == AppConfig.BASE_REQUEST_URL + "psnid/" + AppConfig.CUR_PSN_ID)
                 {
                     LiveEventBus.get(EventConstant.EVENT_LOGIN_RESULT).post(true)
                     finish()

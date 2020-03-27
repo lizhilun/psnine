@@ -1,6 +1,5 @@
 package demo.lizl.com.psnine.adapter
 
-import androidx.core.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
 import androidx.core.view.isVisible
@@ -8,6 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.bean.GameInfoItem
+import demo.lizl.com.psnine.mvp.presenter.GameUtil
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.item_game.view.*
 
@@ -41,19 +41,12 @@ class GameListAdapter : BaseQuickAdapter<GameInfoItem, GameListAdapter.ViewHolde
             {
                 val completionRate = gameInfoItem.completionRate!!.replace("%", "").toInt()
 
-                val reachedColor = ContextCompat.getColor(context, when
-                {
-                    completionRate < 25 -> R.color.color_game_completion_rate_low
-                    completionRate < 50 -> R.color.color_game_completion_rate_just_so_so
-                    completionRate < 75 -> R.color.color_game_completion_rate_ok
-                    else                -> R.color.color_game_completion_rate_good
-                })
                 val barHeight = context.resources.getDimensionPixelOffset(R.dimen.game_item_completion_rate_bar_height)
                 itemView.npb_completion_rate.isVisible = true
                 itemView.npb_completion_rate.unreachedBarHeight = barHeight.toFloat()
                 itemView.npb_completion_rate.reachedBarHeight = barHeight.toFloat()
                 itemView.npb_completion_rate.max = 100
-                itemView.npb_completion_rate.reachedBarColor = reachedColor
+                itemView.npb_completion_rate.reachedBarColor = GameUtil.getCompletionRateColor(completionRate.toFloat())
                 itemView.npb_completion_rate.progress = completionRate
             }
 
@@ -69,48 +62,8 @@ class GameListAdapter : BaseQuickAdapter<GameInfoItem, GameListAdapter.ViewHolde
                 itemView.tv_perfect_rate.text = gameInfoItem.perfectRate
 
                 val perfectRate = gameInfoItem.perfectRate!!.substring(0, gameInfoItem.perfectRate!!.indexOf("%")).toFloat()
-                val prefectRateText: String
-                val prefectRateTextColor: Int
-                when
-                {
-                    perfectRate > 60L ->
-                    {
-                        prefectRateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_extremely_easy)
-                        prefectRateText = context.getString(R.string.extremely_easy)
-                    }
-                    perfectRate > 40L ->
-                    {
-                        prefectRateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_easy)
-                        prefectRateText = context.getString(R.string.easy)
-                    }
-                    perfectRate > 25L ->
-                    {
-                        prefectRateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_normal)
-                        prefectRateText = context.getString(R.string.normal)
-                    }
-                    perfectRate > 15L ->
-                    {
-                        prefectRateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_troublesome)
-                        prefectRateText = context.getString(R.string.troublesome)
-                    }
-                    perfectRate > 5L  ->
-                    {
-                        prefectRateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_hard)
-                        prefectRateText = context.getString(R.string.hard)
-                    }
-                    perfectRate > 0L  ->
-                    {
-                        prefectRateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_extremely_hard)
-                        prefectRateText = context.getString(R.string.extremely_hard)
-                    }
-                    else              ->
-                    {
-                        prefectRateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_impossible)
-                        prefectRateText = context.getString(R.string.impossible)
-                    }
-                }
-                itemView.tv_perfect_difficult.setTextColor(prefectRateTextColor)
-                itemView.tv_perfect_difficult.text = prefectRateText
+                itemView.tv_perfect_difficult.setTextColor(GameUtil.getPrefectRateColor(perfectRate))
+                itemView.tv_perfect_difficult.text = GameUtil.getPrefectRateDescription(perfectRate)
             }
 
             itemView.tv_cup_info.isVisible = gameInfoItem.gameCupInfo.orEmpty().isNotBlank()

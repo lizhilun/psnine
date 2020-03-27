@@ -2,7 +2,7 @@ package demo.lizl.com.psnine.mvp.fragment
 
 import android.content.Context
 import android.text.InputFilter
-import android.view.View
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -83,11 +83,7 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
 
     private fun initTabLayout()
     {
-        for (title in tabTitleList)
-        {
-            tab_game.addTab(tab_game.newTab().setText(title))
-        }
-
+        tabTitleList.forEach { tab_game.addTab(tab_game.newTab().setText(it)) }
         tab_game.setupWithViewPager(vp_game)
     }
 
@@ -100,13 +96,9 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
 
         refresh_layout.setOnLoadMoreListener { loadMoreData() }
 
-        searchResultListAdapter.setGameItemClickListener {
-            ActivityUtil.turnToActivity(GameDetailActivity::class.java, it.gameDetailUrl)
-        }
+        searchResultListAdapter.setGameItemClickListener { ActivityUtil.turnToActivity(GameDetailActivity::class.java, it.gameDetailUrl) }
 
-        hotGameListAdapter.setGameItemClickListener {
-            ActivityUtil.turnToActivity(GameDetailActivity::class.java, it.gameDetailUrl)
-        }
+        hotGameListAdapter.setGameItemClickListener { ActivityUtil.turnToActivity(GameDetailActivity::class.java, it.gameDetailUrl) }
 
         discountGameListAdapter.setOnDiscountGameItemClickListener {
             DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.title_sure_to_open_psn_store),
@@ -139,7 +131,7 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
 
     private fun loadMoreData()
     {
-        if (group_game.visibility == View.VISIBLE)
+        if (group_game.isVisible)
         {
             presenter.loadMoreDiscountGameList()
         }
@@ -151,19 +143,10 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
 
     private fun showSearchView(show: Boolean)
     {
-        if (show)
-        {
-            group_game.visibility = View.GONE
-            rv_search_result_list.visibility = View.VISIBLE
-            refresh_layout.setEnableRefresh(false)
-        }
-        else
-        {
-            group_game.visibility = View.VISIBLE
-            rv_search_result_list.visibility = View.GONE
-            refresh_layout.setEnableRefresh(true)
-            refresh_layout.setNoMoreData(vp_game.currentItem == 0 || hasNoMoreDiscountGame)
-        }
+        group_game.isVisible = !show
+        refresh_layout.setEnableRefresh(!show)
+        rv_search_result_list.isVisible = show
+        if (!show) refresh_layout.setNoMoreData(vp_game.currentItem == 0 || hasNoMoreDiscountGame)
     }
 
     override fun onHotGameListRefresh(hotGameList: MutableList<GameInfoItem>)

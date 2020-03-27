@@ -1,6 +1,5 @@
 package demo.lizl.com.psnine.mvp.activity
 
-import android.text.TextUtils
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -36,19 +35,17 @@ class PostDetailActivity : BaseActivity<EmptyPresenter>(), EmptyContract.View
 
         wv_view.webViewClient = object : WebViewClient()
         {
-            override fun onPageFinished(view: WebView?, url: String?)
+            override fun onPageFinished(view: WebView, url: String)
             {
                 Log.d(TAG, "onPageFinished:$url")
 
-                if (url != null && url.contains("/topic/"))
+                if (url.contains("/topic/"))
                 {
-                    val funStr1 =
-                            "javascript:function getClass(parent,sClass) { var aEle=parent.getElementsByTagName('div'); var aResult=[]; var i=0; for(i<0;i<aEle.length;i++) { if(aEle[i].className==sClass) { aResult.push(aEle[i]); } }; return aResult; } ";
+                    val funStr1 = "javascript:function getClass(parent,sClass) { var aEle=parent.getElementsByTagName('div'); var aResult=[]; var i=0; for(i<0;i<aEle.length;i++) { if(aEle[i].className==sClass) { aResult.push(aEle[i]); } }; return aResult; } ";
 
                     wv_view.loadUrl(funStr1)
 
-                    val funStr2 =
-                            "javascript:function hideOther() {getClass(document,'box pd10 mt20')[0].style.display='none';getClass(document,'header')[0].style.display='none'}"
+                    val funStr2 = "javascript:function hideOther() {getClass(document,'box pd10 mt20')[0].style.display='none';getClass(document,'header')[0].style.display='none'}"
 
                     wv_view.loadUrl(funStr2)
 
@@ -57,16 +54,13 @@ class PostDetailActivity : BaseActivity<EmptyPresenter>(), EmptyContract.View
                 super.onPageFinished(view, url)
             }
 
-            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean
             {
                 Log.d(TAG, "shouldOverrideUrlLoading:$url")
 
-                if (TextUtils.isEmpty(url))
-                {
-                    return true
-                }
+                if (url.isBlank()) return true
 
-                if (url!!.contains(AppConfig.BASE_REQUEST_URL + "psngame/"))
+                if (url.contains(AppConfig.BASE_REQUEST_URL + "psngame/"))
                 {
                     ActivityUtil.turnToActivity(GameDetailActivity::class.java, url)
                     return true

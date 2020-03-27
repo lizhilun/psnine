@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import demo.lizl.com.psnine.mvp.base.BasePresenter
+import demo.lizl.com.psnine.util.DialogUtil
 
 abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity()
 {
@@ -56,6 +57,8 @@ abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity()
     {
         Log.d(TAG, "onStop")
         super.onStop()
+
+        DialogUtil.dismissDialog()
     }
 
     override fun onDestroy()

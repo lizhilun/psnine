@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import demo.lizl.com.psnine.mvp.base.BasePresenter
+import demo.lizl.com.psnine.util.DialogUtil
 
 abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
 {
@@ -62,6 +63,8 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
     {
         Log.d(TAG, "onStop")
         super.onStop()
+
+        DialogUtil.dismissDialog()
     }
 
     override fun onDestroy()
