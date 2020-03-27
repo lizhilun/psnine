@@ -1,4 +1,4 @@
-package demo.lizl.com.psnine.mvp.presenter
+package demo.lizl.com.psnine.util
 
 import androidx.core.content.ContextCompat
 import demo.lizl.com.psnine.R

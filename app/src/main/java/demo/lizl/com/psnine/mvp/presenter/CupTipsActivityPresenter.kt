@@ -19,7 +19,7 @@ class CupTipsActivityPresenter(private var view: CupTipsActivityContract.View?) 
 
     override fun refreshTipsList()
     {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.IO) {
 
             val doc = Jsoup.connect(requestUrl).get()
 

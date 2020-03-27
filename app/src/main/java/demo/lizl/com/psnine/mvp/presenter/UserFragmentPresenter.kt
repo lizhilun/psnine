@@ -5,6 +5,7 @@ import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.lifecycle.MutableLiveData
 import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.bean.GameInfoItem
 import demo.lizl.com.psnine.bean.UserGameInfoItem
@@ -63,9 +64,11 @@ class UserFragmentPresenter(private var view: UserFragmentContract.View?) : User
         }
     }
 
+    private val gamesLiveData = MutableLiveData<MutableList<GameInfoItem>>()
+
     override fun refreshUserPage()
     {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.IO) {
             val requestUrl = AppConfig.BASE_REQUEST_URL + "psnid/" + curPsnId
             val doc = Jsoup.connect(requestUrl).get()
 
@@ -94,15 +97,13 @@ class UserFragmentPresenter(private var view: UserFragmentContract.View?) : User
             val userGameInfoItem = UserGameInfoItem(totalGameCount, perfectGameCount, pitGameCount, gameCompletionRate, totalCupCount)
             GlobalScope.launch(Dispatchers.Main) { view?.onUserGameInfoRefresh(userGameInfoItem) }
 
-            refreshGameList(
-                    sortGamePlatform, SORT_GAME_BY_TIME
-            )
+            refreshGameList(sortGamePlatform, SORT_GAME_BY_TIME)
         }
     }
 
     override fun refreshGameList(gamePlatform: Int, sortCondition: Int)
     {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.IO) {
 
             curGamePage = 1
             sortGamePlatform = gamePlatform
@@ -124,13 +125,12 @@ class UserFragmentPresenter(private var view: UserFragmentContract.View?) : User
 
             gameItemCount = gameCountInfo.substring(1, gameCountInfo.length - 1).toInt()
             GlobalScope.launch(Dispatchers.Main) { view?.onUserGameListUpdate(gameList, gameItemCount) }
-
         }
     }
 
     override fun loadMoreGameList()
     {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.IO) {
 
             curGamePage++
 
@@ -229,14 +229,11 @@ class UserFragmentPresenter(private var view: UserFragmentContract.View?) : User
                 }
 
                 // 获取页面内容
-                view!!.loadUrl(
-                        "javascript:window.java_obj.showSource(" + "document.getElementsByTagName('html')[0].innerHTML);"
-                );
+                view!!.loadUrl("javascript:window.java_obj.showSource(" + "document.getElementsByTagName('html')[0].innerHTML);");
 
                 // 获取解析<meta name="share-description" content="获取到的值">
                 view.loadUrl(
-                        "javascript:window.java_obj.showDescription(" + "document.querySelector('meta[name=\"share-description\"]').getAttribute('content')" + ");"
-                );
+                        "javascript:window.java_obj.showDescription(" + "document.querySelector('meta[name=\"share-description\"]').getAttribute('content')" + ");");
 
                 super.onPageFinished(view, url)
             }
@@ -257,7 +254,8 @@ class UserFragmentPresenter(private var view: UserFragmentContract.View?) : User
 
     inner class InJavaScriptLocalObj
     {
-        @JavascriptInterface fun showSource(html: String)
+        @JavascriptInterface
+        fun showSource(html: String)
         {
             GlobalScope.launch {
 
@@ -272,7 +270,8 @@ class UserFragmentPresenter(private var view: UserFragmentContract.View?) : User
             }
         }
 
-        @JavascriptInterface fun showDescription(str: String)
+        @JavascriptInterface
+        fun showDescription(str: String)
         {
 
         }

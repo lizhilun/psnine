@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.bean.DiscountGameItem
-import demo.lizl.com.psnine.mvp.presenter.GameUtil
+import demo.lizl.com.psnine.util.GameUtil
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.item_discount_game.view.*
 

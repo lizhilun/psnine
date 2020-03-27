@@ -24,7 +24,7 @@ class GameFragmentPresenter(private var view: GameFragmentContract.View?) : Game
 
     override fun refreshHitGameList()
     {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.IO) {
             try
             {
                 val hotGameList = mutableListOf<GameInfoItem>()

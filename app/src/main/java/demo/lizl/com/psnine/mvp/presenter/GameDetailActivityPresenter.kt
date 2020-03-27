@@ -32,7 +32,7 @@ class GameDetailActivityPresenter(private var view: GameDetailActivityContract.V
     override fun refreshGameDetailInfo()
     {
 
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.IO) {
 
             val doc = Jsoup.connect(requestUrl).get()
 

@@ -17,7 +17,7 @@ class HomeFragmentPresenter(private var view: HomeFragmentContract.View?) : Home
 
     override fun refreshPostList()
     {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.IO) {
             curPostPage = 1
 
             val postList = getPostItemListFromPostPage(curPostPage)
@@ -30,7 +30,7 @@ class HomeFragmentPresenter(private var view: HomeFragmentContract.View?) : Home
 
     override fun LoadMorePost()
     {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.IO) {
             curPostPage++
 
             val postList = getPostItemListFromPostPage(curPostPage)
