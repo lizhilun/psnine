@@ -7,9 +7,9 @@ import android.webkit.WebViewClient
 import com.jeremyliao.liveeventbus.LiveEventBus
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.config.AppConfig
+import demo.lizl.com.psnine.constant.EventConstant
 import demo.lizl.com.psnine.mvp.contract.EmptyContract
 import demo.lizl.com.psnine.mvp.presenter.EmptyPresenter
-import demo.lizl.com.psnine.util.EventConstant
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity<EmptyPresenter>(), EmptyContract.View

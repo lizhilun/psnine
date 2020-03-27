@@ -6,26 +6,23 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.config.AppConfig
+import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.mvp.contract.EmptyContract
 import demo.lizl.com.psnine.mvp.presenter.EmptyPresenter
-import demo.lizl.com.psnine.util.Constant
+import demo.lizl.com.psnine.util.ActivityUtil
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.activity_post_detail.*
 
 class PostDetailActivity : BaseActivity<EmptyPresenter>(), EmptyContract.View
 {
 
-    override fun getLayoutResId(): Int
-    {
-        return R.layout.activity_post_detail
-    }
+    override fun getLayoutResId() = R.layout.activity_post_detail
 
     override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {
-        val bundle = intent.extras!!
-        val postUrl = bundle.getString(Constant.BUNDLE_DATA_STRING, "")
+        val postUrl = intent?.getStringExtra(AppConstant.BUNDLE_DATA_STRING).orEmpty()
 
         refresh_layout.setEnableLoadMore(false)
         refresh_layout.setRefreshHeader(UiUtil.getDefaultRefreshHeader(this))
@@ -45,11 +42,13 @@ class PostDetailActivity : BaseActivity<EmptyPresenter>(), EmptyContract.View
 
                 if (url != null && url.contains("/topic/"))
                 {
-                    val funStr1 = "javascript:function getClass(parent,sClass) { var aEle=parent.getElementsByTagName('div'); var aResult=[]; var i=0; for(i<0;i<aEle.length;i++) { if(aEle[i].className==sClass) { aResult.push(aEle[i]); } }; return aResult; } ";
+                    val funStr1 =
+                            "javascript:function getClass(parent,sClass) { var aEle=parent.getElementsByTagName('div'); var aResult=[]; var i=0; for(i<0;i<aEle.length;i++) { if(aEle[i].className==sClass) { aResult.push(aEle[i]); } }; return aResult; } ";
 
                     wv_view.loadUrl(funStr1)
 
-                    val funStr2 = "javascript:function hideOther() {getClass(document,'box pd10 mt20')[0].style.display='none';getClass(document,'header')[0].style.display='none'}"
+                    val funStr2 =
+                            "javascript:function hideOther() {getClass(document,'box pd10 mt20')[0].style.display='none';getClass(document,'header')[0].style.display='none'}"
 
                     wv_view.loadUrl(funStr2)
 
@@ -69,13 +68,13 @@ class PostDetailActivity : BaseActivity<EmptyPresenter>(), EmptyContract.View
 
                 if (url!!.contains(AppConfig.BASE_REQUEST_URL + "psngame/"))
                 {
-                    turnToGameDetailActivity(url)
+                    ActivityUtil.turnToActivity(GameDetailActivity::class.java, url)
                     return true
                 }
                 else if (url.contains(AppConfig.BASE_REQUEST_URL + "psnid/"))
                 {
                     val psnId = url.substring(url.lastIndexOf("/") + 1)
-                    turnToUserDetailActivity(psnId)
+                    ActivityUtil.turnToActivity(UserDetailActivity::class.java, psnId)
                     return true
                 }
 

@@ -13,7 +13,7 @@ class GameDetailActivityContract
 
         fun onUserGameCupInfoRefresh(gameProgress: String, firstCupTime: String, lastCupTime: String, totalTime: String)
 
-        fun onGameCupInfoRefresh(gameCupViewList: List<GameCupListView>)
+        fun onGameCupInfoRefresh(gameCupViewList: MutableList<GameCupListView>)
     }
 
     interface Presenter : BasePresenter<View>

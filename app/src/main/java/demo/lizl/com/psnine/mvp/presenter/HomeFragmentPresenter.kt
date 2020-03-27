@@ -41,7 +41,7 @@ class HomeFragmentPresenter(private var view: HomeFragmentContract.View?) : Home
         }
     }
 
-    private fun getPostItemListFromPostPage(postPage: Int): List<PostItem>
+    private fun getPostItemListFromPostPage(postPage: Int): MutableList<PostItem>
     {
         val postList = mutableListOf<PostItem>()
 

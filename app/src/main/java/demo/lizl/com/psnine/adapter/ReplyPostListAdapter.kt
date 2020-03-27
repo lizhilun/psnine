@@ -9,8 +9,7 @@ import demo.lizl.com.psnine.bean.ReplyPostItem
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.item_reply_post.view.*
 
-class ReplyPostListAdapter(postList: List<ReplyPostItem>) :
-    BaseQuickAdapter<ReplyPostItem, ReplyPostListAdapter.ViewHolder>(R.layout.item_reply_post, postList.toMutableList())
+class ReplyPostListAdapter() : BaseQuickAdapter<ReplyPostItem, ReplyPostListAdapter.ViewHolder>(R.layout.item_reply_post)
 {
 
     override fun convert(helper: ViewHolder, item: ReplyPostItem)

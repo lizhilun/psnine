@@ -158,7 +158,7 @@ class UserFragmentPresenter(private var view: UserFragmentContract.View?) : User
         webView.loadUrl(requestUrl)
     }
 
-    private fun getGameListFromGameElementList(gameElementList: Elements): List<GameInfoItem>
+    private fun getGameListFromGameElementList(gameElementList: Elements): MutableList<GameInfoItem>
     {
         val gameList = mutableListOf<GameInfoItem>()
         for (gameElement in gameElementList)

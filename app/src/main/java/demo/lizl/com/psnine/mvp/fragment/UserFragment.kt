@@ -5,17 +5,24 @@ import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.blankj.utilcode.util.ToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.adapter.GameListAdapter
 import demo.lizl.com.psnine.bean.GameInfoItem
 import demo.lizl.com.psnine.bean.UserGameInfoItem
 import demo.lizl.com.psnine.bean.UserInfoItem
-import demo.lizl.com.psnine.mvp.activity.BaseActivity
+import demo.lizl.com.psnine.constant.AppConstant
+import demo.lizl.com.psnine.constant.EventConstant
+import demo.lizl.com.psnine.mvp.activity.GameDetailActivity
+import demo.lizl.com.psnine.mvp.activity.LoginActivity
 import demo.lizl.com.psnine.mvp.activity.UserDetailActivity
 import demo.lizl.com.psnine.mvp.contract.UserFragmentContract
 import demo.lizl.com.psnine.mvp.presenter.UserFragmentPresenter
-import demo.lizl.com.psnine.util.*
+import demo.lizl.com.psnine.util.ActivityUtil
+import demo.lizl.com.psnine.util.DialogUtil
+import demo.lizl.com.psnine.util.GlideUtil
+import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_user.*
 
 
@@ -33,7 +40,7 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
         val bundle = activity!!.intent.extras
         if (bundle != null)
         {
-            psnId = bundle.getString(Constant.BUNDLE_DATA_STRING, "")
+            psnId = bundle.getString(AppConstant.BUNDLE_DATA_STRING, "")
         }
 
         val emptyPsnId = TextUtils.isEmpty(psnId)
@@ -81,7 +88,7 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
         }
 
         gameListAdapter.setGameItemClickListener {
-            (activity as BaseActivity<*>).turnToGameDetailActivity(it.gameDetailUrl)
+            ActivityUtil.turnToActivity(GameDetailActivity::class.java, it.gameDetailUrl)
         }
 
         LiveEventBus.get(EventConstant.EVENT_LOGIN_RESULT, Boolean::class.java).observe(this, Observer {
@@ -111,17 +118,17 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
         tv_cup_total_number.text = userGameInfoItem.cupCount.toString()
     }
 
-    override fun onUserGameListUpdate(gameList: List<GameInfoItem>, gameTotalCount: Int)
+    override fun onUserGameListUpdate(gameList: MutableList<GameInfoItem>, gameTotalCount: Int)
     {
         refresh_layout.finishRefresh()
 
-        gameListAdapter.setNewData(gameList.toMutableList())
+        gameListAdapter.setNewData(gameList)
 
         refresh_layout.setEnableLoadMore(true)
         refresh_layout.setNoMoreData(gameListAdapter.data.size >= gameTotalCount)
     }
 
-    override fun onMoreGameLoadFinish(gameList: List<GameInfoItem>, gameTotalCount: Int)
+    override fun onMoreGameLoadFinish(gameList: MutableList<GameInfoItem>, gameTotalCount: Int)
     {
         refresh_layout.finishLoadMore()
 
@@ -133,7 +140,7 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
     override fun onInfoUpdateFinish()
     {
         DialogUtil.dismissDialog()
-        ToastUtil.showToast(R.string.notify_success_to_update_info)
+        ToastUtils.showShort(R.string.notify_success_to_update_info)
         presenter.refreshUserPage()
     }
 
@@ -142,7 +149,7 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
         DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.notify_failed_to_update_info), reason) {
             if (reason == getString(R.string.notify_need_login_first))
             {
-                (activity as BaseActivity<*>).turnToLoginActivity()
+                ActivityUtil.turnToActivity(LoginActivity::class.java)
             }
         }
     }

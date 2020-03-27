@@ -10,7 +10,7 @@ class CupTipsActivityContract
     {
         fun onCupInfoRefresh(cupName: String, cupDescription: String, cupCover: String)
 
-        fun onCupTipPostListRefresh(postList: List<ReplyPostItem>)
+        fun onCupTipPostListRefresh(postList: MutableList<ReplyPostItem>)
     }
 
     interface Presenter : BasePresenter<View>

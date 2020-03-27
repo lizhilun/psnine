@@ -132,7 +132,7 @@ class GameFragmentPresenter(private var view: GameFragmentContract.View?) : Game
         }
     }
 
-    private fun getDiscountGameList(pageIndex: Int): List<DiscountGameItem>
+    private fun getDiscountGameList(pageIndex: Int): MutableList<DiscountGameItem>
     {
         val discountGameList = mutableListOf<DiscountGameItem>()
 
@@ -189,7 +189,7 @@ class GameFragmentPresenter(private var view: GameFragmentContract.View?) : Game
         return discountGameList
     }
 
-    private fun getSearchResult(searchStr: String, resultPage: Int): List<GameInfoItem>
+    private fun getSearchResult(searchStr: String, resultPage: Int): MutableList<GameInfoItem>
     {
         val gameList = mutableListOf<GameInfoItem>()
 

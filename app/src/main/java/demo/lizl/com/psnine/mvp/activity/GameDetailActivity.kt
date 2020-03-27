@@ -5,27 +5,23 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.bean.GameInfoItem
+import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.custom.view.GameCupListView
 import demo.lizl.com.psnine.mvp.contract.GameDetailActivityContract
 import demo.lizl.com.psnine.mvp.presenter.GameDetailActivityPresenter
-import demo.lizl.com.psnine.util.Constant
 import demo.lizl.com.psnine.util.GlideUtil
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.activity_game_detail.*
 
 class GameDetailActivity : BaseActivity<GameDetailActivityPresenter>(), GameDetailActivityContract.View
 {
-    override fun getLayoutResId(): Int
-    {
-        return R.layout.activity_game_detail
-    }
+    override fun getLayoutResId() = R.layout.activity_game_detail
 
     override fun initPresenter() = GameDetailActivityPresenter(this)
 
     override fun initView()
     {
-        val bundle = intent.extras!!
-        val gameDetailUrl = bundle.getString(Constant.BUNDLE_DATA_STRING, "")
+        val gameDetailUrl = intent?.getStringExtra(AppConstant.BUNDLE_DATA_STRING).orEmpty()
 
         presenter.setGameDetailUrl(gameDetailUrl)
         presenter.refreshGameDetailInfo()
@@ -47,21 +43,19 @@ class GameDetailActivity : BaseActivity<GameDetailActivityPresenter>(), GameDeta
         tv_game_cup_info.text = gameInfoItem.gameCupInfo
     }
 
-    override fun onGameCupInfoRefresh(gameCupViewList: List<GameCupListView>)
+    override fun onGameCupInfoRefresh(gameCupViewList: MutableList<GameCupListView>)
     {
         ll_game_cup_view.removeAllViews()
 
-        for (gameCupView in gameCupViewList)
-        {
+        gameCupViewList.forEach {
             val dividerView = LinearLayout(this)
-            val layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
             layoutParams.height = resources.getDimensionPixelSize(R.dimen.global_divider_view_height)
             dividerView.layoutParams = layoutParams
             dividerView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorDivideView))
             ll_game_cup_view.addView(dividerView)
-            gameCupView.bindGameCupInfo()
-            ll_game_cup_view.addView(gameCupView)
+            it.bindGameCupInfo()
+            ll_game_cup_view.addView(it)
         }
     }
 

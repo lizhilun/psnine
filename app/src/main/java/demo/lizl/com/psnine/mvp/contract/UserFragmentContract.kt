@@ -14,9 +14,9 @@ class UserFragmentContract
 
         fun onUserGameInfoRefresh(userGameInfoItem: UserGameInfoItem)
 
-        fun onUserGameListUpdate(gameList: List<GameInfoItem>, gameTotalCount : Int)
+        fun onUserGameListUpdate(gameList: MutableList<GameInfoItem>, gameTotalCount : Int)
 
-        fun onMoreGameLoadFinish(gameList: List<GameInfoItem>, gameTotalCount : Int)
+        fun onMoreGameLoadFinish(gameList: MutableList<GameInfoItem>, gameTotalCount : Int)
 
         fun onInfoUpdateFinish()
 

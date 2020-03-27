@@ -4,9 +4,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.adapter.ReplyPostListAdapter
 import demo.lizl.com.psnine.bean.ReplyPostItem
+import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.mvp.contract.CupTipsActivityContract
 import demo.lizl.com.psnine.mvp.presenter.CupTipsActivityPresenter
-import demo.lizl.com.psnine.util.Constant
 import demo.lizl.com.psnine.util.GlideUtil
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.activity_cup_tips.*
@@ -14,17 +14,15 @@ import kotlinx.android.synthetic.main.activity_cup_tips.*
 class CupTipsActivity : BaseActivity<CupTipsActivityPresenter>(), CupTipsActivityContract.View
 {
 
-    override fun getLayoutResId(): Int
-    {
-        return R.layout.activity_cup_tips
-    }
+    private lateinit var replayPostListAdapter: ReplyPostListAdapter
+
+    override fun getLayoutResId() = R.layout.activity_cup_tips
 
     override fun initPresenter() = CupTipsActivityPresenter(this)
 
     override fun initView()
     {
-        val bundle = intent.extras!!
-        val cupTipsUrl = bundle.getString(Constant.BUNDLE_DATA_STRING, "")
+        val cupTipsUrl = intent?.getStringExtra(AppConstant.BUNDLE_DATA_STRING).orEmpty()
 
         presenter.setCupTipsUrl(cupTipsUrl)
         presenter.refreshTipsList()
@@ -33,6 +31,10 @@ class CupTipsActivity : BaseActivity<CupTipsActivityPresenter>(), CupTipsActivit
         refresh_layout.setRefreshHeader(UiUtil.getDefaultRefreshHeader(this))
         refresh_layout.setEnableRefresh(true)
         refresh_layout.setOnRefreshListener { presenter.refreshTipsList() }
+
+        replayPostListAdapter = ReplyPostListAdapter()
+        rv_tips_list.layoutManager = LinearLayoutManager(this)
+        rv_tips_list.adapter = replayPostListAdapter
 
         ic_back.setOnClickListener { finish() }
     }
@@ -44,10 +46,8 @@ class CupTipsActivity : BaseActivity<CupTipsActivityPresenter>(), CupTipsActivit
         GlideUtil.displayImage(this, cupCover, iv_cup_cover)
     }
 
-    override fun onCupTipPostListRefresh(postList: List<ReplyPostItem>)
+    override fun onCupTipPostListRefresh(postList: MutableList<ReplyPostItem>)
     {
-        val replayPostListAdapter = ReplyPostListAdapter(postList)
-        rv_tips_list.layoutManager = LinearLayoutManager(this)
-        rv_tips_list.adapter = replayPostListAdapter
+        replayPostListAdapter.setNewData(postList)
     }
 }

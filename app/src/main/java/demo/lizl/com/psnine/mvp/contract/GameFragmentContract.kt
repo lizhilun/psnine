@@ -9,15 +9,15 @@ class GameFragmentContract
 {
     interface View : BaseView
     {
-        fun onHotGameListRefresh(hotGameList: List<GameInfoItem>)
+        fun onHotGameListRefresh(hotGameList: MutableList<GameInfoItem>)
 
-        fun onDiscountGameListRefresh(discountGameList: List<DiscountGameItem>, totalCount: Int)
+        fun onDiscountGameListRefresh(discountGameList: MutableList<DiscountGameItem>, totalCount: Int)
 
-        fun onDiscountGameListLoadMore(discountGameList: List<DiscountGameItem>, totalCount: Int)
+        fun onDiscountGameListLoadMore(discountGameList: MutableList<DiscountGameItem>, totalCount: Int)
 
-        fun onGameSearchRefresh(gameList: List<GameInfoItem>, resultTotalCount: Int)
+        fun onGameSearchRefresh(gameList: MutableList<GameInfoItem>, resultTotalCount: Int)
 
-        fun onGameSearchLoadMore(gameList: List<GameInfoItem>, resultTotalCount: Int)
+        fun onGameSearchLoadMore(gameList: MutableList<GameInfoItem>, resultTotalCount: Int)
     }
 
     interface Presenter : BasePresenter<View>

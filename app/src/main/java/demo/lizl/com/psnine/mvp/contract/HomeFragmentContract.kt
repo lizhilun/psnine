@@ -8,9 +8,9 @@ class HomeFragmentContract
 {
     interface View : BaseView
     {
-        fun onPostListRefresh(postList: List<PostItem>)
+        fun onPostListRefresh(postList: MutableList<PostItem>)
 
-        fun onPostListLoadMore(postList: List<PostItem>)
+        fun onPostListLoadMore(postList: MutableList<PostItem>)
     }
 
     interface Presenter : BasePresenter<View>

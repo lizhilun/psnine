@@ -6,13 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 
 class FragmentPageAdapter(private val mList: List<Fragment>, fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
 {
-    override fun getItem(position: Int): Fragment
-    {
-        return mList[position]
-    }
+    override fun getItem(position: Int) = mList[position]
 
-    override fun getCount(): Int
-    {
-        return mList.size
-    }
+    override fun getCount() = mList.size
 }

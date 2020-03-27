@@ -1,11 +1,9 @@
 package demo.lizl.com.psnine.mvp.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import demo.lizl.com.psnine.mvp.base.BasePresenter
-import demo.lizl.com.psnine.util.Constant
 
 abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity()
 {
@@ -15,7 +13,7 @@ abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity()
 
     abstract fun getLayoutResId(): Int
 
-    abstract fun initPresenter() : T
+    abstract fun initPresenter(): T
 
     abstract fun initView()
 
@@ -28,38 +26,6 @@ abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity()
         presenter = initPresenter()
 
         initView()
-    }
-
-    fun turnToGameDetailActivity(gameDetailUrl: String)
-    {
-        val intent = Intent(this, GameDetailActivity::class.java)
-        val bundle = Bundle()
-        bundle.putString(Constant.BUNDLE_DATA_STRING, gameDetailUrl)
-        intent.putExtras(bundle)
-        startActivity(intent)
-    }
-
-    fun turnToPostDetailActivity(postDetailUrl: String)
-    {
-        val intent = Intent(this, PostDetailActivity::class.java)
-        val bundle = Bundle()
-        bundle.putString(Constant.BUNDLE_DATA_STRING, postDetailUrl)
-        intent.putExtras(bundle)
-        startActivity(intent)
-    }
-
-    fun turnToUserDetailActivity(psnId: String)
-    {
-        val intent = Intent(this, UserDetailActivity::class.java)
-        val bundle = Bundle()
-        bundle.putString(Constant.BUNDLE_DATA_STRING, psnId)
-        intent.putExtras(bundle)
-        startActivity(intent)
-    }
-
-    fun turnToLoginActivity()
-    {
-        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     override fun onResume()

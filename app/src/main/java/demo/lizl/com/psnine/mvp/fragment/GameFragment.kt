@@ -13,9 +13,10 @@ import demo.lizl.com.psnine.adapter.ViewPagerAdapter
 import demo.lizl.com.psnine.bean.DiscountGameItem
 import demo.lizl.com.psnine.bean.GameInfoItem
 import demo.lizl.com.psnine.custom.function.addOnPageChangeListener
-import demo.lizl.com.psnine.mvp.activity.BaseActivity
+import demo.lizl.com.psnine.mvp.activity.GameDetailActivity
 import demo.lizl.com.psnine.mvp.contract.GameFragmentContract
 import demo.lizl.com.psnine.mvp.presenter.GameFragmentPresenter
+import demo.lizl.com.psnine.util.ActivityUtil
 import demo.lizl.com.psnine.util.DialogUtil
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_game.*
@@ -100,11 +101,11 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
         refresh_layout.setOnLoadMoreListener { loadMoreData() }
 
         searchResultListAdapter.setGameItemClickListener {
-            (activity as BaseActivity<*>).turnToGameDetailActivity(it.gameDetailUrl)
+            ActivityUtil.turnToActivity(GameDetailActivity::class.java, it.gameDetailUrl)
         }
 
         hotGameListAdapter.setGameItemClickListener {
-            (activity as BaseActivity<*>).turnToGameDetailActivity(it.gameDetailUrl)
+            ActivityUtil.turnToActivity(GameDetailActivity::class.java, it.gameDetailUrl)
         }
 
         discountGameListAdapter.setOnDiscountGameItemClickListener {
@@ -165,25 +166,25 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
         }
     }
 
-    override fun onHotGameListRefresh(hotGameList: List<GameInfoItem>)
+    override fun onHotGameListRefresh(hotGameList: MutableList<GameInfoItem>)
     {
         refresh_layout.finishRefresh()
 
-        hotGameListAdapter.setNewData(hotGameList.toMutableList())
+        hotGameListAdapter.setNewData(hotGameList)
     }
 
-    override fun onDiscountGameListRefresh(discountGameList: List<DiscountGameItem>, totalCount: Int)
+    override fun onDiscountGameListRefresh(discountGameList: MutableList<DiscountGameItem>, totalCount: Int)
     {
         refresh_layout.finishRefresh()
 
-        discountGameListAdapter.setNewData(discountGameList.toMutableList())
+        discountGameListAdapter.setNewData(discountGameList)
 
         refresh_layout.setEnableLoadMore(true)
         hasNoMoreDiscountGame = discountGameListAdapter.data.size >= totalCount
         refresh_layout.setNoMoreData(hasNoMoreDiscountGame)
     }
 
-    override fun onDiscountGameListLoadMore(discountGameList: List<DiscountGameItem>, totalCount: Int)
+    override fun onDiscountGameListLoadMore(discountGameList: MutableList<DiscountGameItem>, totalCount: Int)
     {
         refresh_layout.finishLoadMore()
 
@@ -192,16 +193,16 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
         refresh_layout.setNoMoreData(hasNoMoreDiscountGame)
     }
 
-    override fun onGameSearchRefresh(gameList: List<GameInfoItem>, resultTotalCount: Int)
+    override fun onGameSearchRefresh(gameList: MutableList<GameInfoItem>, resultTotalCount: Int)
     {
-        searchResultListAdapter.setNewData(gameList.toMutableList())
+        searchResultListAdapter.setNewData(gameList)
 
         rv_search_result_list.scrollToPosition(0)
         refresh_layout.setEnableLoadMore(true)
         refresh_layout.setNoMoreData(searchResultListAdapter.data.size >= resultTotalCount)
     }
 
-    override fun onGameSearchLoadMore(gameList: List<GameInfoItem>, resultTotalCount: Int)
+    override fun onGameSearchLoadMore(gameList: MutableList<GameInfoItem>, resultTotalCount: Int)
     {
         refresh_layout.finishLoadMore()
 

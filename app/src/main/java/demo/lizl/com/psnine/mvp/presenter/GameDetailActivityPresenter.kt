@@ -5,9 +5,9 @@ import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.bean.GameCupItem
 import demo.lizl.com.psnine.bean.GameInfoItem
 import demo.lizl.com.psnine.config.AppConfig
+import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.custom.view.GameCupListView
 import demo.lizl.com.psnine.mvp.contract.GameDetailActivityContract
-import demo.lizl.com.psnine.util.Constant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -96,21 +96,12 @@ class GameDetailActivityPresenter(private var view: GameDetailActivityContract.V
                     val cupInfoElement = gameCupListElement[i].getElementsByTag("p")[0]
                     val cupName = cupInfoElement.select("a").text()
                     val cupTipsUrl = cupInfoElement.select("a").attr("href")
-                    val cupType = if (cupInfoElement.getElementsByClass("text-platinum").size > 0)
+                    val cupType = when
                     {
-                        Constant.GAME_CUP_TYPE_PLATINUM
-                    }
-                    else if (cupInfoElement.getElementsByClass("text-gold").size > 0)
-                    {
-                        Constant.GAME_CUP_TYPE_GOLD
-                    }
-                    else if (cupInfoElement.getElementsByClass("text-silver").size > 0)
-                    {
-                        Constant.GAME_CUP_TYPE_SILVER
-                    }
-                    else
-                    {
-                        Constant.GAME_CUP_TYPE_BRONZE
+                        cupInfoElement.getElementsByClass("text-platinum").size > 0 -> AppConstant.GAME_CUP_TYPE_PLATINUM
+                        cupInfoElement.getElementsByClass("text-gold").size > 0     -> AppConstant.GAME_CUP_TYPE_GOLD
+                        cupInfoElement.getElementsByClass("text-silver").size > 0   -> AppConstant.GAME_CUP_TYPE_SILVER
+                        else                                                        -> AppConstant.GAME_CUP_TYPE_BRONZE
                     }
 
                     var cupDes = gameCupListElement[i].getElementsByClass("text-gray").text()

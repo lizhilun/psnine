@@ -5,9 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.adapter.PostListAdapter
 import demo.lizl.com.psnine.bean.PostItem
-import demo.lizl.com.psnine.mvp.activity.BaseActivity
+import demo.lizl.com.psnine.mvp.activity.PostDetailActivity
 import demo.lizl.com.psnine.mvp.contract.HomeFragmentContract
 import demo.lizl.com.psnine.mvp.presenter.HomeFragmentPresenter
+import demo.lizl.com.psnine.util.ActivityUtil
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -32,23 +33,23 @@ class HomeFragment : BaseFragment<HomeFragmentPresenter>(), HomeFragmentContract
         rv_post_list.adapter = postListAdapter
 
         postListAdapter.setOnPostItemClickListener {
-            ((activity as BaseActivity<*>).turnToPostDetailActivity(it.postDetailUrl))
+            ActivityUtil.turnToActivity(PostDetailActivity::class.java, it.postDetailUrl)
         }
 
         postListAdapter.setOnPostAvatarClickListener {
-            ((activity as BaseActivity<*>).turnToUserDetailActivity(it.postWriterId))
+            ActivityUtil.turnToActivity(PostDetailActivity::class.java, it.postDetailUrl)
         }
 
         presenter.refreshPostList()
     }
 
-    override fun onPostListRefresh(postList: List<PostItem>)
+    override fun onPostListRefresh(postList: MutableList<PostItem>)
     {
         refresh_layout.finishRefresh()
-        postListAdapter.setNewData(postList.toMutableList())
+        postListAdapter.setNewData(postList)
     }
 
-    override fun onPostListLoadMore(postList: List<PostItem>)
+    override fun onPostListLoadMore(postList: MutableList<PostItem>)
     {
         refresh_layout.finishLoadMore()
         postListAdapter.addData(postList)

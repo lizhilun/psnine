@@ -1,8 +1,6 @@
 package demo.lizl.com.psnine.custom.view
 
 import android.content.Context
-import android.content.Intent
-import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -11,7 +9,7 @@ import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.adapter.GameCupListAdapter
 import demo.lizl.com.psnine.bean.GameCupItem
 import demo.lizl.com.psnine.mvp.activity.CupTipsActivity
-import demo.lizl.com.psnine.util.Constant
+import demo.lizl.com.psnine.util.ActivityUtil
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.layout_game_list_view.view.*
 
@@ -43,8 +41,8 @@ class GameCupListView(context: Context, attrs: AttributeSet?, defStyle: Int) : F
 
     fun bindGameCupInfo()
     {
-
         GlideUtil.displayImage(context, gameCupCoverUrl, iv_game_cup_cover)
+
         tv_game_cup_name.text = gameCupName
         tv_game_cup_count.text = gameCupCount
 
@@ -53,16 +51,7 @@ class GameCupListView(context: Context, attrs: AttributeSet?, defStyle: Int) : F
         rv_game_cup_list.adapter = gameCupListAdapter
 
         gameCupListAdapter.setOnCupItemClickListener {
-            turnToCupTipsActivity(it.cupTipsUrl)
+            ActivityUtil.turnToActivity(CupTipsActivity::class.java, it.cupTipsUrl)
         }
-    }
-
-    private fun turnToCupTipsActivity(cupTipsUrl: String)
-    {
-        val intent = Intent(context, CupTipsActivity::class.java)
-        val bundle = Bundle()
-        bundle.putString(Constant.BUNDLE_DATA_STRING, cupTipsUrl)
-        intent.putExtras(bundle)
-        context.startActivity(intent)
     }
 }
