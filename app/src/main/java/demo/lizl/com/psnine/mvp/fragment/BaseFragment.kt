@@ -1,13 +1,12 @@
 package demo.lizl.com.psnine.mvp.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import demo.lizl.com.psnine.mvp.BasePresenter
-import org.greenrobot.eventbus.EventBus
+import androidx.fragment.app.Fragment
+import demo.lizl.com.psnine.mvp.base.BasePresenter
 
 abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
 {
@@ -31,11 +30,6 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
         super.onActivityCreated(savedInstanceState)
 
         presenter = initPresenter()
-
-        if (isNeedRegisterEventBus() && !EventBus.getDefault().isRegistered(this))
-        {
-            EventBus.getDefault().register(this)
-        }
 
         initView()
     }
@@ -75,12 +69,10 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
         Log.d(TAG, "onDestroy")
         super.onDestroy()
 
-        if (isNeedRegisterEventBus()) EventBus.getDefault().unregister(this)
+        presenter.onDestroy()
     }
 
     abstract fun getLayoutResId(): Int
-
-    abstract fun isNeedRegisterEventBus(): Boolean
 
     abstract fun initPresenter(): T
 

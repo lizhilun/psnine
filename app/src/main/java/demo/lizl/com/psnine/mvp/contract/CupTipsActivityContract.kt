@@ -1,8 +1,8 @@
 package demo.lizl.com.psnine.mvp.contract
 
 import demo.lizl.com.psnine.bean.ReplyPostItem
-import demo.lizl.com.psnine.mvp.BasePresenter
-import demo.lizl.com.psnine.mvp.BaseView
+import demo.lizl.com.psnine.mvp.base.BasePresenter
+import demo.lizl.com.psnine.mvp.base.BaseView
 
 class CupTipsActivityContract
 {

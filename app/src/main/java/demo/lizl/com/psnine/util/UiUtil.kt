@@ -23,57 +23,10 @@ class UiUtil
             if (source.toString().contentEquals("\n"))
             {
                 return@InputFilter ""
-            }
-            else
+            } else
             {
                 return@InputFilter null
             }
-        }
-
-        /**
-         * 跳转到APP详情界面（用于获取权限）
-         */
-        fun goToAppDetailPage()
-        {
-            val intent = Intent()
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent.action = "android.settings.APPLICATION_DETAILS_SETTINGS"
-            intent.data = Uri.fromParts("package", UiApplication.instance.packageName, null)
-            UiApplication.instance.startActivity(intent)
-        }
-
-        /**
-         * 获取屏幕宽度
-         */
-        fun getScreenWidth(): Int
-        {
-            if (screenSize[0] == 0)
-            {
-                getScreenSize()
-            }
-            return screenSize[0]
-        }
-
-        /**
-         * 获取屏幕高度
-         */
-        fun getScreenHeight(): Int
-        {
-            if (screenSize[1] == 0)
-            {
-                getScreenSize()
-            }
-            return screenSize[1]
-        }
-
-        /**
-         * 获取屏幕尺寸
-         */
-        private fun getScreenSize()
-        {
-            val dm = UiApplication.instance.resources.displayMetrics
-            screenSize[0] = dm.widthPixels
-            screenSize[1] = dm.heightPixels
         }
 
         /**

@@ -1,51 +1,31 @@
 package demo.lizl.com.psnine.mvp.fragment
 
 import android.content.Context
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.jeremyliao.liveeventbus.LiveEventBus
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.adapter.GameListAdapter
 import demo.lizl.com.psnine.bean.GameInfoItem
 import demo.lizl.com.psnine.bean.UserGameInfoItem
 import demo.lizl.com.psnine.bean.UserInfoItem
-import demo.lizl.com.psnine.customview.dialog.BaseDialog
-import demo.lizl.com.psnine.customview.dialog.DialogGameSortCondition
-import demo.lizl.com.psnine.customview.dialog.DialogLoading
-import demo.lizl.com.psnine.customview.dialog.DialogOperationConfirm
-import demo.lizl.com.psnine.event.LoginEvent
 import demo.lizl.com.psnine.mvp.activity.BaseActivity
 import demo.lizl.com.psnine.mvp.activity.UserDetailActivity
 import demo.lizl.com.psnine.mvp.contract.UserFragmentContract
 import demo.lizl.com.psnine.mvp.presenter.UserFragmentPresenter
-import demo.lizl.com.psnine.util.Constant
-import demo.lizl.com.psnine.util.GlideUtil
-import demo.lizl.com.psnine.util.ToastUtil
-import demo.lizl.com.psnine.util.UiUtil
+import demo.lizl.com.psnine.util.*
 import kotlinx.android.synthetic.main.fragment_user.*
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 
 class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract.View
 {
     private lateinit var gameListAdapter: GameListAdapter
 
-    private var dialogLoading: DialogLoading? = null
+    override fun getLayoutResId() = R.layout.fragment_user
 
-    private var dialogOperationConfirm: DialogOperationConfirm? = null
-
-    private var dialogGameSortCondition: DialogGameSortCondition? = null
-
-    override fun getLayoutResId(): Int
-    {
-        return R.layout.fragment_user
-    }
-
-    override fun isNeedRegisterEventBus() = true
-
-    override fun initPresenter() = UserFragmentPresenter(activity as Context, this)
+    override fun initPresenter() = UserFragmentPresenter(this)
 
     override fun initView()
     {
@@ -77,13 +57,13 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
         fam_menu.setClosedOnTouchOutside(true)
 
         fab_synchronize_level.setOnClickListener {
-            showLoadingDialog()
+            DialogUtil.showLoadingDialog(activity as Context)
             presenter.updateUserLevel()
             fam_menu.close(true)
         }
 
         fab_synchronize_game.setOnClickListener {
-            showLoadingDialog()
+            DialogUtil.showLoadingDialog(activity as Context)
             presenter.updateUserGame()
             fam_menu.close(true)
         }
@@ -103,6 +83,10 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
         gameListAdapter.setGameItemClickListener {
             (activity as BaseActivity<*>).turnToGameDetailActivity(it.gameDetailUrl)
         }
+
+        LiveEventBus.get(EventConstant.EVENT_LOGIN_RESULT, Boolean::class.java).observe(this, Observer {
+            if (it) presenter.refreshUserPage()
+        })
 
         presenter.refreshUserPage()
     }
@@ -131,67 +115,41 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
     {
         refresh_layout.finishRefresh()
 
-        gameListAdapter.clear()
-        gameListAdapter.addAll(gameList)
+        gameListAdapter.setNewData(gameList.toMutableList())
 
         refresh_layout.setEnableLoadMore(true)
-        refresh_layout.setNoMoreData(gameListAdapter.getData().size >= gameTotalCount)
+        refresh_layout.setNoMoreData(gameListAdapter.data.size >= gameTotalCount)
     }
 
     override fun onMoreGameLoadFinish(gameList: List<GameInfoItem>, gameTotalCount: Int)
     {
         refresh_layout.finishLoadMore()
 
-        gameListAdapter.insertAll(gameList, gameListAdapter.getData().size)
+        gameListAdapter.addData(gameList)
 
-        refresh_layout.setNoMoreData(gameListAdapter.getData().size >= gameTotalCount)
+        refresh_layout.setNoMoreData(gameListAdapter.data.size >= gameTotalCount)
     }
 
     override fun onInfoUpdateFinish()
     {
-        dialogLoading?.dismiss()
+        DialogUtil.dismissDialog()
         ToastUtil.showToast(R.string.notify_success_to_update_info)
         presenter.refreshUserPage()
     }
 
     override fun onInfoUpdateFailed(reason: String)
     {
-        dialogLoading?.dismiss()
-
-        dialogOperationConfirm = DialogOperationConfirm(activity as Context, getString(R.string.notify_failed_to_update_info), reason)
-        dialogOperationConfirm?.show()
-
-        dialogOperationConfirm?.setOnConfirmButtonClickListener(object : BaseDialog.OnConfirmButtonClickListener
-        {
-            override fun onConfirmButtonClick()
+        DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.notify_failed_to_update_info), reason) {
+            if (reason == getString(R.string.notify_need_login_first))
             {
-                if (reason == getString(R.string.notify_need_login_first))
-                {
-                    (activity as BaseActivity<*>).turnToLoginActivity()
-                }
+                (activity as BaseActivity<*>).turnToLoginActivity()
             }
-        })
-    }
-
-    private fun showLoadingDialog()
-    {
-        if (dialogLoading == null)
-        {
-            dialogLoading = DialogLoading(activity as Context)
         }
-        dialogLoading?.show()
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN) fun onLoginResponse(loginEvent: LoginEvent)
-    {
-        Log.d(TAG, "onLoginResponse::" + loginEvent.result)
-        presenter.refreshUserPage()
     }
 
     private fun showGameSortConditionDialog()
     {
-        dialogGameSortCondition = DialogGameSortCondition(activity as Context)
-        dialogGameSortCondition?.setOnConfirmButtonClickListener { gamePlatform, sortCondition ->
+        DialogUtil.showGameSortConditionDialog(activity as Context) { gamePlatform, sortCondition ->
             val platform = when (gamePlatform)
             {
                 getString(R.string.all) -> UserFragmentPresenter.GAME_PLATFORM_ALL
@@ -210,6 +168,5 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
             }
             presenter.refreshGameList(platform, condition)
         }
-        dialogGameSortCondition?.show()
     }
 }

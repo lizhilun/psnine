@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 
-class GameFragmentPresenter(private val view: GameFragmentContract.View) : GameFragmentContract.Presenter
+class GameFragmentPresenter(private var view: GameFragmentContract.View?) : GameFragmentContract.Presenter
 {
     private val TAG = "GameFragmentPresenter"
 
@@ -44,7 +44,7 @@ class GameFragmentPresenter(private val view: GameFragmentContract.View) : GameF
 
                 if (hotGameElementList == null)
                 {
-                    GlobalScope.launch(Dispatchers.Main) { view.onHotGameListRefresh(hotGameList) }
+                    GlobalScope.launch(Dispatchers.Main) { view?.onHotGameListRefresh(hotGameList) }
                     return@launch
                 }
 
@@ -77,7 +77,7 @@ class GameFragmentPresenter(private val view: GameFragmentContract.View) : GameF
                     }
                 }
 
-                GlobalScope.launch(Dispatchers.Main) { view.onHotGameListRefresh(hotGameList) }
+                GlobalScope.launch(Dispatchers.Main) { view?.onHotGameListRefresh(hotGameList) }
             }
             catch (e: Exception)
             {
@@ -94,7 +94,7 @@ class GameFragmentPresenter(private val view: GameFragmentContract.View) : GameF
 
             val discountGameList = getDiscountGameList(curDiscountGamePage)
 
-            GlobalScope.launch(Dispatchers.Main) { view.onDiscountGameListRefresh(discountGameList, curDiscountGameCount) }
+            GlobalScope.launch(Dispatchers.Main) { view?.onDiscountGameListRefresh(discountGameList, curDiscountGameCount) }
         }
     }
 
@@ -106,7 +106,7 @@ class GameFragmentPresenter(private val view: GameFragmentContract.View) : GameF
 
             val discountGameList = getDiscountGameList(curDiscountGamePage)
 
-            GlobalScope.launch(Dispatchers.Main) { view.onDiscountGameListLoadMore(discountGameList, curDiscountGameCount) }
+            GlobalScope.launch(Dispatchers.Main) { view?.onDiscountGameListLoadMore(discountGameList, curDiscountGameCount) }
         }
 
     }
@@ -118,7 +118,7 @@ class GameFragmentPresenter(private val view: GameFragmentContract.View) : GameF
             curSearchPage = 1
             curSearchStr = searchStr
             val gameList = getSearchResult(searchStr, curSearchPage)
-            GlobalScope.launch(Dispatchers.Main) { view.onGameSearchRefresh(gameList, curSearchResultCount) }
+            GlobalScope.launch(Dispatchers.Main) { view?.onGameSearchRefresh(gameList, curSearchResultCount) }
         }
     }
 
@@ -128,7 +128,7 @@ class GameFragmentPresenter(private val view: GameFragmentContract.View) : GameF
 
             curSearchPage++
             val gameList = getSearchResult(curSearchStr, curSearchPage)
-            GlobalScope.launch(Dispatchers.Main) { view.onGameSearchLoadMore(gameList, curSearchResultCount) }
+            GlobalScope.launch(Dispatchers.Main) { view?.onGameSearchLoadMore(gameList, curSearchResultCount) }
         }
     }
 
@@ -233,5 +233,10 @@ class GameFragmentPresenter(private val view: GameFragmentContract.View) : GameF
             Log.e(TAG, "getSearchResult error:" + e.message)
         }
         return gameList
+    }
+
+    override fun onDestroy()
+    {
+        view = null
     }
 }

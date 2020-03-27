@@ -2,9 +2,9 @@ package demo.lizl.com.psnine.mvp.activity
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
-import demo.lizl.com.psnine.mvp.BasePresenter
+import androidx.appcompat.app.AppCompatActivity
+import demo.lizl.com.psnine.mvp.base.BasePresenter
 import demo.lizl.com.psnine.util.Constant
 
 abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity()
@@ -96,5 +96,7 @@ abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity()
     {
         Log.d(TAG, "onDestroy")
         super.onDestroy()
+
+        presenter.onDestroy()
     }
 }

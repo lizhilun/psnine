@@ -1,11 +1,11 @@
 package demo.lizl.com.psnine.mvp.presenter
 
-import android.content.Context
 import android.text.TextUtils
+import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.bean.GameCupItem
 import demo.lizl.com.psnine.bean.GameInfoItem
 import demo.lizl.com.psnine.config.AppConfig
-import demo.lizl.com.psnine.customview.GameCupListView
+import demo.lizl.com.psnine.custom.view.GameCupListView
 import demo.lizl.com.psnine.mvp.contract.GameDetailActivityContract
 import demo.lizl.com.psnine.util.Constant
 import kotlinx.coroutines.Dispatchers
@@ -13,10 +13,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
-class GameDetailActivityPresenter(private val context: Context, private val iView: GameDetailActivityContract.View) : GameDetailActivityContract.Presenter
+class GameDetailActivityPresenter(private var view: GameDetailActivityContract.View?) : GameDetailActivityContract.Presenter
 {
-    private val TAG = "GameDetailActivityPresenter"
-
     private lateinit var requestUrl: String
 
     override fun setGameDetailUrl(gameDetailUrl: String)
@@ -68,7 +66,7 @@ class GameDetailActivityPresenter(private val context: Context, private val iVie
                         totalTime = cupInfoElement[2].ownText()
                     }
 
-                    GlobalScope.launch(Dispatchers.Main) { iView.onUserGameCupInfoRefresh(gameProgress, firstCupTime, lastCupTime, totalTime) }
+                    GlobalScope.launch(Dispatchers.Main) { view?.onUserGameCupInfoRefresh(gameProgress, firstCupTime, lastCupTime, totalTime) }
                 }
             }
 
@@ -77,7 +75,7 @@ class GameDetailActivityPresenter(private val context: Context, private val iVie
             val gameInfoItem = GameInfoItem(gameCoverUrl, gameName, "")
             gameInfoItem.gameCupInfo = gameCupInfo
 
-            GlobalScope.launch(Dispatchers.Main) { iView.onGameInfoRefresh(gameInfoItem) }
+            GlobalScope.launch(Dispatchers.Main) { view?.onGameInfoRefresh(gameInfoItem) }
 
             val allGameCupListElement = doc.getElementsByClass("list")
             val gameCupViewList = mutableListOf<GameCupListView>()
@@ -127,12 +125,17 @@ class GameDetailActivityPresenter(private val context: Context, private val iVie
                     gameCupItemList.add(gameCupItem)
                 }
 
-                val gameCupView = GameCupListView(context)
+                val gameCupView = GameCupListView(UiApplication.instance)
                 gameCupView.setViewInfo(gameCupName, gameCupCoverUrl, gameCupCount, gameCupItemList)
                 gameCupViewList.add(gameCupView)
             }
 
-            GlobalScope.launch(Dispatchers.Main) { iView.onGameCupInfoRefresh(gameCupViewList) }
+            GlobalScope.launch(Dispatchers.Main) { view?.onGameCupInfoRefresh(gameCupViewList) }
         }
+    }
+
+    override fun onDestroy()
+    {
+        view = null
     }
 }

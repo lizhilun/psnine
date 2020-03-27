@@ -2,57 +2,54 @@ package demo.lizl.com.psnine.adapter
 
 import androidx.core.content.ContextCompat
 import android.text.TextUtils
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.view.isVisible
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.bean.GameInfoItem
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.item_game.view.*
 
-class GameListAdapter : BaseAdapter<GameInfoItem, GameListAdapter.ViewHolder>()
+class GameListAdapter : BaseQuickAdapter<GameInfoItem, GameListAdapter.ViewHolder>(R.layout.item_game)
 {
     private var gameItemClickListener: ((GameInfoItem) -> Unit)? = null
 
-    override fun createCustomViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
+    override fun convert(helper: ViewHolder, item: GameInfoItem)
     {
-        return ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.item_game, parent, false))
-    }
-
-    override fun bindCustomViewHolder(holder: ViewHolder, gameInfoItem: GameInfoItem, position: Int)
-    {
-        holder.onBindViewHolder(gameInfoItem)
+        helper.bindViewHolder(item)
     }
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
     {
-        fun onBindViewHolder(gameInfoItem: GameInfoItem)
+        fun bindViewHolder(gameInfoItem: GameInfoItem)
         {
-            GlideUtil.displayImage(getContext(), gameInfoItem.coverUrl, itemView.iv_game_icon)
+            GlideUtil.displayImage(context, gameInfoItem.coverUrl, itemView.iv_game_icon)
+
             itemView.tv_game_name.text = gameInfoItem.gameName
             itemView.tv_last_update_time.text = gameInfoItem.lastUpdateTime
             itemView.tv_completion_rate.text = gameInfoItem.completionRate
-            itemView.tv_label_ps3.visibility = if (gameInfoItem.isPS3Game) View.VISIBLE else View.GONE
-            itemView.tv_label_psv.visibility = if (gameInfoItem.isPSVGame) View.VISIBLE else View.GONE
-            itemView.tv_label_ps4.visibility = if (gameInfoItem.isPS4Game) View.VISIBLE else View.GONE
+            itemView.tv_label_ps3.isVisible = gameInfoItem.isPS3Game
+            itemView.tv_label_psv.isVisible = gameInfoItem.isPSVGame
+            itemView.tv_label_ps4.isVisible = gameInfoItem.isPS4Game
 
             if (TextUtils.isEmpty(gameInfoItem.completionRate))
             {
-                itemView.npb_completion_rate.visibility = View.GONE
+                itemView.npb_completion_rate.isVisible = false
             }
             else
             {
                 val completionRate = gameInfoItem.completionRate!!.replace("%", "").toInt()
 
-                val reachedColor = when
+                val reachedColor = ContextCompat.getColor(context, when
                 {
-                    completionRate < 25 -> ContextCompat.getColor(getContext(), R.color.color_game_completion_rate_low)
-                    completionRate < 50 -> ContextCompat.getColor(getContext(), R.color.color_game_completion_rate_just_so_so)
-                    completionRate < 75 -> ContextCompat.getColor(getContext(), R.color.color_game_completion_rate_ok)
-                    else                -> ContextCompat.getColor(getContext(), R.color.color_game_completion_rate_good)
-                }
-                val barHeight = getContext().resources.getDimensionPixelOffset(R.dimen.game_item_completion_rate_bar_height)
-                itemView.npb_completion_rate.visibility = View.VISIBLE
+                    completionRate < 25 -> R.color.color_game_completion_rate_low
+                    completionRate < 50 -> R.color.color_game_completion_rate_just_so_so
+                    completionRate < 75 -> R.color.color_game_completion_rate_ok
+                    else                -> R.color.color_game_completion_rate_good
+                })
+                val barHeight = context.resources.getDimensionPixelOffset(R.dimen.game_item_completion_rate_bar_height)
+                itemView.npb_completion_rate.isVisible = true
                 itemView.npb_completion_rate.unreachedBarHeight = barHeight.toFloat()
                 itemView.npb_completion_rate.reachedBarHeight = barHeight.toFloat()
                 itemView.npb_completion_rate.max = 100
@@ -62,69 +59,62 @@ class GameListAdapter : BaseAdapter<GameInfoItem, GameListAdapter.ViewHolder>()
 
             if (TextUtils.isEmpty(gameInfoItem.perfectRate))
             {
-                itemView.tv_perfect_rate.visibility = View.GONE
-                itemView.tv_perfect_difficult.visibility = View.GONE
+                itemView.tv_perfect_rate.isVisible = false
+                itemView.tv_perfect_difficult.isVisible = false
             }
             else
             {
-                itemView.tv_perfect_rate.visibility = View.VISIBLE
-                itemView.tv_perfect_difficult.visibility = View.VISIBLE
+                itemView.tv_perfect_rate.isVisible = true
+                itemView.tv_perfect_difficult.isVisible = true
                 itemView.tv_perfect_rate.text = gameInfoItem.perfectRate
 
                 val perfectRate = gameInfoItem.perfectRate!!.substring(0, gameInfoItem.perfectRate!!.indexOf("%")).toFloat()
                 val prefectRateText: String
-                val preferctReateTextColor: Int
+                val prefectRateTextColor: Int
                 when
                 {
                     perfectRate > 60L ->
                     {
-                        preferctReateTextColor = ContextCompat.getColor(getContext(), R.color.color_perfect_rate_extremely_easy)
-                        prefectRateText = getContext().getString(R.string.extremely_easy)
+                        prefectRateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_extremely_easy)
+                        prefectRateText = context.getString(R.string.extremely_easy)
                     }
                     perfectRate > 40L ->
                     {
-                        preferctReateTextColor = ContextCompat.getColor(getContext(), R.color.color_perfect_rate_easy)
-                        prefectRateText = getContext().getString(R.string.easy)
+                        prefectRateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_easy)
+                        prefectRateText = context.getString(R.string.easy)
                     }
                     perfectRate > 25L ->
                     {
-                        preferctReateTextColor = ContextCompat.getColor(getContext(), R.color.color_perfect_rate_normal)
-                        prefectRateText = getContext().getString(R.string.normal)
+                        prefectRateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_normal)
+                        prefectRateText = context.getString(R.string.normal)
                     }
                     perfectRate > 15L ->
                     {
-                        preferctReateTextColor = ContextCompat.getColor(getContext(), R.color.color_perfect_rate_troublesome)
-                        prefectRateText = getContext().getString(R.string.troublesome)
+                        prefectRateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_troublesome)
+                        prefectRateText = context.getString(R.string.troublesome)
                     }
                     perfectRate > 5L  ->
                     {
-                        preferctReateTextColor = ContextCompat.getColor(getContext(), R.color.color_perfect_rate_hard)
-                        prefectRateText = getContext().getString(R.string.hard)
+                        prefectRateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_hard)
+                        prefectRateText = context.getString(R.string.hard)
                     }
                     perfectRate > 0L  ->
                     {
-                        preferctReateTextColor = ContextCompat.getColor(getContext(), R.color.color_perfect_rate_extremely_hard)
-                        prefectRateText = getContext().getString(R.string.extremely_hard)
+                        prefectRateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_extremely_hard)
+                        prefectRateText = context.getString(R.string.extremely_hard)
                     }
                     else              ->
                     {
-                        preferctReateTextColor = ContextCompat.getColor(getContext(), R.color.color_perfect_rate_impossible)
-                        prefectRateText = getContext().getString(R.string.impossible)
+                        prefectRateTextColor = ContextCompat.getColor(context, R.color.color_perfect_rate_impossible)
+                        prefectRateText = context.getString(R.string.impossible)
                     }
                 }
-                itemView.tv_perfect_difficult.setTextColor(preferctReateTextColor)
+                itemView.tv_perfect_difficult.setTextColor(prefectRateTextColor)
                 itemView.tv_perfect_difficult.text = prefectRateText
             }
 
-            if (TextUtils.isEmpty(gameInfoItem.gameCupInfo))
-            {
-                itemView.tv_cup_info.visibility = View.GONE
-            }
-            else
-            {
-                itemView.tv_cup_info.visibility = View.VISIBLE
-                itemView.tv_cup_info.text = gameInfoItem.gameCupInfo
-            }
+            itemView.tv_cup_info.isVisible = gameInfoItem.gameCupInfo.orEmpty().isNotBlank()
+            itemView.tv_cup_info.text = gameInfoItem.gameCupInfo
 
             itemView.setOnClickListener { gameItemClickListener?.invoke(gameInfoItem) }
         }

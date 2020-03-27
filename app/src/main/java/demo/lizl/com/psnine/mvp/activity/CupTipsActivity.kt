@@ -46,7 +46,7 @@ class CupTipsActivity : BaseActivity<CupTipsActivityPresenter>(), CupTipsActivit
 
     override fun onCupTipPostListRefresh(postList: List<ReplyPostItem>)
     {
-        val replayPostListAdapter = ReplyPostListAdapter(this, postList)
+        val replayPostListAdapter = ReplyPostListAdapter(postList)
         rv_tips_list.layoutManager = LinearLayoutManager(this)
         rv_tips_list.adapter = replayPostListAdapter
     }

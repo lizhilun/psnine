@@ -1,4 +1,4 @@
-package demo.lizl.com.psnine.customview
+package demo.lizl.com.psnine.custom.other
 
 import android.text.Spannable
 import android.text.style.ClickableSpan

@@ -4,21 +4,17 @@ import android.text.TextUtils
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.jeremyliao.liveeventbus.LiveEventBus
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.config.AppConfig
-import demo.lizl.com.psnine.event.LoginEvent
 import demo.lizl.com.psnine.mvp.contract.EmptyContract
 import demo.lizl.com.psnine.mvp.presenter.EmptyPresenter
-import demo.lizl.com.psnine.util.Constant
+import demo.lizl.com.psnine.util.EventConstant
 import kotlinx.android.synthetic.main.activity_login.*
-import org.greenrobot.eventbus.EventBus
 
 class LoginActivity : BaseActivity<EmptyPresenter>(), EmptyContract.View
 {
-    override fun getLayoutResId(): Int
-    {
-        return R.layout.activity_login
-    }
+    override fun getLayoutResId() = R.layout.activity_login
 
     override fun initPresenter() = EmptyPresenter()
 
@@ -49,12 +45,18 @@ class LoginActivity : BaseActivity<EmptyPresenter>(), EmptyContract.View
 
                 if (url!! == AppConfig.BASE_REQUEST_URL || url == AppConfig.BASE_REQUEST_URL + "psnid/" + AppConfig.CUR_PSN_ID)
                 {
-                    EventBus.getDefault().post(LoginEvent(Constant.LOGIN_RESULT_SUCCESS))
+                    LiveEventBus.get(EventConstant.EVENT_LOGIN_RESULT).post(true)
                     finish()
                 }
 
                 return super.shouldOverrideUrlLoading(view, url)
             }
         }
+    }
+
+    override fun onBackPressed()
+    {
+        LiveEventBus.get(EventConstant.EVENT_LOGIN_RESULT).post(false)
+        super.onBackPressed()
     }
 }

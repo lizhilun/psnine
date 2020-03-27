@@ -1,27 +1,23 @@
 package demo.lizl.com.psnine.adapter
 
-import android.content.Context
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextPaint
 import android.text.style.BackgroundColorSpan
 import android.text.style.ClickableSpan
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
-import demo.lizl.com.psnine.customview.CustomLinkMovementMethod
 import demo.lizl.com.psnine.bean.ReplyPostItem
+import demo.lizl.com.psnine.custom.other.CustomLinkMovementMethod
 import kotlinx.android.synthetic.main.item_sub_reply_post_item.view.*
-import java.util.*
 
-class SubReplyListAdapter(val context: Context, private val postList: List<ReplyPostItem>) : RecyclerView.Adapter<SubReplyListAdapter.ViewHolder>()
+class SubReplyListAdapter(postList: List<ReplyPostItem>) :
+        BaseQuickAdapter<ReplyPostItem, SubReplyListAdapter.ViewHolder>(R.layout.item_sub_reply_post_item, postList.toMutableList())
 {
-
-    private var layoutInflater: LayoutInflater? = null
 
     companion object
     {
@@ -30,28 +26,16 @@ class SubReplyListAdapter(val context: Context, private val postList: List<Reply
         val atIdText = ContextCompat.getColor(UiApplication.instance, R.color.color_sub_reply_post_at_user_id_text)
     }
 
-    init
+    override fun convert(helper: ViewHolder, item: ReplyPostItem)
     {
-        layoutInflater = LayoutInflater.from(context)
+        helper.bindViewHolder(item)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
+    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
     {
-        return ViewHolder(layoutInflater!!.inflate(R.layout.item_sub_reply_post_item, parent, false))
-    }
-
-    override fun getItemCount() = postList.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int)
-    {
-        holder.onBindViewHolder(postList[position])
-    }
-
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-    {
-        fun onBindViewHolder(postItem: ReplyPostItem)
+        fun bindViewHolder(postItem: ReplyPostItem)
         {
-            val postContent = String.format(Locale.getDefault(), " %s  %s %s", postItem.postWriterId, postItem.atUserId, postItem.postContent)
+            val postContent = " ${postItem.postWriterId}  ${postItem.atUserId} ${postItem.postContent}"
 
             val spannable = SpannableString(postContent)
 

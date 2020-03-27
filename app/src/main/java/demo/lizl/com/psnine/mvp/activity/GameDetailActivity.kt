@@ -1,11 +1,11 @@
 package demo.lizl.com.psnine.mvp.activity
 
-import androidx.core.content.ContextCompat
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.customview.GameCupListView
 import demo.lizl.com.psnine.bean.GameInfoItem
+import demo.lizl.com.psnine.custom.view.GameCupListView
 import demo.lizl.com.psnine.mvp.contract.GameDetailActivityContract
 import demo.lizl.com.psnine.mvp.presenter.GameDetailActivityPresenter
 import demo.lizl.com.psnine.util.Constant
@@ -20,7 +20,7 @@ class GameDetailActivity : BaseActivity<GameDetailActivityPresenter>(), GameDeta
         return R.layout.activity_game_detail
     }
 
-    override fun initPresenter() = GameDetailActivityPresenter(this, this)
+    override fun initPresenter() = GameDetailActivityPresenter(this)
 
     override fun initView()
     {

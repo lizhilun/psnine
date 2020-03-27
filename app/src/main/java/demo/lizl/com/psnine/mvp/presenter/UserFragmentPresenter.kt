@@ -1,11 +1,11 @@
 package demo.lizl.com.psnine.mvp.presenter
 
-import android.content.Context
 import android.text.TextUtils
 import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.bean.GameInfoItem
 import demo.lizl.com.psnine.bean.UserGameInfoItem
 import demo.lizl.com.psnine.bean.UserInfoItem
@@ -19,7 +19,7 @@ import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
 import org.jsoup.select.Elements
 
-class UserFragmentPresenter(context: Context, private val iView: UserFragmentContract.View) : UserFragmentContract.Presenter
+class UserFragmentPresenter(private var view: UserFragmentContract.View?) : UserFragmentContract.Presenter
 {
     private val TAG = "UserFragmentPresenter"
 
@@ -28,7 +28,7 @@ class UserFragmentPresenter(context: Context, private val iView: UserFragmentCon
 
     private var curPsnId = AppConfig.CUR_PSN_ID
 
-    private val webView = WebView(context)
+    private val webView = WebView(UiApplication.instance)
 
     companion object
     {
@@ -82,7 +82,7 @@ class UserFragmentPresenter(context: Context, private val iView: UserFragmentCon
 
             val userItemInfo = UserInfoItem(userId, avatarUrl, userLevel, userExperience, userCupInfo)
 
-            GlobalScope.launch(Dispatchers.Main) { iView.onUserInfoRefresh(userItemInfo) }
+            GlobalScope.launch(Dispatchers.Main) { view?.onUserInfoRefresh(userItemInfo) }
 
             val gameTableElement = psnInfoElement[1].select("td")
             val totalGameCount = (gameTableElement[0].childNodes()[0] as TextNode).text().toInt()
@@ -92,7 +92,7 @@ class UserFragmentPresenter(context: Context, private val iView: UserFragmentCon
             val totalCupCount = (gameTableElement[4].childNodes()[0] as TextNode).text().toInt()
 
             val userGameInfoItem = UserGameInfoItem(totalGameCount, perfectGameCount, pitGameCount, gameCompletionRate, totalCupCount)
-            GlobalScope.launch(Dispatchers.Main) { iView.onUserGameInfoRefresh(userGameInfoItem) }
+            GlobalScope.launch(Dispatchers.Main) { view?.onUserGameInfoRefresh(userGameInfoItem) }
 
             refreshGameList(
                     sortGamePlatform, SORT_GAME_BY_TIME
@@ -123,7 +123,7 @@ class UserFragmentPresenter(context: Context, private val iView: UserFragmentCon
             val gameList = getGameListFromGameElementList(gameElementList)
 
             gameItemCount = gameCountInfo.substring(1, gameCountInfo.length - 1).toInt()
-            GlobalScope.launch(Dispatchers.Main) { iView.onUserGameListUpdate(gameList, gameItemCount) }
+            GlobalScope.launch(Dispatchers.Main) { view?.onUserGameListUpdate(gameList, gameItemCount) }
 
         }
     }
@@ -142,7 +142,7 @@ class UserFragmentPresenter(context: Context, private val iView: UserFragmentCon
             val gameElementList = doc.getElementsByClass("list")[0].select("tr")
             val gameList = getGameListFromGameElementList(gameElementList)
 
-            GlobalScope.launch(Dispatchers.Main) { iView.onMoreGameLoadFinish(gameList, gameItemCount) }
+            GlobalScope.launch(Dispatchers.Main) { view?.onMoreGameLoadFinish(gameList, gameItemCount) }
         }
     }
 
@@ -247,7 +247,7 @@ class UserFragmentPresenter(context: Context, private val iView: UserFragmentCon
 
                 if (url!! == AppConfig.BASE_REQUEST_URL + "psnid/" + AppConfig.CUR_PSN_ID)
                 {
-                    iView.onInfoUpdateFinish()
+                    this@UserFragmentPresenter.view?.onInfoUpdateFinish()
                 }
 
                 return super.shouldOverrideUrlLoading(view, url)
@@ -267,7 +267,7 @@ class UserFragmentPresenter(context: Context, private val iView: UserFragmentCon
                 Log.d(TAG, "showSource:$title")
 
                 GlobalScope.launch(Dispatchers.Main) {
-                    iView.onInfoUpdateFailed(title)
+                    view?.onInfoUpdateFailed(title)
                 }
             }
         }
@@ -276,5 +276,10 @@ class UserFragmentPresenter(context: Context, private val iView: UserFragmentCon
         {
 
         }
+    }
+
+    override fun onDestroy()
+    {
+        view = null
     }
 }

@@ -1,25 +1,22 @@
 package demo.lizl.com.psnine.mvp.fragment
 
 import android.content.Context
-import androidx.viewpager.widget.ViewPager
+import android.text.InputFilter
+import android.view.View
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.text.Editable
-import android.text.InputFilter
-import android.text.TextUtils
-import android.text.TextWatcher
-import android.view.View
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.adapter.DiscountGameListAdapter
 import demo.lizl.com.psnine.adapter.GameListAdapter
 import demo.lizl.com.psnine.adapter.ViewPagerAdapter
 import demo.lizl.com.psnine.bean.DiscountGameItem
 import demo.lizl.com.psnine.bean.GameInfoItem
-import demo.lizl.com.psnine.customview.dialog.BaseDialog
-import demo.lizl.com.psnine.customview.dialog.DialogOperationConfirm
+import demo.lizl.com.psnine.custom.function.addOnPageChangeListener
 import demo.lizl.com.psnine.mvp.activity.BaseActivity
 import demo.lizl.com.psnine.mvp.contract.GameFragmentContract
 import demo.lizl.com.psnine.mvp.presenter.GameFragmentPresenter
+import demo.lizl.com.psnine.util.DialogUtil
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_game.*
 
@@ -29,18 +26,11 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
     private lateinit var searchResultListAdapter: GameListAdapter
     private lateinit var discountGameListAdapter: DiscountGameListAdapter
 
-    private var dialogOperationConfirm: DialogOperationConfirm? = null
-
     private val tabTitleList = mutableListOf<String>()
 
     private var hasNoMoreDiscountGame = false
 
-    override fun getLayoutResId(): Int
-    {
-        return R.layout.fragment_game
-    }
-
-    override fun isNeedRegisterEventBus() = false
+    override fun getLayoutResId() = R.layout.fragment_game
 
     override fun initPresenter() = GameFragmentPresenter(this)
 
@@ -118,66 +108,32 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
         }
 
         discountGameListAdapter.setOnDiscountGameItemClickListener {
-            dialogOperationConfirm =
-                DialogOperationConfirm(activity as Context, getString(R.string.title_sure_to_open_psn_store), getString(R.string.notify_sure_to_open_psn_store))
-
-            dialogOperationConfirm?.setOnConfirmButtonClickListener(object : BaseDialog.OnConfirmButtonClickListener
-            {
-                override fun onConfirmButtonClick()
-                {
-                    val psnGameUrl = "https://store.playstation.com/zh-hans-hk/product/" + it.psnGameId
-                    UiUtil.turnToWebBrowser(activity as Context, psnGameUrl)
-                }
-            })
-            dialogOperationConfirm?.show()
-
+            DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.title_sure_to_open_psn_store),
+                    getString(R.string.notify_sure_to_open_psn_store)) {
+                val psnGameUrl = "https://store.playstation.com/zh-hans-hk/product/${it.psnGameId}"
+                UiUtil.turnToWebBrowser(activity as Context, psnGameUrl)
+            }
         }
 
-        et_search.addTextChangedListener(object : TextWatcher
-        {
-            override fun afterTextChanged(p0: Editable?)
+        et_search.addTextChangedListener {
+            if (it.isNullOrBlank())
             {
-                //do nothing
+                showSearchView(false)
             }
+            else
+            {
+                showSearchView(true)
+                presenter.searchGame(it.toString())
+            }
+        }
 
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int)
+        vp_game.addOnPageChangeListener {
+            when (it)
             {
-                //do nothing
+                0 -> refresh_layout.setNoMoreData(true)
+                1 -> refresh_layout.setNoMoreData(hasNoMoreDiscountGame)
             }
-
-            override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int)
-            {
-                if (TextUtils.isEmpty(p0.toString()))
-                {
-                    showSearchView(false)
-                }
-                else
-                {
-                    showSearchView(true)
-                    presenter.searchGame(p0.toString())
-                }
-            }
-        })
-
-        vp_game.addOnPageChangeListener(object : ViewPager.OnPageChangeListener
-        {
-            override fun onPageScrollStateChanged(p0: Int)
-            {
-            }
-
-            override fun onPageScrolled(p0: Int, p1: Float, p2: Int)
-            {
-            }
-
-            override fun onPageSelected(p0: Int)
-            {
-                when (p0)
-                {
-                    0 -> refresh_layout.setNoMoreData(true)
-                    1 -> refresh_layout.setNoMoreData(hasNoMoreDiscountGame)
-                }
-            }
-        })
+        }
     }
 
     private fun loadMoreData()
@@ -213,19 +169,17 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
     {
         refresh_layout.finishRefresh()
 
-        hotGameListAdapter.clear()
-        hotGameListAdapter.addAll(hotGameList)
+        hotGameListAdapter.setNewData(hotGameList.toMutableList())
     }
 
     override fun onDiscountGameListRefresh(discountGameList: List<DiscountGameItem>, totalCount: Int)
     {
         refresh_layout.finishRefresh()
 
-        discountGameListAdapter.clear()
-        discountGameListAdapter.addAll(discountGameList)
+        discountGameListAdapter.setNewData(discountGameList.toMutableList())
 
         refresh_layout.setEnableLoadMore(true)
-        hasNoMoreDiscountGame = discountGameListAdapter.getData().size >= totalCount
+        hasNoMoreDiscountGame = discountGameListAdapter.data.size >= totalCount
         refresh_layout.setNoMoreData(hasNoMoreDiscountGame)
     }
 
@@ -233,33 +187,25 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
     {
         refresh_layout.finishLoadMore()
 
-        discountGameListAdapter.insertAll(discountGameList, discountGameListAdapter.getData().size)
-        hasNoMoreDiscountGame = discountGameListAdapter.getData().size >= totalCount
+        discountGameListAdapter.addData(discountGameList)
+        hasNoMoreDiscountGame = discountGameListAdapter.data.size >= totalCount
         refresh_layout.setNoMoreData(hasNoMoreDiscountGame)
     }
 
     override fun onGameSearchRefresh(gameList: List<GameInfoItem>, resultTotalCount: Int)
     {
-        searchResultListAdapter.clear()
-        searchResultListAdapter.addAll(gameList)
+        searchResultListAdapter.setNewData(gameList.toMutableList())
 
         rv_search_result_list.scrollToPosition(0)
         refresh_layout.setEnableLoadMore(true)
-        refresh_layout.setNoMoreData(searchResultListAdapter.getData().size >= resultTotalCount)
+        refresh_layout.setNoMoreData(searchResultListAdapter.data.size >= resultTotalCount)
     }
 
     override fun onGameSearchLoadMore(gameList: List<GameInfoItem>, resultTotalCount: Int)
     {
         refresh_layout.finishLoadMore()
 
-        searchResultListAdapter.insertAll(gameList, searchResultListAdapter.getData().size)
-        refresh_layout.setNoMoreData(searchResultListAdapter.getData().size >= resultTotalCount)
-    }
-
-    override fun onStop()
-    {
-        super.onStop()
-
-        dialogOperationConfirm?.dismiss()
+        searchResultListAdapter.addData(gameList)
+        refresh_layout.setNoMoreData(searchResultListAdapter.data.size >= resultTotalCount)
     }
 }

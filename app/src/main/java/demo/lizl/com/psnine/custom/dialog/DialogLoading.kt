@@ -1,4 +1,4 @@
-package demo.lizl.com.psnine.customview.dialog
+package demo.lizl.com.psnine.custom.dialog
 
 import android.content.Context
 import demo.lizl.com.psnine.R

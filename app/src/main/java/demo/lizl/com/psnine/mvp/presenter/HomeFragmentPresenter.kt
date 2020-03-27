@@ -9,7 +9,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
-class HomeFragmentPresenter(private val iView: HomeFragmentContract.View) : HomeFragmentContract.Presenter
+class HomeFragmentPresenter(private var view: HomeFragmentContract.View?) : HomeFragmentContract.Presenter
 {
     private val TAG = "HomeFragmentPresenter"
 
@@ -23,7 +23,7 @@ class HomeFragmentPresenter(private val iView: HomeFragmentContract.View) : Home
             val postList = getPostItemListFromPostPage(curPostPage)
 
             GlobalScope.launch(Dispatchers.Main) {
-                iView.onPostListRefresh(postList)
+                view?.onPostListRefresh(postList)
             }
         }
     }
@@ -36,7 +36,7 @@ class HomeFragmentPresenter(private val iView: HomeFragmentContract.View) : Home
             val postList = getPostItemListFromPostPage(curPostPage)
 
             GlobalScope.launch(Dispatchers.Main) {
-                iView.onPostListLoadMore(postList)
+                view?.onPostListLoadMore(postList)
             }
         }
     }
@@ -72,5 +72,10 @@ class HomeFragmentPresenter(private val iView: HomeFragmentContract.View) : Home
         }
 
         return postList
+    }
+
+    override fun onDestroy()
+    {
+        view = null
     }
 }

@@ -1,12 +1,12 @@
-package demo.lizl.com.psnine.customview
+package demo.lizl.com.psnine.custom.view
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.adapter.GameCupListAdapter
 import demo.lizl.com.psnine.bean.GameCupItem
@@ -48,7 +48,7 @@ class GameCupListView(context: Context, attrs: AttributeSet?, defStyle: Int) : F
         tv_game_cup_name.text = gameCupName
         tv_game_cup_count.text = gameCupCount
 
-        val gameCupListAdapter = GameCupListAdapter(context, gameCupList)
+        val gameCupListAdapter = GameCupListAdapter(gameCupList)
         rv_game_cup_list.layoutManager = LinearLayoutManager(context)
         rv_game_cup_list.adapter = gameCupListAdapter
 

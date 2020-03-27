@@ -15,12 +15,7 @@ class HomeFragment : BaseFragment<HomeFragmentPresenter>(), HomeFragmentContract
 {
     private lateinit var postListAdapter: PostListAdapter
 
-    override fun getLayoutResId(): Int
-    {
-        return R.layout.fragment_home
-    }
-
-    override fun isNeedRegisterEventBus() = false
+    override fun getLayoutResId() = R.layout.fragment_home
 
     override fun initPresenter() = HomeFragmentPresenter(this)
 
@@ -50,13 +45,12 @@ class HomeFragment : BaseFragment<HomeFragmentPresenter>(), HomeFragmentContract
     override fun onPostListRefresh(postList: List<PostItem>)
     {
         refresh_layout.finishRefresh()
-        postListAdapter.clear()
-        postListAdapter.addAll(postList)
+        postListAdapter.setNewData(postList.toMutableList())
     }
 
     override fun onPostListLoadMore(postList: List<PostItem>)
     {
         refresh_layout.finishLoadMore()
-        postListAdapter.insertAll(postList, postListAdapter.getData().size)
+        postListAdapter.addData(postList)
     }
 }

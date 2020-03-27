@@ -1,13 +1,12 @@
-package demo.lizl.com.psnine.customview.dialog
+package demo.lizl.com.psnine.custom.dialog
 
 import android.content.Context
 import demo.lizl.com.psnine.R
 import kotlinx.android.synthetic.main.dialog_game_sort_condition.*
 
-class DialogGameSortCondition(context: Context) : BaseDialog(context, context.getString(R.string.sort_condition))
+class DialogGameSortCondition(context: Context, private val onConfirmButtonClickListener: (String, String) -> Unit) :
+    BaseDialog(context, context.getString(R.string.sort_condition))
 {
-    private var onConfirmButtonClickListener: ((String, String) -> Unit)? = null
-
     override fun getDialogContentViewResId(): Int
     {
         return R.layout.dialog_game_sort_condition
@@ -26,11 +25,6 @@ class DialogGameSortCondition(context: Context) : BaseDialog(context, context.ge
 
     override fun onConfirmButtonClick()
     {
-        onConfirmButtonClickListener?.invoke(sp_game_platform.text.toString(), sp_sort_condition.text.toString())
-    }
-
-    fun setOnConfirmButtonClickListener(onConfirmButtonClickListener: (gamePlatform: String, sortCondition: String) -> Unit)
-    {
-        this.onConfirmButtonClickListener = onConfirmButtonClickListener
+        onConfirmButtonClickListener.invoke(sp_game_platform.text.toString(), sp_sort_condition.text.toString())
     }
 }

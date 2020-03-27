@@ -7,7 +7,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
-class CupTipsActivityPresenter(private val iView: CupTipsActivityContract.View) : CupTipsActivityContract.Presenter
+class CupTipsActivityPresenter(private var view: CupTipsActivityContract.View?) : CupTipsActivityContract.Presenter
 {
 
     private lateinit var requestUrl: String
@@ -29,7 +29,7 @@ class CupTipsActivityPresenter(private val iView: CupTipsActivityContract.View) 
             val cupDescription = cupInfoElement.getElementsByTag("em")[0].ownText()
 
             GlobalScope.launch(Dispatchers.Main) {
-                iView.onCupInfoRefresh(cupName, cupDescription, cupCover)
+                view?.onCupInfoRefresh(cupName, cupDescription, cupCover)
             }
 
             val postList = mutableListOf<ReplyPostItem>()
@@ -88,7 +88,12 @@ class CupTipsActivityPresenter(private val iView: CupTipsActivityContract.View) 
                 postList.add(replyPoItem)
             }
 
-            GlobalScope.launch(Dispatchers.Main) { iView.onCupTipPostListRefresh(postList) }
+            GlobalScope.launch(Dispatchers.Main) { view?.onCupTipPostListRefresh(postList) }
         }
+    }
+
+    override fun onDestroy()
+    {
+        view = null
     }
 }

@@ -1,7 +1,6 @@
 package demo.lizl.com.psnine
 
 import android.content.Context
-import android.os.Environment
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool
@@ -17,7 +16,6 @@ import java.io.File
 
     override fun applyOptions(context: Context, builder: GlideBuilder)
     {
-
         //1.设置Glide内存缓存大小
         val maxMemory = Runtime.getRuntime().maxMemory().toInt() //获取系统分配给应用的总内存大小
         val memoryCacheSize = maxMemory / 8 //设置图片内存缓存占用八分之一
@@ -41,7 +39,7 @@ import java.io.File
      */
     private fun createSavePath(): File
     {
-        val path = Environment.getExternalStorageDirectory().path + "/psnine/imageCache/"
+        val path = UiApplication.instance.cacheDir.absolutePath + "/imageCache/"
 
         val file = File(path)
 

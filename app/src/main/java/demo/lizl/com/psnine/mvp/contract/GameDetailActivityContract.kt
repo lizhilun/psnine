@@ -1,9 +1,9 @@
 package demo.lizl.com.psnine.mvp.contract
 
 import demo.lizl.com.psnine.bean.GameInfoItem
-import demo.lizl.com.psnine.customview.GameCupListView
-import demo.lizl.com.psnine.mvp.BasePresenter
-import demo.lizl.com.psnine.mvp.BaseView
+import demo.lizl.com.psnine.custom.view.GameCupListView
+import demo.lizl.com.psnine.mvp.base.BasePresenter
+import demo.lizl.com.psnine.mvp.base.BaseView
 
 class GameDetailActivityContract
 {

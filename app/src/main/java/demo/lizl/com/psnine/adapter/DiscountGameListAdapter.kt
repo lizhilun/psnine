@@ -1,35 +1,31 @@
 package demo.lizl.com.psnine.adapter
 
 import android.graphics.Paint
-import androidx.core.content.ContextCompat
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.bean.DiscountGameItem
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.item_discount_game.view.*
 
-class DiscountGameListAdapter : BaseAdapter<DiscountGameItem, DiscountGameListAdapter.ViewHolder>()
+class DiscountGameListAdapter : BaseQuickAdapter<DiscountGameItem, DiscountGameListAdapter.ViewHolder>(R.layout.item_discount_game)
 {
 
     private var onDiscountGameItemClickListener: ((DiscountGameItem) -> Unit)? = null
 
-    override fun createCustomViewHolder(parent: ViewGroup, position: Int): ViewHolder
+    override fun convert(helper: ViewHolder, item: DiscountGameItem)
     {
-        return ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.item_discount_game, parent, false))
-    }
-
-    override fun bindCustomViewHolder(holder: ViewHolder, discountGameItem: DiscountGameItem, position: Int)
-    {
-        holder.onBindViewHolder(discountGameItem)
+        helper.bindViewHolder(item)
     }
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
     {
-        fun onBindViewHolder(discountGameItem: DiscountGameItem)
+        fun bindViewHolder(discountGameItem: DiscountGameItem)
         {
-            GlideUtil.displayImage(getContext(), discountGameItem.gameCoverUrl, itemView.iv_game_cover)
+            GlideUtil.displayImage(context, discountGameItem.gameCoverUrl, itemView.iv_game_cover)
+
             itemView.tv_discount_rate.text = discountGameItem.discountRate
             itemView.tv_game_name.text = discountGameItem.gameName
             itemView.tv_platform.text = discountGameItem.gamePlatform
@@ -41,21 +37,19 @@ class DiscountGameListAdapter : BaseAdapter<DiscountGameItem, DiscountGameListAd
 
             itemView.tv_original_price.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
 
-            itemView.tv_platform.setBackgroundColor(
-                    when (discountGameItem.gamePlatform)
-                    {
-                        "PS3" -> ContextCompat.getColor(getContext(), R.color.color_bg_label_PS3_game)
-                        "PSV" -> ContextCompat.getColor(getContext(), R.color.color_bg_label_PSV_game)
-                        "PS4" -> ContextCompat.getColor(getContext(), R.color.color_bg_label_PS4_game)
-                        else -> ContextCompat.getColor(getContext(), R.color.color_bg_label_PS4_game)
-                    }
-            )
+            itemView.tv_platform.setBackgroundColor(ContextCompat.getColor(context, when (discountGameItem.gamePlatform)
+            {
+                "PS3" -> R.color.color_bg_label_PS3_game
+                "PSV" -> R.color.color_bg_label_PSV_game
+                "PS4" -> R.color.color_bg_label_PS4_game
+                else  -> R.color.color_bg_label_PS4_game
+            }))
 
             itemView.setOnClickListener { onDiscountGameItemClickListener?.invoke(discountGameItem) }
         }
     }
 
-    fun setOnDiscountGameItemClickListener(onDiscountGameItemClickListener : (discountGameItem : DiscountGameItem) -> Unit)
+    fun setOnDiscountGameItemClickListener(onDiscountGameItemClickListener: (discountGameItem: DiscountGameItem) -> Unit)
     {
         this.onDiscountGameItemClickListener = onDiscountGameItemClickListener
     }
