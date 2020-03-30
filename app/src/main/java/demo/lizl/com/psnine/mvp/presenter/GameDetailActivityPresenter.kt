@@ -22,8 +22,7 @@ class GameDetailActivityPresenter(private var view: GameDetailActivityContract.V
         requestUrl = if (!gameDetailUrl.contains("psnid"))
         {
             gameDetailUrl + "?psnid=" + AppConfig.CUR_PSN_ID
-        }
-        else
+        } else
         {
             gameDetailUrl
         }
@@ -46,6 +45,7 @@ class GameDetailActivityPresenter(private var view: GameDetailActivityContract.V
             val goldCount = gameInfoElement.getElementsByClass("text-gold")[0].text()
             val silverCount = gameInfoElement.getElementsByClass("text-silver")[0].text()
             val bronzeCount = gameInfoElement.getElementsByClass("text-bronze")[0].text()
+            val perfectRate = gameInfoElement.getElementsByTag("em").last().text()
 
             val boxElement = doc.getElementsByClass("box")
             if (boxElement.size >= 2)
@@ -70,7 +70,7 @@ class GameDetailActivityPresenter(private var view: GameDetailActivityContract.V
                 }
             }
 
-            val gameCupInfo = "$platinumCount $goldCount $silverCount $bronzeCount"
+            val gameCupInfo = "$platinumCount $goldCount $silverCount $bronzeCount $perfectRate"
 
             val gameInfoItem = GameInfoItem(gameCoverUrl, gameName, "")
             gameInfoItem.gameCupInfo = gameCupInfo
