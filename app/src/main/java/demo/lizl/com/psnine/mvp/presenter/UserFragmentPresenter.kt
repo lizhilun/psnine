@@ -5,7 +5,6 @@ import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.lifecycle.MutableLiveData
 import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.bean.GameInfoItem
 import demo.lizl.com.psnine.bean.UserGameInfoItem
@@ -34,8 +33,8 @@ class UserFragmentPresenter(private var view: UserFragmentContract.View?) : User
     companion object
     {
         const val SORT_GAME_BY_TIME = 1
-        const val SORT_GAME_BY_FASTEST_PROGRESE = 2
-        const val SORT_GAME_BY_SLOWEST_PROGRESE = 3
+        const val SORT_GAME_BY_FASTEST_PROGRESS = 2
+        const val SORT_GAME_BY_SLOWEST_PROGRESS = 3
         const val SORT_GAME_BY_PERFECT_DIFFICULT = 4
 
         const val GAME_PLATFORM_ALL = 1
@@ -52,7 +51,7 @@ class UserFragmentPresenter(private var view: UserFragmentContract.View?) : User
     private var sortGameCondition = SORT_GAME_BY_TIME
     private var sortGamePlatform = GAME_PLATFORM_ALL
 
-    fun setPsnId(psnId: String)
+    fun bindPsnId(psnId: String)
     {
         curPsnId = if (TextUtils.isEmpty(psnId))
         {
@@ -63,8 +62,6 @@ class UserFragmentPresenter(private var view: UserFragmentContract.View?) : User
             psnId
         }
     }
-
-    private val gamesLiveData = MutableLiveData<MutableList<GameInfoItem>>()
 
     override fun refreshUserPage()
     {
@@ -193,9 +190,9 @@ class UserFragmentPresenter(private var view: UserFragmentContract.View?) : User
     {
         val sortCondition = when (sortGameCondition)
         {
-            SORT_GAME_BY_TIME              -> "date"
-            SORT_GAME_BY_FASTEST_PROGRESE  -> "ratio"
-            SORT_GAME_BY_SLOWEST_PROGRESE  -> "slow"
+            SORT_GAME_BY_TIME             -> "date"
+            SORT_GAME_BY_FASTEST_PROGRESS  -> "ratio"
+            SORT_GAME_BY_SLOWEST_PROGRESS  -> "slow"
             SORT_GAME_BY_PERFECT_DIFFICULT -> "difficulty"
             else                           -> "date"
         }

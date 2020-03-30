@@ -22,7 +22,8 @@ class GameDetailActivityPresenter(private var view: GameDetailActivityContract.V
         requestUrl = if (!gameDetailUrl.contains("psnid"))
         {
             gameDetailUrl + "?psnid=" + AppConfig.CUR_PSN_ID
-        } else
+        }
+        else
         {
             gameDetailUrl
         }

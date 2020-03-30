@@ -2,7 +2,7 @@ package demo.lizl.com.psnine.mvp.fragment
 
 import android.content.Context
 import android.text.TextUtils
-import android.view.View
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.ToastUtils
@@ -38,10 +38,10 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
         val psnId = activity?.intent?.extras?.getString(AppConstant.BUNDLE_DATA_STRING, "").orEmpty()
 
         val emptyPsnId = TextUtils.isEmpty(psnId)
-        iv_back.visibility = if (emptyPsnId) View.GONE else View.VISIBLE
-        fab_synchronize_level.visibility = if (emptyPsnId) View.VISIBLE else View.GONE
-        fab_synchronize_game.visibility = if (emptyPsnId) View.VISIBLE else View.GONE
-        presenter.setPsnId(psnId)
+        iv_back.isVisible = !emptyPsnId
+        fab_synchronize_level.isVisible = emptyPsnId
+        fab_synchronize_game.isVisible = emptyPsnId
+        presenter.bindPsnId(psnId)
 
         gameListAdapter = GameListAdapter()
         rv_game_list.layoutManager = LinearLayoutManager(activity)
@@ -155,8 +155,8 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
             val condition = when (sortCondition)
             {
                 getString(R.string.newest)             -> UserFragmentPresenter.SORT_GAME_BY_TIME
-                getString(R.string.fastest_completion) -> UserFragmentPresenter.SORT_GAME_BY_FASTEST_PROGRESE
-                getString(R.string.slowest_completion) -> UserFragmentPresenter.SORT_GAME_BY_SLOWEST_PROGRESE
+                getString(R.string.fastest_completion) -> UserFragmentPresenter.SORT_GAME_BY_FASTEST_PROGRESS
+                getString(R.string.slowest_completion) -> UserFragmentPresenter.SORT_GAME_BY_SLOWEST_PROGRESS
                 getString(R.string.perfect_difficult)  -> UserFragmentPresenter.SORT_GAME_BY_PERFECT_DIFFICULT
                 else                                   -> UserFragmentPresenter.SORT_GAME_BY_TIME
             }
