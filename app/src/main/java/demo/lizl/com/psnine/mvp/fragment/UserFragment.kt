@@ -21,7 +21,6 @@ import demo.lizl.com.psnine.mvp.presenter.UserFragmentPresenter
 import demo.lizl.com.psnine.util.ActivityUtil
 import demo.lizl.com.psnine.util.DialogUtil
 import demo.lizl.com.psnine.util.GlideUtil
-import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_user.*
 
 
@@ -47,8 +46,6 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
         rv_game_list.layoutManager = LinearLayoutManager(activity)
         rv_game_list.adapter = gameListAdapter
 
-        refresh_layout.setRefreshHeader(UiUtil.getDefaultRefreshHeader(activity as Context))
-        refresh_layout.setRefreshFooter(UiUtil.getDefaultRefreshFooter(activity as Context))
         refresh_layout.setEnableRefresh(false)
         refresh_layout.setEnableLoadMore(false)
         refresh_layout.isNestedScrollingEnabled = false

@@ -10,7 +10,6 @@ import demo.lizl.com.psnine.custom.view.GameCupListView
 import demo.lizl.com.psnine.mvp.contract.GameDetailActivityContract
 import demo.lizl.com.psnine.mvp.presenter.GameDetailActivityPresenter
 import demo.lizl.com.psnine.util.GlideUtil
-import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.activity_game_detail.*
 
 class GameDetailActivity : BaseActivity<GameDetailActivityPresenter>(), GameDetailActivityContract.View
@@ -27,7 +26,6 @@ class GameDetailActivity : BaseActivity<GameDetailActivityPresenter>(), GameDeta
         presenter.refreshGameDetailInfo()
 
         refresh_layout.setEnableLoadMore(false)
-        refresh_layout.setRefreshHeader(UiUtil.getDefaultRefreshHeader(this))
         refresh_layout.setEnableRefresh(true)
         refresh_layout.isNestedScrollingEnabled = false
         refresh_layout.setOnRefreshListener { presenter.refreshGameDetailInfo() }

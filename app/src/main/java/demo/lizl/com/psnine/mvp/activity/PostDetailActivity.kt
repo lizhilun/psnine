@@ -9,7 +9,6 @@ import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.mvp.contract.EmptyContract
 import demo.lizl.com.psnine.mvp.presenter.EmptyPresenter
 import demo.lizl.com.psnine.util.ActivityUtil
-import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.activity_post_detail.*
 
 class PostDetailActivity : BaseActivity<EmptyPresenter>(), EmptyContract.View
@@ -24,7 +23,6 @@ class PostDetailActivity : BaseActivity<EmptyPresenter>(), EmptyContract.View
         val postUrl = intent?.getStringExtra(AppConstant.BUNDLE_DATA_STRING).orEmpty()
 
         refresh_layout.setEnableLoadMore(false)
-        refresh_layout.setRefreshHeader(UiUtil.getDefaultRefreshHeader(this))
         refresh_layout.setEnableRefresh(true)
         refresh_layout.setOnRefreshListener { wv_view.reload() }
 

@@ -5,10 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.text.InputFilter
 import android.text.Spanned
-import androidx.core.content.ContextCompat
-import com.scwang.smartrefresh.header.DeliveryHeader
-import com.scwang.smartrefresh.layout.footer.BallPulseFooter
-import demo.lizl.com.psnine.R
 
 
 object UiUtil
@@ -23,18 +19,6 @@ object UiUtil
             return@InputFilter null
         }
     }
-
-    /**
-     * 获取RefreshLayout默认header
-     */
-    fun getDefaultRefreshHeader(context: Context) = DeliveryHeader(context).apply {
-        setBackgroundColor(ContextCompat.getColor(context, R.color.colorDivideView))
-    }
-
-    /**
-     * 获取RefreshLayout默认header
-     */
-    fun getDefaultRefreshFooter(context: Context) = BallPulseFooter(context)
 
     /**
      * 获取过滤换行的InputFilter

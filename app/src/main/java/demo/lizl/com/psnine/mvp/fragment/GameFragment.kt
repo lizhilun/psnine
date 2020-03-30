@@ -37,8 +37,6 @@ class GameFragment : BaseFragment<GameFragmentPresenter>(), GameFragmentContract
 
     override fun initView()
     {
-        refresh_layout.setRefreshHeader(UiUtil.getDefaultRefreshHeader(activity as Context))
-        refresh_layout.setRefreshFooter(UiUtil.getDefaultRefreshFooter(activity as Context))
         refresh_layout.setEnableRefresh(true)
         refresh_layout.setEnableLoadMore(false)
         refresh_layout.isNestedScrollingEnabled = false

@@ -1,6 +1,5 @@
 package demo.lizl.com.psnine.mvp.fragment
 
-import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.adapter.PostListAdapter
@@ -9,7 +8,6 @@ import demo.lizl.com.psnine.mvp.activity.PostDetailActivity
 import demo.lizl.com.psnine.mvp.contract.HomeFragmentContract
 import demo.lizl.com.psnine.mvp.presenter.HomeFragmentPresenter
 import demo.lizl.com.psnine.util.ActivityUtil
-import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment<HomeFragmentPresenter>(), HomeFragmentContract.View
@@ -23,7 +21,6 @@ class HomeFragment : BaseFragment<HomeFragmentPresenter>(), HomeFragmentContract
     override fun initView()
     {
         refresh_layout.setEnableLoadMore(true)
-        refresh_layout.setRefreshHeader(UiUtil.getDefaultRefreshHeader(activity as Context))
         refresh_layout.setEnableRefresh(true)
         refresh_layout.setOnRefreshListener { presenter.refreshPostList() }
         refresh_layout.setOnLoadMoreListener { presenter.LoadMorePost() }

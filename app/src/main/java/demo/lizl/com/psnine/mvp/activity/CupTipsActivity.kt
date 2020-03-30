@@ -8,7 +8,6 @@ import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.mvp.contract.CupTipsActivityContract
 import demo.lizl.com.psnine.mvp.presenter.CupTipsActivityPresenter
 import demo.lizl.com.psnine.util.GlideUtil
-import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.activity_cup_tips.*
 
 class CupTipsActivity : BaseActivity<CupTipsActivityPresenter>(), CupTipsActivityContract.View
@@ -28,7 +27,6 @@ class CupTipsActivity : BaseActivity<CupTipsActivityPresenter>(), CupTipsActivit
         presenter.refreshTipsList()
 
         refresh_layout.setEnableLoadMore(false)
-        refresh_layout.setRefreshHeader(UiUtil.getDefaultRefreshHeader(this))
         refresh_layout.setEnableRefresh(true)
         refresh_layout.setOnRefreshListener { presenter.refreshTipsList() }
 
