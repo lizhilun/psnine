@@ -7,11 +7,10 @@ import com.jeremyliao.liveeventbus.LiveEventBus
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.EventConstant
-import demo.lizl.com.psnine.mvp.contract.EmptyContract
 import demo.lizl.com.psnine.mvp.presenter.EmptyPresenter
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : BaseActivity<EmptyPresenter>(), EmptyContract.View
+class LoginActivity : BaseActivity<EmptyPresenter>()
 {
     override fun getLayoutResId() = R.layout.activity_login
 
