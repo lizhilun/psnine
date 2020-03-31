@@ -41,7 +41,7 @@ class GameCupListView(context: Context, attrs: AttributeSet?, defStyle: Int) : F
 
     fun bindGameCupInfo()
     {
-        GlideUtil.displayImage(context, gameCupCoverUrl, iv_game_cup_cover)
+        GlideUtil.displayImage(iv_game_cup_cover, gameCupCoverUrl)
 
         tv_game_cup_name.text = gameCupName
         tv_game_cup_count.text = gameCupCount

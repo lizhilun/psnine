@@ -41,7 +41,7 @@ class CupTipsActivity : BaseActivity<CupTipsActivityPresenter>(), CupTipsActivit
     {
         tv_cup_name.text = cupName
         tv_cup_description.text = cupDescription
-        GlideUtil.displayImage(this, cupCover, iv_cup_cover)
+        GlideUtil.displayImage(iv_cup_cover, cupCover)
     }
 
     override fun onCupTipPostListRefresh(postList: MutableList<ReplyPostItem>)

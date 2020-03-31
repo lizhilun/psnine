@@ -85,7 +85,7 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
     override fun onUserInfoRefresh(userInfoItem: UserInfoItem)
     {
         refresh_layout.finishRefresh()
-        GlideUtil.displayImage(activity as Context, userInfoItem.avatarUrl, iv_avatar)
+        GlideUtil.displayImage(iv_avatar, userInfoItem.avatarUrl)
         tv_user_account.text = userInfoItem.userId
         tv_user_experience.text = userInfoItem.userLevel
         tv_user_cup.text = userInfoItem.userCupInfo

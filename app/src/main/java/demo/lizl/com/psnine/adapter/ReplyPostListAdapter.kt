@@ -21,17 +21,14 @@ class ReplyPostListAdapter() : BaseQuickAdapter<ReplyPostItem, ReplyPostListAdap
     {
         fun bindViewHolder(postItem: ReplyPostItem)
         {
-            GlideUtil.displayImage(context, postItem.imageUrl, itemView.iv_post_icon)
+            GlideUtil.displayImage(itemView.iv_post_icon, postItem.imageUrl)
             itemView.tv_post_title.text = postItem.postContent
             itemView.tv_post_writer.text = postItem.postWriterId
             itemView.tv_post_time.text = postItem.postTime
 
-            if (postItem.subReplyPostList.size > 0)
-            {
-                val subReplyListAdapter = SubReplyListAdapter(postItem.subReplyPostList)
-                itemView.rv_sub_reply_poet_list.layoutManager = LinearLayoutManager(context)
-                itemView.rv_sub_reply_poet_list.adapter = subReplyListAdapter
-            }
+            val subReplyListAdapter = SubReplyListAdapter(postItem.subReplyPostList)
+            itemView.rv_sub_reply_poet_list.layoutManager = LinearLayoutManager(context)
+            itemView.rv_sub_reply_poet_list.adapter = subReplyListAdapter
         }
     }
 }

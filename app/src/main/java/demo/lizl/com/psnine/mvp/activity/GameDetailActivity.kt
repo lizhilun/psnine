@@ -36,7 +36,7 @@ class GameDetailActivity : BaseActivity<GameDetailActivityPresenter>(), GameDeta
     override fun onGameInfoRefresh(gameInfoItem: GameInfoItem)
     {
         refresh_layout.finishRefresh()
-        GlideUtil.displayImage(this, gameInfoItem.coverUrl, iv_game_cover)
+        GlideUtil.displayImage(iv_game_cover, gameInfoItem.coverUrl)
         tv_game_name.text = gameInfoItem.gameName
         tv_game_cup_info.text = gameInfoItem.gameCupInfo
     }

@@ -2,6 +2,7 @@ package demo.lizl.com.psnine.adapter
 
 import android.graphics.Paint
 import android.view.View
+import androidx.core.view.isVisible
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
@@ -24,7 +25,7 @@ class DiscountGameListAdapter : BaseQuickAdapter<DiscountGameItem, DiscountGameL
     {
         fun bindViewHolder(discountGameItem: DiscountGameItem)
         {
-            GlideUtil.displayImage(context, discountGameItem.gameCoverUrl, itemView.iv_game_cover)
+            GlideUtil.displayImage(itemView.iv_game_cover, discountGameItem.gameCoverUrl)
 
             itemView.tv_discount_rate.text = discountGameItem.discountRate
             itemView.tv_game_name.text = discountGameItem.gameName
@@ -33,7 +34,7 @@ class DiscountGameListAdapter : BaseQuickAdapter<DiscountGameItem, DiscountGameL
             itemView.tv_original_price.text = discountGameItem.originalPrice
             itemView.tv_not_member_price.text = discountGameItem.notMemberPrice
             itemView.tv_member_price.text = discountGameItem.memberPrice
-            itemView.tv_is_lowest.visibility = if (discountGameItem.isLowest) View.VISIBLE else View.GONE
+            itemView.tv_is_lowest.isVisible = discountGameItem.isLowest
             itemView.tv_original_price.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
             itemView.tv_platform.setBackgroundColor(GameUtil.getPlatformColor(discountGameItem.gamePlatform))
 

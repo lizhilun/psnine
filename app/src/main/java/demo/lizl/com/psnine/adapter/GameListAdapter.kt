@@ -24,7 +24,7 @@ class GameListAdapter : BaseQuickAdapter<GameInfoItem, GameListAdapter.ViewHolde
     {
         fun bindViewHolder(gameInfoItem: GameInfoItem)
         {
-            GlideUtil.displayImage(context, gameInfoItem.coverUrl, itemView.iv_game_icon)
+            GlideUtil.displayImage(itemView.iv_game_icon, gameInfoItem.coverUrl)
 
             itemView.tv_game_name.text = gameInfoItem.gameName
             itemView.tv_last_update_time.text = gameInfoItem.lastUpdateTime

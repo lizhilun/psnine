@@ -1,6 +1,5 @@
 package demo.lizl.com.psnine.util
 
-import android.content.Context
 import android.widget.ImageView
 import demo.lizl.com.psnine.GlideApp
 
@@ -9,8 +8,8 @@ object GlideUtil
     /**
      * 加载图片并显示
      */
-    fun displayImage(context: Context, imageUri: String, imageView: ImageView)
+    fun displayImage(imageView: ImageView, imageUri: String)
     {
-        GlideApp.with(context).load(imageUri).into(imageView)
+        GlideApp.with(imageView.context).load(imageUri).into(imageView)
     }
 }

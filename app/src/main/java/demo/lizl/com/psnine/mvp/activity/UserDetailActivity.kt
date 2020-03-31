@@ -15,15 +15,8 @@ class UserDetailActivity : BaseActivity<EmptyPresenter>()
     override fun initView()
     {
         val psnId = intent?.getStringExtra(AppConstant.BUNDLE_DATA_STRING).orEmpty()
-        showUserFragment(psnId)
-    }
-
-    private fun showUserFragment(psnId: String)
-    {
         val userFragment = UserFragment()
-        val bundle = Bundle()
-        bundle.putString(AppConstant.BUNDLE_DATA_STRING, psnId)
-        userFragment.arguments = bundle
+        userFragment.arguments = Bundle().apply { putString(AppConstant.BUNDLE_DATA_STRING, psnId) }
         supportFragmentManager.beginTransaction().replace(R.id.container, userFragment).commit()
         supportFragmentManager.beginTransaction().show(userFragment).commit()
     }

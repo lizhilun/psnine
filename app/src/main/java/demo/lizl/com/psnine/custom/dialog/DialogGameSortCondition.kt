@@ -7,10 +7,7 @@ import kotlinx.android.synthetic.main.dialog_game_sort_condition.*
 class DialogGameSortCondition(context: Context, private val onConfirmButtonClickListener: (String, String) -> Unit) :
     BaseDialog(context, context.getString(R.string.sort_condition))
 {
-    override fun getDialogContentViewResId(): Int
-    {
-        return R.layout.dialog_game_sort_condition
-    }
+    override fun getDialogContentViewResId() = R.layout.dialog_game_sort_condition
 
     override fun initView()
     {

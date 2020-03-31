@@ -1,13 +1,12 @@
 package demo.lizl.com.psnine.adapter
 
-import android.text.TextUtils
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.bean.GameCupItem
+import demo.lizl.com.psnine.custom.function.setBackgroundColorRes
 import demo.lizl.com.psnine.util.GameUtil
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.item_game_cup.view.*
@@ -26,17 +25,9 @@ class GameCupListAdapter(gameCupList: List<GameCupItem>) :
     {
         fun bindViewHolder(gameCupItem: GameCupItem)
         {
-            GlideUtil.displayImage(context, gameCupItem.cupImageUrl, itemView.iv_cup)
-            if (TextUtils.isEmpty(gameCupItem.cupGetTime))
-            {
-                itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent))
-                itemView.tv_cup_time_get_time.isVisible = false
-            }
-            else
-            {
-                itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.color_game_cup_get_bg))
-                itemView.tv_cup_time_get_time.isVisible = true
-            }
+            GlideUtil.displayImage(itemView.iv_cup, gameCupItem.cupImageUrl)
+            itemView.setBackgroundColorRes(if (gameCupItem.cupGetTime.isBlank()) R.color.transparent else R.color.color_game_cup_get_bg)
+            itemView.tv_cup_time_get_time.isVisible = gameCupItem.cupGetTime.isNotBlank()
             itemView.tv_tips.text = gameCupItem.tipInfo
             itemView.tv_tips.isVisible = gameCupItem.tipInfo.isNotBlank()
             itemView.iv_cup_bg.setBackgroundColor(GameUtil.getGameCupBgColor(gameCupItem.cupType))

@@ -2,7 +2,6 @@ package demo.lizl.com.psnine.adapter
 
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.bean.PostItem
@@ -24,7 +23,7 @@ class PostListAdapter : BaseQuickAdapter<PostItem, PostListAdapter.ViewHolder>(R
     {
         fun bindViewHolder(postItem: PostItem)
         {
-            GlideUtil.displayImage(context, postItem.imageUrl, itemView.iv_post_icon)
+            GlideUtil.displayImage(itemView.iv_post_icon, postItem.imageUrl)
             itemView.tv_post_title.text = postItem.postTitle
             itemView.tv_post_writer.text = postItem.postWriterId
             itemView.tv_last_update_time.text = postItem.lateUpdateTime
