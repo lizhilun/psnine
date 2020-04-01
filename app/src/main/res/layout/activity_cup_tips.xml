@@ -1,85 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.scwang.smartrefresh.layout.SmartRefreshLayout
-    android:id="@+id/refresh_layout"
-    style="@style/GlobalLayoutParentStyle"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.core.widget.NestedScrollView
+    <data>
+
+        <variable
+            name="cupInfoItem"
+            type="demo.lizl.com.psnine.bean.CupInfoItem" />
+
+        <variable
+            name="replyPostListAdapter"
+            type="demo.lizl.com.psnine.adapter.ReplyPostListAdapter" />
+    </data>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
+        style="@style/GlobalLayoutParentStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:srlEnableLoadMore="false"
+        app:srlEnableRefresh="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_cup_info"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/content_padding_top_edge_small"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ic_back"
-                    style="@style/GlobalBackButtonStyle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_cup_name"
-                    style="@style/GlobalTextStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="60dp"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginTop="@dimen/content_padding_status_bar_padding"
-                    android:gravity="center_horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_cup_cover"
-                    android:layout_width="@dimen/game_detail_game_cover_size"
-                    android:layout_height="@dimen/game_detail_game_cover_size"
-                    android:layout_marginTop="@dimen/content_padding_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_cup_name"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_cup_description"
-                    style="@style/GlobalSecondaryTextStyle"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_cup_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="@dimen/content_padding_content"
-                    android:gravity="center"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_cup_cover"/>
+                    android:paddingBottom="@dimen/content_padding_top_edge_small"
+                    app:layout_constraintTop_toTopOf="parent">
 
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ic_back"
+                        style="@style/GlobalBackButtonStyle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_cup_name"
+                        style="@style/GlobalTextStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginTop="@dimen/content_padding_status_bar_padding"
+                        android:layout_marginEnd="60dp"
+                        android:gravity="center_horizontal"
+                        android:text="@{cupInfoItem.cupName}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/iv_cup_cover"
+                        android:layout_width="@dimen/game_detail_game_cover_size"
+                        android:layout_height="@dimen/game_detail_game_cover_size"
+                        android:layout_marginTop="@dimen/content_padding_content"
+                        app:imageUri="@{cupInfoItem.cupCover}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_cup_name" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_cup_description"
+                        style="@style/GlobalSecondaryTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="@dimen/content_padding_content"
+                        android:layout_marginEnd="40dp"
+                        android:gravity="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_cup_cover"
+                        app:text="@{cupInfoItem.cupDescription}" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:id="@+id/view_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/global_divider_view_height"
+                    android:background="@color/colorDivideView"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_cup_info" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_tips_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:adapter="@{replyPostListAdapter}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/view_divider" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:id="@+id/view_divider"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/global_divider_view_height"
-                android:background="@color/colorDivideView"
-                app:layout_constraintTop_toBottomOf="@+id/cl_cup_info"/>
+        </androidx.core.widget.NestedScrollView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_tips_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/view_divider"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</layout>

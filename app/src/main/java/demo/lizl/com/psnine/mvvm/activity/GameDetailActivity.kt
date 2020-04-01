@@ -9,9 +9,8 @@ import demo.lizl.com.psnine.adapter.GameCupGroupListAdapter
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.databinding.ActivityGameDetailBinding
 import demo.lizl.com.psnine.mvvm.viewmodel.GameDetailViewModel
-import kotlinx.android.synthetic.main.activity_game_detail.*
 
-class GameDetailActivity : BaseDataBindingActivity<ActivityGameDetailBinding>()
+class GameDetailActivity : BaseActivity<ActivityGameDetailBinding>()
 {
     override fun getLayoutResId() = R.layout.activity_game_detail
 
@@ -27,7 +26,7 @@ class GameDetailActivity : BaseDataBindingActivity<ActivityGameDetailBinding>()
         dataBinding.gameCupGroupListAdapter = gameCupGroupListAdapter
         dataBinding.onBackBtnClickListener = View.OnClickListener { onBackPressed() }
 
-        refresh_layout.setOnRefreshListener { viewModel.refreshGameDetailInfo() }
+        dataBinding.refreshLayout.setOnRefreshListener { viewModel.refreshGameDetailInfo() }
 
         viewModel.refreshGameDetailInfo()
 
@@ -36,7 +35,7 @@ class GameDetailActivity : BaseDataBindingActivity<ActivityGameDetailBinding>()
         viewModel.getGameCupInfoLiveData().observe(this, Observer { dataBinding.gameCupInfo = it })
 
         viewModel.getGameCupGroupLiveData().observe(this, Observer {
-            refresh_layout.finishRefresh()
+            dataBinding.refreshLayout.finishRefresh()
             gameCupGroupListAdapter.setNewData(it.toMutableList())
         })
     }

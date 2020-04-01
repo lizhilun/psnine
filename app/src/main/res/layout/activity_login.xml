@@ -1,13 +1,24 @@
-<LinearLayout
-    android:id="@+id/refresh_layout"
-    style="@style/GlobalLayoutParentStyle"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <WebView
-        android:id="@+id/wv_view"
+    <data>
+
+        <variable
+            name="loginUrl"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/refresh_layout"
+        style="@style/GlobalLayoutParentStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-</LinearLayout>
+        <WebView
+            android:id="@+id/wv_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:url="@{loginUrl}" />
+
+    </LinearLayout>
+</layout>

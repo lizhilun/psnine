@@ -3,11 +3,15 @@ package demo.lizl.com.psnine.mvvm.activity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import demo.lizl.com.psnine.util.DialogUtil
 
-abstract class BaseActivity : AppCompatActivity()
+abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity()
 {
     protected val TAG = this.javaClass.simpleName
+
+    protected lateinit var dataBinding: DB
 
     abstract fun getLayoutResId(): Int
 
@@ -17,7 +21,8 @@ abstract class BaseActivity : AppCompatActivity()
     {
         Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
-        setContentView(getLayoutResId())
+
+        dataBinding = DataBindingUtil.setContentView(this, getLayoutResId())
 
         initView()
     }

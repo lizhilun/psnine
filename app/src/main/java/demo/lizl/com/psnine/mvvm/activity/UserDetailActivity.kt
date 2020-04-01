@@ -3,9 +3,10 @@ package demo.lizl.com.psnine.mvvm.activity
 import android.os.Bundle
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.constant.AppConstant
+import demo.lizl.com.psnine.databinding.ActivityUserDetailBinding
 import demo.lizl.com.psnine.mvvm.fragment.UserFragment
 
-class UserDetailActivity : BaseActivity()
+class UserDetailActivity : BaseActivity<ActivityUserDetailBinding>()
 {
     override fun getLayoutResId() = R.layout.activity_user_detail
 
