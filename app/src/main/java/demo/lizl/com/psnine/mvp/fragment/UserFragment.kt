@@ -4,65 +4,97 @@ import android.content.Context
 import android.text.TextUtils
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.ToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import demo.lizl.com.psnine.R
+import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.GameListAdapter
-import demo.lizl.com.psnine.bean.GameInfoItem
-import demo.lizl.com.psnine.bean.UserGameInfoItem
-import demo.lizl.com.psnine.bean.UserInfoItem
+import demo.lizl.com.psnine.bean.ResultItem
+import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.constant.EventConstant
 import demo.lizl.com.psnine.mvp.activity.GameDetailActivity
 import demo.lizl.com.psnine.mvp.activity.LoginActivity
-import demo.lizl.com.psnine.mvp.contract.UserFragmentContract
+import demo.lizl.com.psnine.mvp.presenter.EmptyPresenter
 import demo.lizl.com.psnine.mvp.presenter.UserFragmentPresenter
+import demo.lizl.com.psnine.mvp.viewmodel.UserGameViewModel
+import demo.lizl.com.psnine.mvp.viewmodel.UserInfoViewModel
 import demo.lizl.com.psnine.util.ActivityUtil
 import demo.lizl.com.psnine.util.DialogUtil
 import demo.lizl.com.psnine.util.GlideUtil
+import demo.lizl.com.psnine.util.UserInfoUpdateUtil
 import kotlinx.android.synthetic.main.fragment_user.*
 
 
-class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract.View
+class UserFragment : BaseFragment<EmptyPresenter>()
 {
-    private lateinit var gameListAdapter: GameListAdapter
+
+    private val gameListAdapter = GameListAdapter()
+
+    private val userInfoViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(UiApplication.instance).create(UserInfoViewModel::class.java)
+    private val userGameViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(UiApplication.instance).create(UserGameViewModel::class.java)
 
     override fun getLayoutResId() = R.layout.fragment_user
 
-    override fun initPresenter() = UserFragmentPresenter(this)
+    override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {
-        val psnId = activity?.intent?.extras?.getString(AppConstant.BUNDLE_DATA_STRING, "").orEmpty()
+        var psnId = activity?.intent?.extras?.getString(AppConstant.BUNDLE_DATA_STRING, "")
 
         val emptyPsnId = TextUtils.isEmpty(psnId)
         iv_back.isVisible = !emptyPsnId
         fab_synchronize_level.isVisible = emptyPsnId
         fab_synchronize_game.isVisible = emptyPsnId
-        presenter.bindPsnId(psnId)
 
-        gameListAdapter = GameListAdapter()
+        if (psnId.isNullOrBlank()) psnId = AppConfig.CUR_PSN_ID
+        userInfoViewModel.bindPsnId(psnId)
+        userGameViewModel.bindPsnId(psnId)
+
         rv_game_list.layoutManager = LinearLayoutManager(activity)
         rv_game_list.adapter = gameListAdapter
 
         refresh_layout.setEnableRefresh(false)
-        refresh_layout.setEnableLoadMore(false)
+        refresh_layout.setEnableLoadMore(true)
         refresh_layout.isNestedScrollingEnabled = false
-        refresh_layout.setOnRefreshListener { presenter.refreshUserPage() }
-        refresh_layout.setOnLoadMoreListener { presenter.loadMoreGameList() }
+
+        refresh_layout.setOnLoadMoreListener { userGameViewModel.loadMoreGameList() }
 
         fam_menu.setClosedOnTouchOutside(true)
 
+        val userInfoUpdateCallBack = { resultItem: ResultItem ->
+            when (resultItem.result)
+            {
+                AppConstant.RESULT_SUCCESS ->
+                {
+                    DialogUtil.dismissDialog()
+                    ToastUtils.showShort(R.string.notify_success_to_update_info)
+                    userInfoViewModel.refreshUserInfo()
+                    userGameViewModel.refreshUserGame()
+                }
+                else                       ->
+                {
+                    DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.notify_failed_to_update_info), resultItem.failedReason) {
+                        if (resultItem.failedReason == getString(R.string.notify_need_login_first))
+                        {
+                            ActivityUtil.turnToActivity(LoginActivity::class.java)
+                        }
+                    }
+                }
+            }
+        }
+
         fab_synchronize_level.setOnClickListener {
             DialogUtil.showLoadingDialog(activity as Context)
-            presenter.updateUserLevel()
+            UserInfoUpdateUtil.updateUserInfo(psnId, AppConfig.BASE_REQUEST_URL + "psnid/$psnId/upbase", userInfoUpdateCallBack)
             fam_menu.close(true)
         }
 
         fab_synchronize_game.setOnClickListener {
             DialogUtil.showLoadingDialog(activity as Context)
-            presenter.updateUserGame()
+            UserInfoUpdateUtil.updateUserInfo(psnId, AppConfig.BASE_REQUEST_URL + "psnid/$psnId/upgame", userInfoUpdateCallBack)
             fam_menu.close(true)
         }
 
@@ -76,66 +108,37 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
         gameListAdapter.setGameItemClickListener { ActivityUtil.turnToActivity(GameDetailActivity::class.java, it.gameDetailUrl) }
 
         LiveEventBus.get(EventConstant.EVENT_LOGIN_RESULT, Boolean::class.java).observe(this, Observer {
-            if (it) presenter.refreshUserPage()
+            if (it)
+            {
+                userInfoViewModel.refreshUserInfo()
+                userGameViewModel.refreshUserGame()
+            }
         })
 
-        presenter.refreshUserPage()
-    }
+        userInfoViewModel.refreshUserInfo()
+        userGameViewModel.refreshUserGame()
 
-    override fun onUserInfoRefresh(userInfoItem: UserInfoItem)
-    {
-        refresh_layout.finishRefresh()
-        GlideUtil.displayImage(iv_avatar, userInfoItem.avatarUrl)
-        tv_user_account.text = userInfoItem.userId
-        tv_user_experience.text = userInfoItem.userLevel
-        tv_user_cup.text = userInfoItem.userCupInfo
-    }
+        userInfoViewModel.getUserInfoLiveData().observe(this, Observer {
+            GlideUtil.displayImage(iv_avatar, it.avatarUrl)
+            tv_user_account.text = it.userId
+            tv_user_experience.text = it.userLevel
+            tv_user_cup.text = it.userCupInfo
+        })
 
-    override fun onUserGameInfoRefresh(userGameInfoItem: UserGameInfoItem)
-    {
-        refresh_layout.finishRefresh()
+        userInfoViewModel.getUserGameInfoLiveData().observe(this, Observer {
+            tv_game_total_number.text = it.totalCount.toString()
+            tv_game_perfect_number.text = it.perfectCount.toString()
+            tv_game_pit_number.text = it.pitCount.toString()
+            tv_game_completion_rate.text = it.completionRate
+            tv_cup_total_number.text = it.cupCount.toString()
+        })
 
-        tv_game_total_number.text = userGameInfoItem.totalCount.toString()
-        tv_game_perfect_number.text = userGameInfoItem.perfectCount.toString()
-        tv_game_pit_number.text = userGameInfoItem.pitCount.toString()
-        tv_game_completion_rate.text = userGameInfoItem.completionRate
-        tv_cup_total_number.text = userGameInfoItem.cupCount.toString()
-    }
-
-    override fun onUserGameListUpdate(gameList: MutableList<GameInfoItem>, gameTotalCount: Int)
-    {
-        refresh_layout.finishRefresh()
-
-        gameListAdapter.setNewData(gameList)
-
-        refresh_layout.setEnableLoadMore(true)
-        refresh_layout.setNoMoreData(gameListAdapter.data.size >= gameTotalCount)
-    }
-
-    override fun onMoreGameLoadFinish(gameList: MutableList<GameInfoItem>, gameTotalCount: Int)
-    {
-        refresh_layout.finishLoadMore()
-
-        gameListAdapter.addData(gameList)
-
-        refresh_layout.setNoMoreData(gameListAdapter.data.size >= gameTotalCount)
-    }
-
-    override fun onInfoUpdateFinish()
-    {
-        DialogUtil.dismissDialog()
-        ToastUtils.showShort(R.string.notify_success_to_update_info)
-        presenter.refreshUserPage()
-    }
-
-    override fun onInfoUpdateFailed(reason: String)
-    {
-        DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.notify_failed_to_update_info), reason) {
-            if (reason == getString(R.string.notify_need_login_first))
-            {
-                ActivityUtil.turnToActivity(LoginActivity::class.java)
-            }
-        }
+        userGameViewModel.getUserGameLiveData().observe(this, Observer {
+            refresh_layout.finishRefresh()
+            refresh_layout.finishLoadMore()
+            refresh_layout.setNoMoreData(it.size >= userGameViewModel.getUserGameCountLiveData().value ?: 0)
+            gameListAdapter.setDiffNewData(it.toMutableList())
+        })
     }
 
     private fun showGameSortConditionDialog()
@@ -157,7 +160,7 @@ class UserFragment : BaseFragment<UserFragmentPresenter>(), UserFragmentContract
                 getString(R.string.perfect_difficult)  -> UserFragmentPresenter.SORT_GAME_BY_PERFECT_DIFFICULT
                 else                                   -> UserFragmentPresenter.SORT_GAME_BY_TIME
             }
-            presenter.refreshGameList(platform, condition)
+            userGameViewModel.sortUserGame(platform, condition)
         }
     }
 }
