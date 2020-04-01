@@ -39,6 +39,10 @@ android {
             coroutines 'enable'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {

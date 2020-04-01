@@ -1,175 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.scwang.smartrefresh.layout.SmartRefreshLayout
-    android:id="@+id/refresh_layout"
-    style="@style/GlobalLayoutParentStyle"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.core.widget.NestedScrollView
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="gameInfo"
+            type="demo.lizl.com.psnine.bean.GameInfoItem" />
+
+        <variable
+            name="gameCupInfo"
+            type="demo.lizl.com.psnine.bean.GameCupInfoItem" />
+
+        <variable
+            name="gameCupGroupListAdapter"
+            type="demo.lizl.com.psnine.adapter.GameCupGroupListAdapter" />
+
+        <variable
+            name="onBackBtnClickListener"
+            type="View.OnClickListener" />
+    </data>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
+        style="@style/GlobalLayoutParentStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:srlEnableLoadMore="false"
+        app:srlEnableNestedScrolling="false"
+        app:srlEnableRefresh="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_game_info"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/content_padding_top_edge_small"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ic_back"
-                    style="@style/GlobalBackButtonStyle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_game_name"
-                    style="@style/GlobalTextStyle"
-                    android:layout_width="0dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_game_info"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="60dp"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginTop="@dimen/content_padding_status_bar_padding"
-                    android:gravity="center_horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    android:paddingBottom="@dimen/content_padding_top_edge_small"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_game_cover"
-                    android:layout_width="@dimen/game_detail_game_cover_size"
-                    android:layout_height="@dimen/game_detail_game_cover_size"
-                    android:layout_marginTop="@dimen/content_padding_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_game_name"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ic_back"
+                        style="@style/GlobalBackButtonStyle"
+                        android:onClick="@{onBackBtnClickListener}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_game_cup_info"
-                    style="@style/GlobalSecondaryTextStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/content_padding_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_game_cover"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_game_name"
+                        style="@style/GlobalTextStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginTop="@dimen/content_padding_status_bar_padding"
+                        android:layout_marginEnd="60dp"
+                        android:gravity="center_horizontal"
+                        android:text="@{gameInfo.gameName}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_game_progress"
-                    style="@style/GlobalSmallTextStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/content_padding_content"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_first_cup_time"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_game_cup_info"/>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/iv_game_cover"
+                        android:layout_width="@dimen/game_detail_game_cover_size"
+                        android:layout_height="@dimen/game_detail_game_cover_size"
+                        android:layout_marginTop="@dimen/content_padding_content"
+                        app:imageUri="@{gameInfo.coverUrl}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_game_name" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_game_progress_des"
-                    style="@style/GlobalSecondarySmallerTextStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/game_progress"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_game_progress"
-                    app:layout_constraintStart_toStartOf="@+id/tv_game_progress"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_game_progress"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_game_cup_info"
+                        style="@style/GlobalSecondaryTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/content_padding_content"
+                        android:text="@{gameInfo.gameCupInfo}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_game_cover" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_first_cup_time"
-                    style="@style/GlobalSmallTextStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/content_padding_content"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_last_cup_time"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toEndOf="@+id/tv_game_progress"
-                    app:layout_constraintTop_toTopOf="@+id/tv_game_progress"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_game_progress"
+                        style="@style/GlobalSmallTextStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/content_padding_content"
+                        android:text="@{gameCupInfo.gameProgress}"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_first_cup_time"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_game_cup_info" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_first_cup_time_des"
-                    style="@style/GlobalSecondarySmallerTextStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/first_cup"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_first_cup_time"
-                    app:layout_constraintStart_toStartOf="@+id/tv_first_cup_time"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_first_cup_time"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_game_progress_des"
+                        style="@style/GlobalSecondarySmallerTextStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/game_progress"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_game_progress"
+                        app:layout_constraintStart_toStartOf="@+id/tv_game_progress"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_game_progress" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_last_cup_time"
-                    style="@style/GlobalSmallTextStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/content_padding_content"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_total_time"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toEndOf="@+id/tv_first_cup_time"
-                    app:layout_constraintTop_toTopOf="@+id/tv_game_progress"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_first_cup_time"
+                        style="@style/GlobalSmallTextStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/content_padding_content"
+                        android:text="@{gameCupInfo.firstCupTime}"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_last_cup_time"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toEndOf="@+id/tv_game_progress"
+                        app:layout_constraintTop_toTopOf="@+id/tv_game_progress" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_last_cup_time_des"
-                    style="@style/GlobalSecondarySmallerTextStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/last_cup"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_last_cup_time"
-                    app:layout_constraintStart_toStartOf="@+id/tv_last_cup_time"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_last_cup_time"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_first_cup_time_des"
+                        style="@style/GlobalSecondarySmallerTextStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/first_cup"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_first_cup_time"
+                        app:layout_constraintStart_toStartOf="@+id/tv_first_cup_time"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_first_cup_time" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_total_time"
-                    style="@style/GlobalSmallTextStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/content_padding_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toEndOf="@+id/tv_last_cup_time"
-                    app:layout_constraintTop_toTopOf="@+id/tv_game_progress"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_last_cup_time"
+                        style="@style/GlobalSmallTextStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/content_padding_content"
+                        android:text="@{gameCupInfo.lastCupTime}"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_total_time"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toEndOf="@+id/tv_first_cup_time"
+                        app:layout_constraintTop_toTopOf="@+id/tv_game_progress" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_total_time_des"
-                    style="@style/GlobalSecondarySmallerTextStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/total_time"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_total_time"
-                    app:layout_constraintStart_toStartOf="@+id/tv_total_time"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_total_time"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_last_cup_time_des"
+                        style="@style/GlobalSecondarySmallerTextStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/last_cup"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_last_cup_time"
+                        app:layout_constraintStart_toStartOf="@+id/tv_last_cup_time"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_last_cup_time" />
 
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/group_user_game_cup_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:constraint_referenced_ids="tv_game_progress,tv_game_progress_des
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_total_time"
+                        style="@style/GlobalSmallTextStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/content_padding_content"
+                        android:text="@{gameCupInfo.totalTime}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toEndOf="@+id/tv_last_cup_time"
+                        app:layout_constraintTop_toTopOf="@+id/tv_game_progress" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_total_time_des"
+                        style="@style/GlobalSecondarySmallerTextStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/total_time"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_total_time"
+                        app:layout_constraintStart_toStartOf="@+id/tv_total_time"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_total_time" />
+
+                    <androidx.constraintlayout.widget.Group
+                        android:id="@+id/group_user_game_cup_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{gameCupInfo == null? View.GONE : View.VISIBLE}"
+                        app:constraint_referenced_ids="tv_game_progress,tv_game_progress_des
                     ,tv_first_cup_time,tv_first_cup_time_des,tv_last_cup_time,tv_last_cup_time_des
-                    ,tv_total_time,tv_total_time_des"/>
+                    ,tv_total_time,tv_total_time_des" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_game_cup_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    app:adapter="@{gameCupGroupListAdapter}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_game_info" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_game_cup_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/cl_game_info"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-    </androidx.core.widget.NestedScrollView>
-
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</layout>

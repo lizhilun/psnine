@@ -25,6 +25,7 @@ object UserInfoUpdateUtil
 
     fun updateUserInfo(psnId: String, updateUrl: String, resultCallBack: (ResultItem) -> Unit)
     {
+        webView.removeJavascriptInterface("java_obj")
         webView.addJavascriptInterface(InJavaScriptLocalObj(resultCallBack), "java_obj")
 
         webView.webViewClient = object : WebViewClient()
