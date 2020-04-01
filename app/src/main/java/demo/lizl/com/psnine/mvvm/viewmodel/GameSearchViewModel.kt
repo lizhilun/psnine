@@ -1,4 +1,4 @@
-package demo.lizl.com.psnine.mvp.viewmodel
+package demo.lizl.com.psnine.mvvm.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

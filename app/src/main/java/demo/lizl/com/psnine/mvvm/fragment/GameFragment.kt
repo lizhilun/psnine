@@ -1,4 +1,4 @@
-package demo.lizl.com.psnine.mvp.fragment
+package demo.lizl.com.psnine.mvvm.fragment
 
 import android.content.Context
 import androidx.core.view.isVisible
@@ -13,17 +13,16 @@ import demo.lizl.com.psnine.adapter.DiscountGameListAdapter
 import demo.lizl.com.psnine.adapter.GameListAdapter
 import demo.lizl.com.psnine.adapter.ViewPagerAdapter
 import demo.lizl.com.psnine.custom.function.addOnPageChangeListener
-import demo.lizl.com.psnine.mvp.activity.GameDetailActivity
-import demo.lizl.com.psnine.mvp.presenter.EmptyPresenter
-import demo.lizl.com.psnine.mvp.viewmodel.DiscountViewModel
-import demo.lizl.com.psnine.mvp.viewmodel.GameSearchViewModel
-import demo.lizl.com.psnine.mvp.viewmodel.HotGameViewModel
+import demo.lizl.com.psnine.mvvm.activity.GameDetailActivity
+import demo.lizl.com.psnine.mvvm.viewmodel.DiscountViewModel
+import demo.lizl.com.psnine.mvvm.viewmodel.GameSearchViewModel
+import demo.lizl.com.psnine.mvvm.viewmodel.HotGameViewModel
 import demo.lizl.com.psnine.util.ActivityUtil
 import demo.lizl.com.psnine.util.DialogUtil
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_game.*
 
-class GameFragment : BaseFragment<EmptyPresenter>()
+class GameFragment : BaseFragment()
 {
     private val hotGameListAdapter = GameListAdapter()
     private val searchResultListAdapter = GameListAdapter()
@@ -36,8 +35,6 @@ class GameFragment : BaseFragment<EmptyPresenter>()
     private var hasNoMoreDiscountGame = false
 
     override fun getLayoutResId() = R.layout.fragment_game
-
-    override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {

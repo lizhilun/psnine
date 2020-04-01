@@ -7,8 +7,8 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.adapter.GameCupListAdapter
-import demo.lizl.com.psnine.bean.GameCupItem
-import demo.lizl.com.psnine.mvp.activity.CupTipsActivity
+import demo.lizl.com.psnine.bean.GameCupGroupItem
+import demo.lizl.com.psnine.mvvm.activity.CupTipsActivity
 import demo.lizl.com.psnine.util.ActivityUtil
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.layout_game_list_view.view.*
@@ -26,27 +26,21 @@ class GameCupListView(context: Context, attrs: AttributeSet?, defStyle: Int) : F
         addView(convertView)
     }
 
-    private lateinit var gameCupName: String
-    private lateinit var gameCupCoverUrl: String
-    private lateinit var gameCupCount: String
-    private lateinit var gameCupList: List<GameCupItem>
+    private lateinit var gameCupGroupItem: GameCupGroupItem
 
-    fun setViewInfo(gameCupName: String, gameCupCoverUrl: String, gameCupCount: String, gameCupList: List<GameCupItem>)
+    fun bindGameCupGroupItem(gameCupGroupItem: GameCupGroupItem)
     {
-        this.gameCupName = gameCupName
-        this.gameCupCoverUrl = gameCupCoverUrl
-        this.gameCupCount = gameCupCount
-        this.gameCupList = gameCupList
+        this.gameCupGroupItem = gameCupGroupItem
     }
 
     fun bindGameCupInfo()
     {
-        GlideUtil.displayImage(iv_game_cup_cover, gameCupCoverUrl)
+        GlideUtil.displayImage(iv_game_cup_cover, gameCupGroupItem.gameCupCoverUrl)
 
-        tv_game_cup_name.text = gameCupName
-        tv_game_cup_count.text = gameCupCount
+        tv_game_cup_name.text = gameCupGroupItem.gameCupName
+        tv_game_cup_count.text = gameCupGroupItem.gameCupCount
 
-        val gameCupListAdapter = GameCupListAdapter(gameCupList)
+        val gameCupListAdapter = GameCupListAdapter(gameCupGroupItem.gameCupList)
         rv_game_cup_list.layoutManager = LinearLayoutManager(context)
         rv_game_cup_list.adapter = gameCupListAdapter
 

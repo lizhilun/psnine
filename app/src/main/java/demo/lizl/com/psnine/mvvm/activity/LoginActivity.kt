@@ -1,4 +1,4 @@
-package demo.lizl.com.psnine.mvp.activity
+package demo.lizl.com.psnine.mvvm.activity
 
 import android.util.Log
 import android.webkit.WebView
@@ -7,14 +7,11 @@ import com.jeremyliao.liveeventbus.LiveEventBus
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.EventConstant
-import demo.lizl.com.psnine.mvp.presenter.EmptyPresenter
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : BaseActivity<EmptyPresenter>()
+class LoginActivity : BaseActivity()
 {
     override fun getLayoutResId() = R.layout.activity_login
-
-    override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {

@@ -1,4 +1,4 @@
-package demo.lizl.com.psnine.mvp.activity
+package demo.lizl.com.psnine.mvvm.activity
 
 import android.util.Log
 import android.webkit.WebView
@@ -6,16 +6,13 @@ import android.webkit.WebViewClient
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.AppConstant
-import demo.lizl.com.psnine.mvp.presenter.EmptyPresenter
 import demo.lizl.com.psnine.util.ActivityUtil
 import kotlinx.android.synthetic.main.activity_post_detail.*
 
-class PostDetailActivity : BaseActivity<EmptyPresenter>()
+class PostDetailActivity : BaseActivity()
 {
 
     override fun getLayoutResId() = R.layout.activity_post_detail
-
-    override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {

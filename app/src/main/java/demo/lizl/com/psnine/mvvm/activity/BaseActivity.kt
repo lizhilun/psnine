@@ -1,20 +1,15 @@
-package demo.lizl.com.psnine.mvp.activity
+package demo.lizl.com.psnine.mvvm.activity
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import demo.lizl.com.psnine.mvp.base.BasePresenter
 import demo.lizl.com.psnine.util.DialogUtil
 
-abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity()
+abstract class BaseActivity : AppCompatActivity()
 {
     protected val TAG = this.javaClass.simpleName
 
-    protected lateinit var presenter: T
-
     abstract fun getLayoutResId(): Int
-
-    abstract fun initPresenter(): T
 
     abstract fun initView()
 
@@ -23,8 +18,6 @@ abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity()
         Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(getLayoutResId())
-
-        presenter = initPresenter()
 
         initView()
     }
@@ -65,7 +58,5 @@ abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity()
     {
         Log.d(TAG, "onDestroy")
         super.onDestroy()
-
-        presenter.onDestroy()
     }
 }

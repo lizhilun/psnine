@@ -6,7 +6,7 @@
     style="@style/GlobalLayoutParentStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mvp.activity.MainActivity">
+    tools:context=".mvvm.activity.MainActivity">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_fragment_container"

@@ -1,4 +1,4 @@
-package demo.lizl.com.psnine.mvp.fragment
+package demo.lizl.com.psnine.mvvm.fragment
 
 import android.content.Context
 import android.text.TextUtils
@@ -15,12 +15,10 @@ import demo.lizl.com.psnine.bean.ResultItem
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.constant.EventConstant
-import demo.lizl.com.psnine.mvp.activity.GameDetailActivity
-import demo.lizl.com.psnine.mvp.activity.LoginActivity
-import demo.lizl.com.psnine.mvp.presenter.EmptyPresenter
-import demo.lizl.com.psnine.mvp.presenter.UserFragmentPresenter
-import demo.lizl.com.psnine.mvp.viewmodel.UserGameViewModel
-import demo.lizl.com.psnine.mvp.viewmodel.UserInfoViewModel
+import demo.lizl.com.psnine.mvvm.activity.GameDetailActivity
+import demo.lizl.com.psnine.mvvm.activity.LoginActivity
+import demo.lizl.com.psnine.mvvm.viewmodel.UserGameViewModel
+import demo.lizl.com.psnine.mvvm.viewmodel.UserInfoViewModel
 import demo.lizl.com.psnine.util.ActivityUtil
 import demo.lizl.com.psnine.util.DialogUtil
 import demo.lizl.com.psnine.util.GlideUtil
@@ -28,7 +26,7 @@ import demo.lizl.com.psnine.util.UserInfoUpdateUtil
 import kotlinx.android.synthetic.main.fragment_user.*
 
 
-class UserFragment : BaseFragment<EmptyPresenter>()
+class UserFragment : BaseFragment()
 {
 
     private val gameListAdapter = GameListAdapter()
@@ -37,8 +35,6 @@ class UserFragment : BaseFragment<EmptyPresenter>()
     private val userGameViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(UiApplication.instance).create(UserGameViewModel::class.java)
 
     override fun getLayoutResId() = R.layout.fragment_user
-
-    override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {
@@ -146,19 +142,19 @@ class UserFragment : BaseFragment<EmptyPresenter>()
         DialogUtil.showGameSortConditionDialog(activity as Context) { gamePlatform, sortCondition ->
             val platform = when (gamePlatform)
             {
-                getString(R.string.all) -> UserFragmentPresenter.GAME_PLATFORM_ALL
-                "PSV"                   -> UserFragmentPresenter.GAME_PLATFORM_PSV
-                "PS3"                   -> UserFragmentPresenter.GAME_PLATFORM_PS3
-                "PS4"                   -> UserFragmentPresenter.GAME_PLATFORM_PS4
-                else                    -> UserFragmentPresenter.GAME_PLATFORM_ALL
+                getString(R.string.all) -> UserGameViewModel.GAME_PLATFORM_ALL
+                "PSV"                   -> UserGameViewModel.GAME_PLATFORM_PSV
+                "PS3"                   -> UserGameViewModel.GAME_PLATFORM_PS3
+                "PS4"                   -> UserGameViewModel.GAME_PLATFORM_PS4
+                else                    -> UserGameViewModel.GAME_PLATFORM_ALL
             }
             val condition = when (sortCondition)
             {
-                getString(R.string.newest)             -> UserFragmentPresenter.SORT_GAME_BY_TIME
-                getString(R.string.fastest_completion) -> UserFragmentPresenter.SORT_GAME_BY_FASTEST_PROGRESS
-                getString(R.string.slowest_completion) -> UserFragmentPresenter.SORT_GAME_BY_SLOWEST_PROGRESS
-                getString(R.string.perfect_difficult)  -> UserFragmentPresenter.SORT_GAME_BY_PERFECT_DIFFICULT
-                else                                   -> UserFragmentPresenter.SORT_GAME_BY_TIME
+                getString(R.string.newest)             -> UserGameViewModel.SORT_GAME_BY_TIME
+                getString(R.string.fastest_completion) -> UserGameViewModel.SORT_GAME_BY_FASTEST_PROGRESS
+                getString(R.string.slowest_completion) -> UserGameViewModel.SORT_GAME_BY_SLOWEST_PROGRESS
+                getString(R.string.perfect_difficult)  -> UserGameViewModel.SORT_GAME_BY_PERFECT_DIFFICULT
+                else                                   -> UserGameViewModel.SORT_GAME_BY_TIME
             }
             userGameViewModel.sortUserGame(platform, condition)
         }

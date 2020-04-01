@@ -1,4 +1,4 @@
-package demo.lizl.com.psnine.mvp.fragment
+package demo.lizl.com.psnine.mvvm.fragment
 
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -6,19 +6,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.PostListAdapter
-import demo.lizl.com.psnine.mvp.activity.PostDetailActivity
-import demo.lizl.com.psnine.mvp.presenter.EmptyPresenter
-import demo.lizl.com.psnine.mvp.viewmodel.PostViewModel
+import demo.lizl.com.psnine.mvvm.activity.PostDetailActivity
+import demo.lizl.com.psnine.mvvm.viewmodel.PostViewModel
 import demo.lizl.com.psnine.util.ActivityUtil
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : BaseFragment<EmptyPresenter>()
+class HomeFragment : BaseFragment()
 {
     private lateinit var postListAdapter: PostListAdapter
 
     override fun getLayoutResId() = R.layout.fragment_home
-
-    override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {

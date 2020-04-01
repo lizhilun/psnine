@@ -1,4 +1,4 @@
-package demo.lizl.com.psnine.mvp.fragment
+package demo.lizl.com.psnine.mvvm.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -6,14 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import demo.lizl.com.psnine.mvp.base.BasePresenter
 import demo.lizl.com.psnine.util.DialogUtil
 
-abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
+abstract class BaseFragment : Fragment()
 {
     protected var TAG = this.javaClass.simpleName
-
-    protected lateinit var presenter: T
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -29,8 +26,6 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
     override fun onActivityCreated(savedInstanceState: Bundle?)
     {
         super.onActivityCreated(savedInstanceState)
-
-        presenter = initPresenter()
 
         initView()
     }
@@ -71,13 +66,9 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
     {
         Log.d(TAG, "onDestroy")
         super.onDestroy()
-
-        presenter.onDestroy()
     }
 
     abstract fun getLayoutResId(): Int
-
-    abstract fun initPresenter(): T
 
     abstract fun initView()
 }

@@ -1,16 +1,13 @@
-package demo.lizl.com.psnine.mvp.activity
+package demo.lizl.com.psnine.mvvm.activity
 
 import android.os.Bundle
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.constant.AppConstant
-import demo.lizl.com.psnine.mvp.fragment.UserFragment
-import demo.lizl.com.psnine.mvp.presenter.EmptyPresenter
+import demo.lizl.com.psnine.mvvm.fragment.UserFragment
 
-class UserDetailActivity : BaseActivity<EmptyPresenter>()
+class UserDetailActivity : BaseActivity()
 {
     override fun getLayoutResId() = R.layout.activity_user_detail
-
-    override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {

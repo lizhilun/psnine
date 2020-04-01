@@ -1,4 +1,4 @@
-package demo.lizl.com.psnine.mvp.base
+package demo.lizl.com.psnine.mvvm.base
 
 interface BasePresenter<T : BaseView>
 {
