@@ -1,6 +1,6 @@
 package demo.lizl.com.psnine.bean
 
-class GameInfoItem(val coverUrl: String, val gameName: String, val gameDetailUrl: String)
+data class GameInfoItem(val coverUrl: String, val gameName: String, val gameDetailUrl: String)
 {
     var gameCupInfo: String? = null
 

@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.bean.DiscountGameItem
+import demo.lizl.com.psnine.custom.other.CustomDiffUtil
 import demo.lizl.com.psnine.util.GameUtil
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.item_discount_game.view.*
@@ -15,6 +16,11 @@ class DiscountGameListAdapter : BaseQuickAdapter<DiscountGameItem, DiscountGameL
 {
 
     private var onDiscountGameItemClickListener: ((DiscountGameItem) -> Unit)? = null
+
+    init
+    {
+        setDiffCallback(CustomDiffUtil({ oldItem, newItem -> oldItem.psnGameId == newItem.psnGameId }, { oldItem, newItem -> oldItem == newItem }))
+    }
 
     override fun convert(helper: ViewHolder, item: DiscountGameItem)
     {
