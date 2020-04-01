@@ -1,43 +1,40 @@
-package demo.lizl.com.psnine.mvp.presenter
+package demo.lizl.com.psnine.mvp.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import demo.lizl.com.psnine.bean.PostItem
 import demo.lizl.com.psnine.config.AppConfig
-import demo.lizl.com.psnine.mvp.contract.HomeFragmentContract
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
-class HomeFragmentPresenter(private var view: HomeFragmentContract.View?) : HomeFragmentContract.Presenter
+class PostViewModel : ViewModel()
 {
-    private val TAG = "HomeFragmentPresenter"
+    private val TAG = "PostViewModel"
 
     private var curPostPage = 1
 
-    override fun refreshPostList()
+    private val postLiveData = MutableLiveData<MutableList<PostItem>>()
+
+    fun getPostLiveData() = postLiveData
+
+    fun refreshPostList()
     {
         GlobalScope.launch(Dispatchers.IO) {
             curPostPage = 1
-
-            val postList = getPostItemListFromPostPage(curPostPage)
-
-            GlobalScope.launch(Dispatchers.Main) {
-                view?.onPostListRefresh(postList)
-            }
+            postLiveData.postValue(getPostItemListFromPostPage(curPostPage))
         }
     }
 
-    override fun LoadMorePost()
+    fun loadMorePost()
     {
         GlobalScope.launch(Dispatchers.IO) {
             curPostPage++
-
-            val postList = getPostItemListFromPostPage(curPostPage)
-
-            GlobalScope.launch(Dispatchers.Main) {
-                view?.onPostListLoadMore(postList)
-            }
+            val postList = postLiveData.value ?: mutableListOf()
+            postList.addAll(getPostItemListFromPostPage(curPostPage))
+            postLiveData.postValue(postList)
         }
     }
 
@@ -51,17 +48,15 @@ class HomeFragmentPresenter(private var view: HomeFragmentContract.View?) : Home
 
             val doc = Jsoup.connect(requestUrl).get()
 
-            val elements = doc.getElementsByClass("list")[0].select("li")
+            doc.getElementsByClass("list").first()?.select("li")?.forEach { postElement ->
 
-            for (postElement in elements)
-            {
                 val imageElement = postElement.getElementsByTag("img")
                 val imageUrl = imageElement.attr("src")
-                val postDetailElement = postElement.getElementsByClass("title font16")[0]
+                val postDetailElement = postElement.getElementsByClass("title font16").first() ?: return@forEach
                 val text = postDetailElement.text()
                 val postDetailUrl = postDetailElement.select("a").attr("href")
                 val userId = postElement.getElementsByClass("psnnode").text()
-                val timeInfo = postElement.getElementsByClass("meta")[0].ownText()
+                val timeInfo = postElement.getElementsByClass("meta").first()?.ownText().orEmpty()
                 val postItem = PostItem(imageUrl, text, userId, timeInfo, postDetailUrl)
                 postList.add(postItem)
             }
@@ -72,10 +67,5 @@ class HomeFragmentPresenter(private var view: HomeFragmentContract.View?) : Home
         }
 
         return postList
-    }
-
-    override fun onDestroy()
-    {
-        view = null
     }
 }

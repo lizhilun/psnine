@@ -2,17 +2,24 @@ package demo.lizl.com.psnine.adapter
 
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.bean.PostItem
+import demo.lizl.com.psnine.custom.other.CustomDiffUtil
 import demo.lizl.com.psnine.util.GlideUtil
 import kotlinx.android.synthetic.main.item_post.view.*
 
-class PostListAdapter : BaseQuickAdapter<PostItem, PostListAdapter.ViewHolder>(R.layout.item_post)
+class PostListAdapter : BaseQuickAdapter<PostItem, PostListAdapter.ViewHolder>(R.layout.item_post), LoadMoreModule
 {
 
     private var onPostItemClickListener: ((PostItem) -> Unit)? = null
     private var onPostAvatarClickListener: ((PostItem) -> Unit)? = null
+
+    init
+    {
+        setDiffCallback(CustomDiffUtil({ oldItem, newItem -> oldItem.postDetailUrl == newItem.postDetailUrl }, { oldItem, newItem -> oldItem == newItem }))
+    }
 
     override fun convert(helper: ViewHolder, item: PostItem)
     {
