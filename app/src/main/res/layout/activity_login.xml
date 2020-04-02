@@ -9,13 +9,13 @@
     </data>
 
     <LinearLayout
-        android:id="@+id/refresh_layout"
         style="@style/GlobalLayoutParentStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <WebView
             android:id="@+id/wv_view"
+            style="@style/GlobalLayoutParentStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:url="@{loginUrl}" />

@@ -3,10 +3,9 @@ package demo.lizl.com.psnine.mvvm.viewmodel
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import demo.lizl.com.psnine.bean.GameCupGroupItem
-import demo.lizl.com.psnine.bean.GameCupInfoItem
-import demo.lizl.com.psnine.bean.GameCupItem
-import demo.lizl.com.psnine.bean.GameInfoItem
+import demo.lizl.com.psnine.R
+import demo.lizl.com.psnine.UiApplication
+import demo.lizl.com.psnine.bean.*
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.custom.function.deleteStr
@@ -21,7 +20,7 @@ class GameDetailViewModel : ViewModel()
     private var gameDetailUrl = ""
 
     private val gameInfoLiveData = MutableLiveData<GameInfoItem>()
-    private val gameCupInfoLiveData = MutableLiveData<GameCupInfoItem>()
+    private val gameCupInfoLiveData = MutableLiveData<MutableList<InfoItem>>()
     private val gameCupGroupLiveData = MutableLiveData<MutableList<GameCupGroupItem>>()
 
     fun getGameInfoLiveData() = gameInfoLiveData
@@ -71,7 +70,13 @@ class GameDetailViewModel : ViewModel()
                     val lastCupTime = if (cupInfoElement.size > 1) cupInfoElement[1].ownText() else "--"
                     val totalTime = if (cupInfoElement.size > 2) cupInfoElement[2].ownText() else "--"
 
-                    gameCupInfoLiveData.postValue(GameCupInfoItem(gameProgress, firstCupTime, lastCupTime, totalTime))
+                    GameCupInfoItem(gameProgress, firstCupTime, lastCupTime, totalTime)
+                    gameCupInfoLiveData.postValue(mutableListOf<InfoItem>().apply {
+                        add(InfoItem(UiApplication.instance.getString(R.string.game_progress), gameProgress))
+                        add(InfoItem(UiApplication.instance.getString(R.string.first_cup), firstCupTime))
+                        add(InfoItem(UiApplication.instance.getString(R.string.last_cup), lastCupTime))
+                        add(InfoItem(UiApplication.instance.getString(R.string.total_time), totalTime))
+                    })
                 }
             }
 

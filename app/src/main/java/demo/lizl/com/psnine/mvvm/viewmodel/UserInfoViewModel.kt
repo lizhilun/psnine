@@ -3,7 +3,9 @@ package demo.lizl.com.psnine.mvvm.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import demo.lizl.com.psnine.bean.UserGameInfoItem
+import demo.lizl.com.psnine.R
+import demo.lizl.com.psnine.UiApplication
+import demo.lizl.com.psnine.bean.InfoItem
 import demo.lizl.com.psnine.bean.UserInfoItem
 import demo.lizl.com.psnine.config.AppConfig
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +22,7 @@ class UserInfoViewModel : ViewModel()
     private var curPsnId = ""
 
     private val userInfoLiveData = MutableLiveData<UserInfoItem>()
-    private val userGameInfoLiveData = MutableLiveData<UserGameInfoItem>()
+    private val userGameInfoLiveData = MutableLiveData<MutableList<InfoItem>>()
 
     fun getUserInfoLiveData() = userInfoLiveData
 
@@ -55,14 +57,19 @@ class UserInfoViewModel : ViewModel()
                 userInfoLiveData.postValue(userItemInfo)
 
                 val gameTableElement = psnInfoElement[1].select("td")
-                val totalGameCount = (gameTableElement[0].childNodes()[0] as TextNode).text().toInt()
-                val perfectGameCount = (gameTableElement[1].childNodes()[0] as TextNode).text().toInt()
-                val pitGameCount = (gameTableElement[2].childNodes()[0] as Element).text().toInt()
+                val totalGameCount = (gameTableElement[0].childNodes()[0] as TextNode).text()
+                val perfectGameCount = (gameTableElement[1].childNodes()[0] as TextNode).text()
+                val pitGameCount = (gameTableElement[2].childNodes()[0] as Element).text()
                 val gameCompletionRate = (gameTableElement[3].childNodes()[0] as TextNode).text()
-                val totalCupCount = (gameTableElement[4].childNodes()[0] as TextNode).text().toInt()
+                val totalCupCount = (gameTableElement[4].childNodes()[0] as TextNode).text()
 
-                val userGameInfoItem = UserGameInfoItem(totalGameCount, perfectGameCount, pitGameCount, gameCompletionRate, totalCupCount)
-                userGameInfoLiveData.postValue(userGameInfoItem)
+                userGameInfoLiveData.postValue(mutableListOf<InfoItem>().apply {
+                    add(InfoItem(UiApplication.instance.getString(R.string.total_game_count), totalGameCount))
+                    add(InfoItem(UiApplication.instance.getString(R.string.perfect_game_count), perfectGameCount))
+                    add(InfoItem(UiApplication.instance.getString(R.string.pit_game_count), pitGameCount))
+                    add(InfoItem(UiApplication.instance.getString(R.string.completion_rate), gameCompletionRate))
+                    add(InfoItem(UiApplication.instance.getString(R.string.total_cup_count), totalCupCount))
+                })
             }
             catch (e: Exception)
             {

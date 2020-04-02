@@ -3,11 +3,13 @@ package demo.lizl.com.psnine.mvvm.fragment
 import android.content.Context
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import com.blankj.utilcode.util.ToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.GameListAdapter
+import demo.lizl.com.psnine.adapter.InfoGridAdapter
 import demo.lizl.com.psnine.bean.ResultItem
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.AppConstant
@@ -100,7 +102,10 @@ class UserFragment : BaseFragment<FragmentUserBinding>()
 
         userInfoViewModel.getUserInfoLiveData().observe(this, Observer { dataBinding.userInfoItem = it })
 
-        userInfoViewModel.getUserGameInfoLiveData().observe(this, Observer { dataBinding.userGameInfoItem = it })
+        userInfoViewModel.getUserGameInfoLiveData().observe(this, Observer {
+            dataBinding.rvGameInfo.adapter = InfoGridAdapter(it)
+            dataBinding.rvGameInfo.layoutManager = GridLayoutManager(activity, it.size)
+        })
 
         userGameViewModel.getUserGameLiveData().observe(this, Observer {
             refresh_layout.finishRefresh()

@@ -12,7 +12,10 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.bean.ReplyPostItem
+import demo.lizl.com.psnine.custom.function.deleteStr
 import demo.lizl.com.psnine.custom.other.CustomLinkMovementMethod
+import demo.lizl.com.psnine.mvvm.activity.UserDetailActivity
+import demo.lizl.com.psnine.util.ActivityUtil
 import kotlinx.android.synthetic.main.item_sub_reply_post_item.view.*
 
 class SubReplyListAdapter(postList: List<ReplyPostItem>) :
@@ -46,18 +49,21 @@ class SubReplyListAdapter(postList: List<ReplyPostItem>) :
             {
                 override fun onClick(p0: View)
                 {
-
+                    ActivityUtil.turnToActivity(UserDetailActivity::class.java, postItem.postWriterId)
                 }
             }, 0, postItem.postWriterId.length + 2, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
 
 
-            spannable.setSpan(object : AtUserIDSpan()
+            if (postItem.atUserId != null)
             {
-                override fun onClick(p0: View)
+                spannable.setSpan(object : AtUserIDSpan()
                 {
-
-                }
-            }, postItem.postWriterId.length + 3, postItem.postWriterId.length + 3 + postItem.atUserId!!.length + 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                    override fun onClick(p0: View)
+                    {
+                        ActivityUtil.turnToActivity(UserDetailActivity::class.java, postItem.atUserId!!.deleteStr("@"))
+                    }
+                }, postItem.postWriterId.length + 3, postItem.postWriterId.length + 3 + postItem.atUserId!!.length + 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+            }
 
             itemView.tv_replay_content.text = spannable
 

@@ -6,8 +6,10 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.bean.ReplyPostItem
 import demo.lizl.com.psnine.databinding.ItemReplyPostBinding
+import demo.lizl.com.psnine.mvvm.activity.UserDetailActivity
+import demo.lizl.com.psnine.util.ActivityUtil
 
-class ReplyPostListAdapter() : BaseQuickAdapter<ReplyPostItem, BaseViewHolder>(R.layout.item_reply_post)
+class ReplyPostListAdapter : BaseQuickAdapter<ReplyPostItem, BaseViewHolder>(R.layout.item_reply_post)
 {
 
     override fun onItemViewHolderCreated(viewHolder: BaseViewHolder, viewType: Int)
@@ -21,6 +23,7 @@ class ReplyPostListAdapter() : BaseQuickAdapter<ReplyPostItem, BaseViewHolder>(R
             replyPostItem = item
             subReplyAdapter = SubReplyListAdapter(item.subReplyPostList)
             executePendingBindings()
+            ivPostIcon.setOnClickListener { ActivityUtil.turnToActivity(UserDetailActivity::class.java, item.postWriterId) }
         }
     }
 }

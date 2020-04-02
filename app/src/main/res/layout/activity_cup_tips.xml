@@ -15,7 +15,6 @@
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refresh_layout"
-        style="@style/GlobalLayoutParentStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:srlEnableLoadMore="false"
@@ -26,6 +25,7 @@
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                style="@style/GlobalLayoutParentStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
