@@ -10,8 +10,6 @@
 
         <import type="android.view.View" />
 
-        <import type="String" />
-
         <variable
             name="gameCupItem"
             type="demo.lizl.com.psnine.bean.GameCupItem" />
