@@ -8,6 +8,7 @@ import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.EventConstant
 import demo.lizl.com.psnine.databinding.ActivityLoginBinding
+import demo.lizl.com.psnine.mvvm.base.BaseActivity
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>()
 {

@@ -1,87 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/content_padding_top_edge"
-    android:paddingEnd="@dimen/content_padding_start_edge"
-    android:paddingStart="@dimen/content_padding_start_edge"
-    android:paddingTop="@dimen/content_padding_top_edge">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_game_cover"
-        android:layout_width="@dimen/discount_game_item_cover_size"
-        android:layout_height="@dimen/discount_game_item_cover_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <data>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_discount_rate"
-        style="@style/TextLabelStyle"
-        android:background="@color/color_discount_game_item_rate_bg"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_game_cover"
-        app:layout_constraintStart_toStartOf="@+id/iv_game_cover"/>
+        <import type="android.view.View" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_platform"
-        style="@style/TextLabelStyle"
-        app:layout_constraintEnd_toEndOf="@+id/iv_game_cover"
-        app:layout_constraintTop_toTopOf="@+id/iv_game_cover"/>
+        <import type="demo.lizl.com.psnine.util.GameUtil" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_game_name"
-        style="@style/GlobalTextStyle"
-        android:layout_width="0dp"
+        <variable
+            name="discountItem"
+            type="demo.lizl.com.psnine.bean.DiscountGameItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/content_padding_start_edge"
-        android:layout_marginStart="@dimen/content_padding_content"
-        app:layout_constraintEnd_toStartOf="@+id/tv_is_lowest"
-        app:layout_constraintStart_toEndOf="@+id/iv_game_cover"/>
+        android:paddingStart="@dimen/content_padding_start_edge"
+        android:paddingTop="@dimen/content_padding_top_edge"
+        android:paddingEnd="@dimen/content_padding_start_edge"
+        android:paddingBottom="@dimen/content_padding_top_edge">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_discount_time"
-        style="@style/GlobalSecondaryTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/content_padding_content"
-        app:layout_constraintStart_toStartOf="@+id/tv_game_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_game_name"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_game_cover"
+            android:layout_width="@dimen/discount_game_item_cover_size"
+            android:layout_height="@dimen/discount_game_item_cover_size"
+            app:imageUri="@{discountItem.gameCoverUrl}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_original_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/content_padding_content"
-        android:textSize="@dimen/global_text_size_smaller"
-        app:layout_constraintStart_toStartOf="@+id/tv_game_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_discount_time"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_discount_rate"
+            style="@style/TextLabelStyle"
+            android:background="@color/color_discount_game_item_rate_bg"
+            android:text="@{discountItem.discountRate}"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_game_cover"
+            app:layout_constraintStart_toStartOf="@+id/iv_game_cover" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_not_member_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:textSize="@dimen/global_text_size_smaller"
-        app:layout_constraintStart_toEndOf="@+id/tv_original_price"
-        app:layout_constraintTop_toTopOf="@+id/tv_original_price"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_platform"
+            style="@style/TextLabelStyle"
+            android:background="@{GameUtil.getPlatformColor(discountItem.gamePlatform)}"
+            android:text="@{discountItem.gamePlatform}"
+            app:layout_constraintEnd_toEndOf="@+id/iv_game_cover"
+            app:layout_constraintTop_toTopOf="@+id/iv_game_cover" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_member_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:textColor="@color/color_member_price_text_color"
-        android:textSize="@dimen/global_text_size_smaller"
-        app:layout_constraintStart_toEndOf="@+id/tv_not_member_price"
-        app:layout_constraintTop_toTopOf="@+id/tv_original_price"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_game_name"
+            style="@style/GlobalTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/content_padding_content"
+            android:layout_marginEnd="@dimen/content_padding_start_edge"
+            android:text="@{discountItem.gameName}"
+            app:layout_constraintEnd_toStartOf="@+id/tv_is_lowest"
+            app:layout_constraintStart_toEndOf="@+id/iv_game_cover"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_is_lowest"
-        style="@style/TextLabelStyle"
-        android:background="@color/color_history_lowest_label_bg"
-        android:text="@string/history_lowest"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_game_cover"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_discount_time"
+            style="@style/GlobalSecondaryTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/content_padding_content"
+            android:text="@{discountItem.discountTime}"
+            app:layout_constraintStart_toStartOf="@+id/tv_game_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_game_name" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_original_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/content_padding_content"
+            android:text="@{discountItem.originalPrice}"
+            android:textSize="@dimen/global_text_size_smaller"
+            app:layout_constraintStart_toStartOf="@+id/tv_game_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_discount_time" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_not_member_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@{discountItem.notMemberPrice}"
+            android:textSize="@dimen/global_text_size_smaller"
+            app:layout_constraintStart_toEndOf="@+id/tv_original_price"
+            app:layout_constraintTop_toTopOf="@+id/tv_original_price" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_member_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@{discountItem.memberPrice}"
+            android:textColor="@color/color_member_price_text_color"
+            android:textSize="@dimen/global_text_size_smaller"
+            app:layout_constraintStart_toEndOf="@+id/tv_not_member_price"
+            app:layout_constraintTop_toTopOf="@+id/tv_original_price" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_is_lowest"
+            style="@style/TextLabelStyle"
+            android:background="@color/color_history_lowest_label_bg"
+            android:text="@string/history_lowest"
+            android:visibility="@{discountItem.lowest? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_game_cover" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.databinding.ActivityUserDetailBinding
+import demo.lizl.com.psnine.mvvm.base.BaseActivity
 import demo.lizl.com.psnine.mvvm.fragment.UserFragment
 
 class UserDetailActivity : BaseActivity<ActivityUserDetailBinding>()

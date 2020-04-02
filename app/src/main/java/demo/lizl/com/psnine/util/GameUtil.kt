@@ -1,12 +1,18 @@
 package demo.lizl.com.psnine.util
 
+import android.util.Log
 import androidx.core.content.ContextCompat
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.constant.AppConstant
+import demo.lizl.com.psnine.custom.function.deleteChinese
+import demo.lizl.com.psnine.custom.function.deleteStr
 
 object GameUtil
 {
+    private val TAG = "GameUtil"
+
+    @JvmStatic
     fun getPrefectRateColor(perfectRate: Float): Int
     {
         return ContextCompat.getColor(UiApplication.instance, when
@@ -21,6 +27,7 @@ object GameUtil
         })
     }
 
+    @JvmStatic
     fun getPrefectRateDescription(perfectRate: Float): String
     {
         return UiApplication.instance.getString(when
@@ -35,6 +42,7 @@ object GameUtil
         })
     }
 
+    @JvmStatic
     fun getCompletionRateColor(completionRate: Float): Int
     {
         return ContextCompat.getColor(UiApplication.instance, when
@@ -46,6 +54,7 @@ object GameUtil
         })
     }
 
+    @JvmStatic
     fun getPlatformColor(platform: String): Int
     {
         return ContextCompat.getColor(UiApplication.instance, when (platform)
@@ -57,15 +66,43 @@ object GameUtil
         })
     }
 
-    fun getGameCupBgColor(cupType : Int) : Int
+    @JvmStatic
+    fun getGameCupBgColor(cupType: Int): Int
     {
         return ContextCompat.getColor(UiApplication.instance, when (cupType)
         {
-            AppConstant.GAME_CUP_TYPE_PLATINUM   -> R.color.color_game_cup_bg_platinum
-            AppConstant.GAME_CUP_TYPE_GOLD   -> R.color.color_game_cup_bg_gold
-            AppConstant.GAME_CUP_TYPE_SILVER -> R.color.color_game_cup_bg_silver
-            AppConstant.GAME_CUP_TYPE_BRONZE -> R.color.color_game_cup_bg_bronze
-            else                             -> R.color.color_game_cup_bg_bronze
+            AppConstant.GAME_CUP_TYPE_PLATINUM -> R.color.color_game_cup_bg_platinum
+            AppConstant.GAME_CUP_TYPE_GOLD     -> R.color.color_game_cup_bg_gold
+            AppConstant.GAME_CUP_TYPE_SILVER   -> R.color.color_game_cup_bg_silver
+            AppConstant.GAME_CUP_TYPE_BRONZE   -> R.color.color_game_cup_bg_bronze
+            else                               -> R.color.color_game_cup_bg_bronze
         })
+    }
+
+    @JvmStatic
+    fun rateToInt(rate: String?): Int
+    {
+        return rateToFloat(rate).toInt()
+    }
+
+    @JvmStatic
+    fun rateToFloat(rate: String?): Float
+    {
+        try
+        {
+            if (rate.isNullOrBlank()) return 0F
+            return rate.deleteChinese().deleteStr("%").toFloat()
+        }
+        catch (e: Exception)
+        {
+            Log.e(TAG, "rateToFloat error:", e)
+        }
+        return 0F
+    }
+
+    @JvmStatic
+    fun spaceToNewLine(oriStr: String?): String
+    {
+        return oriStr?.replace(" ", "\n").orEmpty()
     }
 }

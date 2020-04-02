@@ -7,6 +7,7 @@ import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.ReplyPostListAdapter
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.databinding.ActivityCupTipsBinding
+import demo.lizl.com.psnine.mvvm.base.BaseActivity
 import demo.lizl.com.psnine.mvvm.viewmodel.CupTipViewModel
 
 class CupTipsActivity : BaseActivity<ActivityCupTipsBinding>()

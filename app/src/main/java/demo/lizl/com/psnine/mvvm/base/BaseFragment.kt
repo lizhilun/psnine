@@ -1,16 +1,20 @@
-package demo.lizl.com.psnine.mvvm.fragment
+package demo.lizl.com.psnine.mvvm.base
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import demo.lizl.com.psnine.util.DialogUtil
 
-abstract class BaseFragment : Fragment()
+abstract class BaseFragment<DB : ViewDataBinding> : Fragment()
 {
     protected var TAG = this.javaClass.simpleName
+
+    protected lateinit var dataBinding: DB
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -20,11 +24,17 @@ abstract class BaseFragment : Fragment()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        return inflater.inflate(getLayoutResId(), container, false)
+        Log.d(TAG, "onCreateView")
+
+        dataBinding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false)
+
+        return dataBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?)
     {
+        Log.d(TAG, "onActivityCreated")
+
         super.onActivityCreated(savedInstanceState)
 
         initView()

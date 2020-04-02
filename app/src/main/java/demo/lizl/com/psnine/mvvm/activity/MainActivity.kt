@@ -5,6 +5,7 @@ import com.google.android.material.tabs.TabLayout
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.adapter.FragmentPageAdapter
 import demo.lizl.com.psnine.databinding.ActivityMainBinding
+import demo.lizl.com.psnine.mvvm.base.BaseActivity
 import demo.lizl.com.psnine.mvvm.fragment.GameFragment
 import demo.lizl.com.psnine.mvvm.fragment.HomeFragment
 import demo.lizl.com.psnine.mvvm.fragment.UserFragment

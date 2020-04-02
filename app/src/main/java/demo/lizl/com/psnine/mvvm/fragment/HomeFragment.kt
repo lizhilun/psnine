@@ -6,12 +6,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.PostListAdapter
+import demo.lizl.com.psnine.databinding.FragmentHomeBinding
 import demo.lizl.com.psnine.mvvm.activity.PostDetailActivity
+import demo.lizl.com.psnine.mvvm.base.BaseFragment
 import demo.lizl.com.psnine.mvvm.viewmodel.PostViewModel
 import demo.lizl.com.psnine.util.ActivityUtil
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : BaseFragment()
+class HomeFragment : BaseFragment<FragmentHomeBinding>()
 {
     private lateinit var postListAdapter: PostListAdapter
 

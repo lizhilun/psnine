@@ -1,134 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:custom="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingStart="@dimen/content_padding_start_edge"
-    android:paddingTop="@dimen/content_padding_top_edge"
-    android:paddingEnd="@dimen/content_padding_start_edge"
-    android:paddingBottom="@dimen/content_padding_top_edge">
+    xmlns:custom="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_game_icon"
-        android:layout_width="@dimen/game_item_cover_width"
-        android:layout_height="@dimen/game_item_cover_height"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_game_name"
-        style="@style/GlobalSmallTextStyle"
-        android:layout_width="0dp"
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <import type="demo.lizl.com.psnine.util.GameUtil" />
+
+        <variable
+            name="gameInfoItem"
+            type="demo.lizl.com.psnine.bean.GameInfoItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/barrier_end"
-        app:layout_constraintStart_toEndOf="@+id/iv_game_icon"
-        app:layout_constraintTop_toTopOf="@+id/iv_game_icon" />
+        android:paddingStart="@dimen/content_padding_start_edge"
+        android:paddingTop="@dimen/content_padding_top_edge"
+        android:paddingEnd="@dimen/content_padding_start_edge"
+        android:paddingBottom="@dimen/content_padding_top_edge">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_cup_info"
-        style="@style/GlobalSecondaryTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_game_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_game_name" />
-
-    <LinearLayout
-        android:id="@+id/ll_game_type_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@+id/tv_game_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_cup_info"
-        app:layout_goneMarginTop="10dp">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_game_icon"
+            android:layout_width="@dimen/game_item_cover_width"
+            android:layout_height="@dimen/game_item_cover_height"
+            app:imageUri="@{gameInfoItem.coverUrl}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_label_ps3"
-            style="@style/TextLabelStyle"
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:background="@color/color_bg_label_PS3_game"
-            android:text="PS3" />
+            android:id="@+id/tv_game_name"
+            style="@style/GlobalSmallTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:text="@{gameInfoItem.gameName}"
+            app:layout_constraintEnd_toStartOf="@+id/barrier_end"
+            app:layout_constraintStart_toEndOf="@+id/iv_game_icon"
+            app:layout_constraintTop_toTopOf="@+id/iv_game_icon" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_label_psv"
-            style="@style/TextLabelStyle"
+            android:id="@+id/tv_cup_info"
+            style="@style/GlobalSecondaryTextStyle"
             android:layout_width="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:background="@color/color_bg_label_PSV_game"
-            android:text="PSV" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@{gameInfoItem.gameCupInfo}"
+            android:visibility="@{TextUtils.isEmpty(gameInfoItem.gameCupInfo)?View.GONE:View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="@+id/tv_game_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_game_name" />
+
+        <LinearLayout
+            android:id="@+id/ll_game_type_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@+id/tv_game_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_cup_info"
+            app:layout_goneMarginTop="10dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_label_ps3"
+                style="@style/TextLabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:background="@color/color_bg_label_PS3_game"
+                android:text="PS3"
+                android:visibility="@{gameInfoItem.PS3Game? View.VISIBLE : View.GONE}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_label_psv"
+                style="@style/TextLabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:background="@color/color_bg_label_PSV_game"
+                android:text="PSV"
+                android:visibility="@{gameInfoItem.PSVGame? View.VISIBLE : View.GONE}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_label_ps4"
+                style="@style/TextLabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:background="@color/color_bg_label_PS4_game"
+                android:text="PS4"
+                android:visibility="@{gameInfoItem.PS4Game? View.VISIBLE : View.GONE}" />
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_label_ps4"
-            style="@style/TextLabelStyle"
+            android:id="@+id/tv_last_update_time"
+            style="@style/GlobalSecondarySmallerTextStyle"
             android:layout_width="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:background="@color/color_bg_label_PS4_game"
-            android:text="PS4" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="@{gameInfoItem.lastUpdateTime}"
+            app:layout_constraintBottom_toBottomOf="@+id/ll_game_type_label"
+            app:layout_constraintStart_toEndOf="@+id/ll_game_type_label"
+            app:layout_constraintTop_toTopOf="@+id/ll_game_type_label" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_last_update_time"
-        style="@style/GlobalSecondarySmallerTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/ll_game_type_label"
-        app:layout_constraintStart_toEndOf="@+id/ll_game_type_label"
-        app:layout_constraintTop_toTopOf="@+id/ll_game_type_label" />
+        <com.daimajia.numberprogressbar.NumberProgressBar
+            android:id="@+id/npb_completion_rate"
+            android:layout_width="@dimen/game_item_completion_rate_bar_width"
+            android:layout_height="@dimen/game_item_completion_rate_bar_height"
+            android:visibility="@{TextUtils.isEmpty(gameInfoItem.completionRate)?View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:progress_current="@{GameUtil.rateToInt(gameInfoItem.completionRate)}"
+            app:progress_max="100"
+            app:progress_reached_bar_height="@dimen/game_item_completion_rate_bar_height"
+            app:progress_reached_color="@{GameUtil.getCompletionRateColor(GameUtil.rateToFloat(gameInfoItem.completionRate))}"
+            app:progress_text_visibility="invisible"
+            app:progress_unreached_bar_height="@dimen/game_item_completion_rate_bar_height"
+            custom:progress_unreached_color="@color/color_game_completion_unfinished" />
 
-    <com.daimajia.numberprogressbar.NumberProgressBar
-        android:id="@+id/npb_completion_rate"
-        android:layout_width="@dimen/game_item_completion_rate_bar_width"
-        android:layout_height="@dimen/game_item_completion_rate_bar_height"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:progress_text_visibility="invisible"
-        custom:progress_unreached_color="@color/color_game_completion_unfinished" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_completion_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@{gameInfoItem.completionRate}"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/npb_completion_rate"
+            app:layout_constraintStart_toStartOf="@+id/npb_completion_rate"
+            app:layout_constraintTop_toTopOf="@+id/npb_completion_rate" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_completion_rate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/npb_completion_rate"
-        app:layout_constraintStart_toStartOf="@+id/npb_completion_rate"
-        app:layout_constraintTop_toTopOf="@+id/npb_completion_rate" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_perfect_difficult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{GameUtil.getPrefectRateDescription(GameUtil.rateToFloat(gameInfoItem.perfectRate))}"
+            android:textColor="@{GameUtil.getPrefectRateColor(GameUtil.rateToFloat(gameInfoItem.perfectRate))}"
+            android:textSize="@dimen/global_text_size_small"
+            android:visibility="@{TextUtils.isEmpty(gameInfoItem.perfectRate)?View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toTopOf="@+id/tv_perfect_rate"
+            app:layout_constraintEnd_toEndOf="@+id/tv_perfect_rate"
+            app:layout_constraintStart_toStartOf="@+id/tv_perfect_rate"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_perfect_difficult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="@dimen/global_text_size_small"
-        app:layout_constraintBottom_toTopOf="@+id/tv_perfect_rate"
-        app:layout_constraintEnd_toEndOf="@+id/tv_perfect_rate"
-        app:layout_constraintStart_toStartOf="@+id/tv_perfect_rate"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_perfect_rate"
+            style="@style/GlobalSecondarySmallerTextStyle"
+            android:layout_width="54dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{gameInfoItem.perfectRate}"
+            android:visibility="@{TextUtils.isEmpty(gameInfoItem.perfectRate)?View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_perfect_difficult"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_perfect_rate"
-        style="@style/GlobalSecondarySmallerTextStyle"
-        android:layout_width="54dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_perfect_difficult"
-        app:layout_constraintVertical_chainStyle="packed" />
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="npb_completion_rate, tv_perfect_rate" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="start"
-        app:constraint_referenced_ids="npb_completion_rate, tv_perfect_rate" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

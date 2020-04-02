@@ -1,4 +1,4 @@
-package demo.lizl.com.psnine.mvvm.activity
+package demo.lizl.com.psnine.mvvm.base
 
 import android.os.Bundle
 import android.util.Log

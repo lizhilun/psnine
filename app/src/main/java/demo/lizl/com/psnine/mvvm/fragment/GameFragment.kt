@@ -13,7 +13,9 @@ import demo.lizl.com.psnine.adapter.DiscountGameListAdapter
 import demo.lizl.com.psnine.adapter.GameListAdapter
 import demo.lizl.com.psnine.adapter.ViewPagerAdapter
 import demo.lizl.com.psnine.custom.function.addOnPageChangeListener
+import demo.lizl.com.psnine.databinding.FragmentGameBinding
 import demo.lizl.com.psnine.mvvm.activity.GameDetailActivity
+import demo.lizl.com.psnine.mvvm.base.BaseFragment
 import demo.lizl.com.psnine.mvvm.viewmodel.DiscountViewModel
 import demo.lizl.com.psnine.mvvm.viewmodel.GameSearchViewModel
 import demo.lizl.com.psnine.mvvm.viewmodel.HotGameViewModel
@@ -22,7 +24,7 @@ import demo.lizl.com.psnine.util.DialogUtil
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_game.*
 
-class GameFragment : BaseFragment()
+class GameFragment : BaseFragment<FragmentGameBinding>()
 {
     private val hotGameListAdapter = GameListAdapter()
     private val searchResultListAdapter = GameListAdapter()

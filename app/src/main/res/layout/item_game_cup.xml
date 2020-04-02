@@ -1,79 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/game_cup_list_view_padding_top_edge"
-    android:paddingEnd="@dimen/game_cup_list_view_padding_start_edge"
-    android:paddingStart="@dimen/game_cup_list_view_padding_start_edge"
-    android:paddingTop="@dimen/game_cup_list_view_padding_top_edge">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/iv_cup_bg"
-        android:layout_width="@dimen/game_cup_list_view_cup_image_bg_size"
-        android:layout_height="@dimen/game_cup_list_view_cup_image_bg_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <data>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_cup"
-        android:layout_width="@dimen/game_cup_list_view_cup_image_size"
-        android:layout_height="@dimen/game_cup_list_view_cup_image_size"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_cup_bg"
-        app:layout_constraintEnd_toEndOf="@+id/iv_cup_bg"
-        app:layout_constraintStart_toStartOf="@+id/iv_cup_bg"
-        app:layout_constraintTop_toTopOf="@+id/iv_cup_bg"/>
+        <import type="demo.lizl.com.psnine.util.GameUtil" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_cup_name"
-        style="@style/GlobalSmallTextStyle"
-        android:layout_width="wrap_content"
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <import type="String" />
+
+        <variable
+            name="gameCupItem"
+            type="demo.lizl.com.psnine.bean.GameCupItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/content_padding_content"
-        app:layout_constraintEnd_toStartOf="@+id/tv_cup_time_get_time"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@+id/iv_cup_bg"
-        app:layout_constraintTop_toTopOf="@+id/iv_cup"/>
+        android:background="@{TextUtils.isEmpty(gameCupItem.cupGetTime)?@color/transparent:@color/color_game_cup_get_bg}"
+        android:paddingStart="@dimen/game_cup_list_view_padding_start_edge"
+        android:paddingTop="@dimen/game_cup_list_view_padding_top_edge"
+        android:paddingEnd="@dimen/game_cup_list_view_padding_start_edge"
+        android:paddingBottom="@dimen/game_cup_list_view_padding_top_edge">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_cup_description"
-        style="@style/GlobalSecondaryTextStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/content_padding_content"
-        android:layout_marginTop="@dimen/content_padding_content"
-        app:layout_constraintEnd_toStartOf="@+id/tv_cup_time_get_time"
-        app:layout_constraintStart_toStartOf="@+id/tv_cup_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_cup_name"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/iv_cup_bg"
+            android:layout_width="@dimen/game_cup_list_view_cup_image_bg_size"
+            android:layout_height="@dimen/game_cup_list_view_cup_image_bg_size"
+            android:background="@{GameUtil.getGameCupBgColor(gameCupItem.cupType)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_tips"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:background="@color/color_game_cup_tips_bg"
-        android:paddingBottom="1dp"
-        android:paddingEnd="4dp"
-        android:paddingStart="4dp"
-        android:paddingTop="1dp"
-        android:textColor="@color/color_game_cup_tips_text"
-        android:textSize="@dimen/global_text_size_smallest"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_cup_name"
-        app:layout_constraintEnd_toStartOf="@+id/tv_cup_time_get_time"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@+id/tv_cup_name"
-        app:layout_constraintTop_toTopOf="@+id/tv_cup_name"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_cup"
+            android:layout_width="@dimen/game_cup_list_view_cup_image_size"
+            android:layout_height="@dimen/game_cup_list_view_cup_image_size"
+            app:imageUri="@{gameCupItem.cupImageUrl}"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_cup_bg"
+            app:layout_constraintEnd_toEndOf="@+id/iv_cup_bg"
+            app:layout_constraintStart_toStartOf="@+id/iv_cup_bg"
+            app:layout_constraintTop_toTopOf="@+id/iv_cup_bg" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_cup_time_get_time"
-        style="@style/GlobalSecondaryTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/color_game_cup_get_time_bg"
-        android:padding="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_cup_name"
+            style="@style/GlobalSmallTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/content_padding_content"
+            android:text="@{gameCupItem.cupName}"
+            app:layout_constraintEnd_toStartOf="@+id/tv_cup_time_get_time"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/iv_cup_bg"
+            app:layout_constraintTop_toTopOf="@+id/iv_cup" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_cup_description"
+            style="@style/GlobalSecondaryTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/content_padding_content"
+            android:layout_marginEnd="@dimen/content_padding_content"
+            android:text="@{gameCupItem.cupDes}"
+            app:layout_constraintEnd_toStartOf="@+id/tv_cup_time_get_time"
+            app:layout_constraintStart_toStartOf="@+id/tv_cup_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_cup_name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:background="@color/color_game_cup_tips_bg"
+            android:paddingStart="4dp"
+            android:paddingTop="1dp"
+            android:paddingEnd="4dp"
+            android:paddingBottom="1dp"
+            android:text="@{gameCupItem.tipInfo}"
+            android:textColor="@color/color_game_cup_tips_text"
+            android:textSize="@dimen/global_text_size_smallest"
+            android:visibility="@{TextUtils.isEmpty(gameCupItem.tipInfo)?View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_cup_name"
+            app:layout_constraintEnd_toStartOf="@+id/tv_cup_time_get_time"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/tv_cup_name"
+            app:layout_constraintTop_toTopOf="@+id/tv_cup_name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_cup_time_get_time"
+            style="@style/GlobalSecondaryTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/color_game_cup_get_time_bg"
+            android:padding="5dp"
+            android:text="@{GameUtil.spaceToNewLine(gameCupItem.cupGetTime)}"
+            android:visibility="@{TextUtils.isEmpty(gameCupItem.cupGetTime)?View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

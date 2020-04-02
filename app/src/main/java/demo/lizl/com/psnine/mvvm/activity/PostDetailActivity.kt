@@ -7,6 +7,7 @@ import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.databinding.ActivityPostDetailBinding
+import demo.lizl.com.psnine.mvvm.base.BaseActivity
 import demo.lizl.com.psnine.util.ActivityUtil
 import kotlinx.android.synthetic.main.activity_post_detail.*
 

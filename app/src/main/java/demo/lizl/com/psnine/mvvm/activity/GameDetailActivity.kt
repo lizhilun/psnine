@@ -8,6 +8,7 @@ import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.GameCupGroupListAdapter
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.databinding.ActivityGameDetailBinding
+import demo.lizl.com.psnine.mvvm.base.BaseActivity
 import demo.lizl.com.psnine.mvvm.viewmodel.GameDetailViewModel
 
 class GameDetailActivity : BaseActivity<ActivityGameDetailBinding>()

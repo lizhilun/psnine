@@ -1,56 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/content_padding_top_edge"
-    android:paddingEnd="@dimen/content_padding_start_edge"
-    android:paddingStart="@dimen/content_padding_start_edge"
-    android:paddingTop="@dimen/content_padding_top_edge">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_post_icon"
-        android:layout_width="@dimen/post_item_icon_size"
-        android:layout_height="@dimen/post_item_icon_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <data>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_post_title"
-        style="@style/GlobalTextStyle"
-        android:layout_width="0dp"
+        <variable
+            name="replyPostItem"
+            type="demo.lizl.com.psnine.bean.ReplyPostItem" />
+
+        <variable
+            name="subReplyAdapter"
+            type="demo.lizl.com.psnine.adapter.SubReplyListAdapter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_post_icon"
-        app:layout_constraintTop_toTopOf="@+id/iv_post_icon"/>
+        android:paddingStart="@dimen/content_padding_start_edge"
+        android:paddingTop="@dimen/content_padding_top_edge"
+        android:paddingEnd="@dimen/content_padding_start_edge"
+        android:paddingBottom="@dimen/content_padding_top_edge">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_post_writer"
-        style="@style/GlobalSecondaryTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_post_title"
-        app:layout_constraintTop_toBottomOf="@+id/tv_post_title"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_post_icon"
+            android:layout_width="@dimen/post_item_icon_size"
+            android:layout_height="@dimen/post_item_icon_size"
+            app:imageUri="@{replyPostItem.imageUrl}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_post_time"
-        style="@style/GlobalSecondaryTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@+id/tv_post_writer"
-        app:layout_constraintTop_toTopOf="@+id/tv_post_writer"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_post_title"
+            style="@style/GlobalTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="@{replyPostItem.postContent}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_post_icon"
+            app:layout_constraintTop_toTopOf="@+id/iv_post_icon" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_sub_reply_poet_list"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/content_padding_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tv_post_title"
-        app:layout_constraintTop_toBottomOf="@+id/tv_post_time"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_post_writer"
+            style="@style/GlobalSecondaryTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@{replyPostItem.postWriterId}"
+            app:layout_constraintStart_toStartOf="@+id/tv_post_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_post_title" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_post_time"
+            style="@style/GlobalSecondaryTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@{replyPostItem.postTime}"
+            app:layout_constraintStart_toEndOf="@+id/tv_post_writer"
+            app:layout_constraintTop_toTopOf="@+id/tv_post_writer" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_sub_reply_poet_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/content_padding_content"
+            app:adapter="@{subReplyAdapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_post_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_post_time" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

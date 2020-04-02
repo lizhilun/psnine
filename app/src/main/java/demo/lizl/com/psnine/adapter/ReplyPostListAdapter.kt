@@ -1,34 +1,26 @@
 package demo.lizl.com.psnine.adapter
 
-import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.databinding.DataBindingUtil
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.bean.ReplyPostItem
-import demo.lizl.com.psnine.util.GlideUtil
-import kotlinx.android.synthetic.main.item_reply_post.view.*
+import demo.lizl.com.psnine.databinding.ItemReplyPostBinding
 
-class ReplyPostListAdapter() : BaseQuickAdapter<ReplyPostItem, ReplyPostListAdapter.ViewHolder>(R.layout.item_reply_post)
+class ReplyPostListAdapter() : BaseQuickAdapter<ReplyPostItem, BaseViewHolder>(R.layout.item_reply_post)
 {
 
-    override fun convert(helper: ViewHolder, item: ReplyPostItem)
+    override fun onItemViewHolderCreated(viewHolder: BaseViewHolder, viewType: Int)
     {
-        helper.bindViewHolder(item)
+        DataBindingUtil.bind<ItemReplyPostBinding>(viewHolder.itemView)
     }
 
-    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
+    override fun convert(helper: BaseViewHolder, item: ReplyPostItem)
     {
-        fun bindViewHolder(postItem: ReplyPostItem)
-        {
-            GlideUtil.displayImage(itemView.iv_post_icon, postItem.imageUrl)
-            itemView.tv_post_title.text = postItem.postContent
-            itemView.tv_post_writer.text = postItem.postWriterId
-            itemView.tv_post_time.text = postItem.postTime
-
-            val subReplyListAdapter = SubReplyListAdapter(postItem.subReplyPostList)
-            itemView.rv_sub_reply_poet_list.layoutManager = LinearLayoutManager(context)
-            itemView.rv_sub_reply_poet_list.adapter = subReplyListAdapter
+        DataBindingUtil.getBinding<ItemReplyPostBinding>(helper.itemView)?.apply {
+            replyPostItem = item
+            subReplyAdapter = SubReplyListAdapter(item.subReplyPostList)
+            executePendingBindings()
         }
     }
 }
