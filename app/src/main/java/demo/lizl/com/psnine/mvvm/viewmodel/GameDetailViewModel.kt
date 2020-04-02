@@ -5,7 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
-import demo.lizl.com.psnine.bean.*
+import demo.lizl.com.psnine.bean.GameCupGroupItem
+import demo.lizl.com.psnine.bean.GameCupItem
+import demo.lizl.com.psnine.bean.GameInfoItem
+import demo.lizl.com.psnine.bean.InfoItem
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.custom.function.deleteStr
@@ -70,7 +73,6 @@ class GameDetailViewModel : ViewModel()
                     val lastCupTime = if (cupInfoElement.size > 1) cupInfoElement[1].ownText() else "--"
                     val totalTime = if (cupInfoElement.size > 2) cupInfoElement[2].ownText() else "--"
 
-                    GameCupInfoItem(gameProgress, firstCupTime, lastCupTime, totalTime)
                     gameCupInfoLiveData.postValue(mutableListOf<InfoItem>().apply {
                         add(InfoItem(UiApplication.instance.getString(R.string.game_progress), gameProgress))
                         add(InfoItem(UiApplication.instance.getString(R.string.first_cup), firstCupTime))
