@@ -11,10 +11,11 @@ class GameCupGroupListAdapter : BaseQuickAdapter<GameCupGroupItem, BaseViewHolde
 {
     override fun convert(helper: BaseViewHolder, item: GameCupGroupItem)
     {
-        val dataBinding = helper.getBinding<ItemGameCupGroupBinding>()
-        dataBinding?.gameCupGroupItem = item
-        dataBinding?.gameCupListAdapter = GameCupListAdapter(item.gameCupList)
-        dataBinding?.executePendingBindings()
+        helper.getBinding<ItemGameCupGroupBinding>()?.apply {
+            gameCupGroupItem = item
+            gameCupListAdapter = GameCupListAdapter(item.gameCupList)
+            executePendingBindings()
+        }
     }
 
     override fun onItemViewHolderCreated(viewHolder: BaseViewHolder, viewType: Int)

@@ -27,6 +27,7 @@ abstract class BaseFragment<DB : ViewDataBinding> : Fragment()
         Log.d(TAG, "onCreateView")
 
         dataBinding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false)
+        dataBinding.lifecycleOwner = this
 
         return dataBinding.root
     }

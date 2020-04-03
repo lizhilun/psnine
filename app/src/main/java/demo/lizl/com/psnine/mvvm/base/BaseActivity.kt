@@ -23,6 +23,7 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity()
         super.onCreate(savedInstanceState)
 
         dataBinding = DataBindingUtil.setContentView(this, getLayoutResId())
+        dataBinding.lifecycleOwner = this
 
         initView()
     }

@@ -2,7 +2,6 @@ package demo.lizl.com.psnine.mvvm.fragment
 
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.PostListAdapter
@@ -15,23 +14,17 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>()
 {
-    private lateinit var postListAdapter: PostListAdapter
-
     override fun getLayoutResId() = R.layout.fragment_home
 
     override fun initView()
     {
         val viewModel = ViewModelProvider.AndroidViewModelFactory(UiApplication.instance).create(PostViewModel::class.java)
 
-        refresh_layout.setEnableLoadMore(true)
-        refresh_layout.setEnableRefresh(true)
-        refresh_layout.setEnableAutoLoadMore(true)
         refresh_layout.setOnRefreshListener { viewModel.refreshPostList() }
         refresh_layout.setOnLoadMoreListener { viewModel.loadMorePost() }
 
-        postListAdapter = PostListAdapter()
-        rv_post_list.layoutManager = LinearLayoutManager(activity)
-        rv_post_list.adapter = postListAdapter
+        val postListAdapter = PostListAdapter()
+        dataBinding.postListAdapter = postListAdapter
 
         postListAdapter.setOnPostItemClickListener { ActivityUtil.turnToActivity(PostDetailActivity::class.java, it.postDetailUrl) }
 
