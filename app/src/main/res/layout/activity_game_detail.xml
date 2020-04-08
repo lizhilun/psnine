@@ -15,8 +15,8 @@
             type="demo.lizl.com.psnine.adapter.GameCupGroupListAdapter" />
 
         <variable
-            name="onBackBtnClickListener"
-            type="View.OnClickListener" />
+            name="cupInfoAdapter"
+            type="demo.lizl.com.psnine.adapter.InfoGridAdapter" />
     </data>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -39,8 +39,15 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ic_back"
                     style="@style/GlobalBackButtonStyle"
-                    android:onClick="@{onBackBtnClickListener}"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ic_more"
+                    style="@style/GlobalBackButtonStyle"
+                    android:src="@mipmap/ic_more"
+                    android:visibility="@{cupInfoAdapter != null?View.VISIBLE:View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -86,7 +93,8 @@
                     android:overScrollMode="never"
                     android:paddingTop="@dimen/content_padding_content"
                     android:paddingBottom="@dimen/content_padding_top_edge_small"
-                    android:visibility="gone"
+                    android:visibility="@{cupInfoAdapter != null?View.VISIBLE:View.GONE}"
+                    app:adapter="@{cupInfoAdapter}"
                     app:layout_constraintTop_toBottomOf="@+id/tv_game_cup_info" />
 
                 <androidx.recyclerview.widget.RecyclerView
