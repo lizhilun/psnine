@@ -1,12 +1,10 @@
 package demo.lizl.com.psnine.bean
 
-data class GameInfoItem(val coverUrl: String, val gameName: String, val gameDetailUrl: String)
+data class GameInfoItem(val coverUrl: String, val gameName: String, val gameDetailUrl: String, var lastUpdateTime: String? = null)
 {
     var gameCupInfo: String? = null
 
     var completionRate: String? = null
-
-    var lastUpdateTime: String? = null
 
     var isPS4Game: Boolean = false
 

@@ -117,12 +117,11 @@ class UserGameViewModel : ViewModel()
                 val gameDetailUrl = gameElement.select("p")[0].select("a").attr("href")
                 val completionRate = gameElement.getElementsByClass("pd10").text().split(" ")[0]
                 val lastUpdateTime = gameElement.getElementsByTag("small")[0].text()
-                val gameInfoItem = GameInfoItem(coverUrl, gameName, gameDetailUrl)
                 val isPS4Game = gameElement.getElementsByClass("pf_ps4").size > 0
                 val isPS3Game = gameElement.getElementsByClass("pf_ps3").size > 0
                 val isPSVGame = gameElement.getElementsByClass("pf_psv").size > 0
+                val gameInfoItem = GameInfoItem(coverUrl, gameName, gameDetailUrl, lastUpdateTime)
                 gameInfoItem.completionRate = completionRate
-                gameInfoItem.lastUpdateTime = lastUpdateTime
                 gameInfoItem.isPS3Game = isPS3Game
                 gameInfoItem.isPS4Game = isPS4Game
                 gameInfoItem.isPSVGame = isPSVGame
