@@ -5,6 +5,8 @@ import android.content.Context
 import demo.lizl.com.psnine.custom.dialog.DialogGameSortCondition
 import demo.lizl.com.psnine.custom.dialog.DialogLoading
 import demo.lizl.com.psnine.custom.dialog.DialogOperationConfirm
+import demo.lizl.com.psnine.custom.function.ui
+import kotlinx.coroutines.GlobalScope
 
 object DialogUtil
 {
@@ -12,23 +14,24 @@ object DialogUtil
 
     fun showOperationConfirmDialog(context: Context, title: String, notify: String, onConfirmBtnClickListener: () -> Unit)
     {
-        dialog?.dismiss()
-        dialog = DialogOperationConfirm(context, title, notify, onConfirmBtnClickListener)
-        dialog?.show()
+        GlobalScope.ui { showDialog(DialogOperationConfirm(context, title, notify, onConfirmBtnClickListener)) }
     }
 
     fun showLoadingDialog(context: Context)
     {
-        dialog?.dismiss()
-        dialog = DialogLoading(context)
-        dialog?.show()
+        GlobalScope.ui { showDialog(DialogLoading(context)) }
     }
 
     fun showGameSortConditionDialog(context: Context, onConfirmButtonClickListener: (String, String) -> Unit)
     {
-        dialog?.dismiss()
-        dialog = DialogGameSortCondition(context, onConfirmButtonClickListener)
-        dialog?.show()
+        GlobalScope.ui { showDialog(DialogGameSortCondition(context, onConfirmButtonClickListener)) }
+    }
+
+    private fun showDialog(dialog: Dialog)
+    {
+        this.dialog?.dismiss()
+        this.dialog = dialog
+        this.dialog?.show()
     }
 
     fun dismissDialog()

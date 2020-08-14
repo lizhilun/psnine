@@ -1,15 +1,26 @@
 package demo.lizl.com.psnine.util
 
 import android.webkit.WebView
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.daimajia.numberprogressbar.NumberProgressBar
+import demo.lizl.com.psnine.GlideApp
 
 object DataBindUtil
 {
+
+    @JvmStatic
+    @BindingAdapter("app:imageUri")
+    fun bindImageUrl(imageView: ImageView, imageUri: String?)
+    {
+        if (imageUri.isNullOrEmpty()) return
+        GlideApp.with(imageView.context).load(imageUri).into(imageView)
+    }
+
     @JvmStatic
     @BindingAdapter("app:adapter")
     fun bindAdapter(recyclerView: RecyclerView, adapter: RecyclerView.Adapter<*>?)
