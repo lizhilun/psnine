@@ -10,10 +10,8 @@ import demo.lizl.com.psnine.databinding.ActivityCupTipsBinding
 import demo.lizl.com.psnine.mvvm.base.BaseActivity
 import demo.lizl.com.psnine.mvvm.viewmodel.CupTipViewModel
 
-class CupTipsActivity : BaseActivity<ActivityCupTipsBinding>()
+class CupTipsActivity : BaseActivity<ActivityCupTipsBinding>(R.layout.activity_cup_tips)
 {
-    override fun getLayoutResId() = R.layout.activity_cup_tips
-
     override fun initView()
     {
         val cupTipsUrl = intent?.getStringExtra(AppConstant.BUNDLE_DATA_STRING).orEmpty()

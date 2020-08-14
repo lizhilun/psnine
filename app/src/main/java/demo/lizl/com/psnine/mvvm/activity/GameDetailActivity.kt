@@ -7,16 +7,14 @@ import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.GameCupGroupListAdapter
 import demo.lizl.com.psnine.adapter.InfoGridAdapter
-import demo.lizl.com.psnine.model.GameCupGroupModel
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.databinding.ActivityGameDetailBinding
+import demo.lizl.com.psnine.model.GameCupGroupModel
 import demo.lizl.com.psnine.mvvm.base.BaseActivity
 import demo.lizl.com.psnine.mvvm.viewmodel.GameDetailViewModel
 
-class GameDetailActivity : BaseActivity<ActivityGameDetailBinding>()
+class GameDetailActivity : BaseActivity<ActivityGameDetailBinding>(R.layout.activity_game_detail)
 {
-    override fun getLayoutResId() = R.layout.activity_game_detail
-
     private val gameCupGroupListAdapter = GameCupGroupListAdapter()
 
     private val viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(UiApplication.instance).create(GameDetailViewModel::class.java)

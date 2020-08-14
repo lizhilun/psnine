@@ -11,11 +11,8 @@ import demo.lizl.com.psnine.mvvm.base.BaseActivity
 import demo.lizl.com.psnine.util.ActivityUtil
 import kotlinx.android.synthetic.main.activity_post_detail.*
 
-class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>()
+class PostDetailActivity : BaseActivity<ActivityPostDetailBinding>(R.layout.activity_post_detail)
 {
-
-    override fun getLayoutResId() = R.layout.activity_post_detail
-
     override fun initView()
     {
         dataBinding.requestUrl = intent?.getStringExtra(AppConstant.BUNDLE_DATA_STRING).orEmpty()

@@ -7,10 +7,8 @@ import demo.lizl.com.psnine.databinding.ActivityUserDetailBinding
 import demo.lizl.com.psnine.mvvm.base.BaseActivity
 import demo.lizl.com.psnine.mvvm.fragment.UserFragment
 
-class UserDetailActivity : BaseActivity<ActivityUserDetailBinding>()
+class UserDetailActivity : BaseActivity<ActivityUserDetailBinding>(R.layout.activity_user_detail)
 {
-    override fun getLayoutResId() = R.layout.activity_user_detail
-
     override fun initView()
     {
         val psnId = intent?.getStringExtra(AppConstant.BUNDLE_DATA_STRING).orEmpty()

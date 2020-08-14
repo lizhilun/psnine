@@ -10,10 +10,8 @@ import demo.lizl.com.psnine.mvvm.fragment.GameFragment
 import demo.lizl.com.psnine.mvvm.fragment.HomeFragment
 import demo.lizl.com.psnine.mvvm.fragment.UserFragment
 
-class MainActivity : BaseActivity<ActivityMainBinding>()
+class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main)
 {
-    override fun getLayoutResId() = R.layout.activity_main
-
     override fun initView()
     {
         val fragmentList = listOf<Fragment>(HomeFragment(), GameFragment(), UserFragment())

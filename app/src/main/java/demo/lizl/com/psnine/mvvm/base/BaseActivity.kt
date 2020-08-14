@@ -7,13 +7,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import demo.lizl.com.psnine.util.DialogUtil
 
-abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity()
+abstract class BaseActivity<DB : ViewDataBinding>(private val layoutResId: Int) : AppCompatActivity()
 {
     protected val TAG = this.javaClass.simpleName
 
     protected lateinit var dataBinding: DB
-
-    abstract fun getLayoutResId(): Int
 
     abstract fun initView()
 
@@ -22,7 +20,7 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity()
         Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
 
-        dataBinding = DataBindingUtil.setContentView(this, getLayoutResId())
+        dataBinding = DataBindingUtil.setContentView(this, layoutResId)
         dataBinding.lifecycleOwner = this
 
         initView()

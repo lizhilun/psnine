@@ -24,7 +24,7 @@ import demo.lizl.com.psnine.util.DialogUtil
 import demo.lizl.com.psnine.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_game.*
 
-class GameFragment : BaseFragment<FragmentGameBinding>()
+class GameFragment : BaseFragment<FragmentGameBinding>(R.layout.fragment_game)
 {
     private val hotGameListAdapter = GameListAdapter()
     private val searchResultListAdapter = GameListAdapter()
@@ -35,8 +35,6 @@ class GameFragment : BaseFragment<FragmentGameBinding>()
     private val discountViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(UiApplication.instance).create(DiscountViewModel::class.java)
 
     private var hasNoMoreDiscountGame = false
-
-    override fun getLayoutResId() = R.layout.fragment_game
 
     override fun initView()
     {

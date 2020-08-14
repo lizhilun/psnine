@@ -10,10 +10,8 @@ import demo.lizl.com.psnine.constant.EventConstant
 import demo.lizl.com.psnine.databinding.ActivityLoginBinding
 import demo.lizl.com.psnine.mvvm.base.BaseActivity
 
-class LoginActivity : BaseActivity<ActivityLoginBinding>()
+class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login)
 {
-    override fun getLayoutResId() = R.layout.activity_login
-
     override fun initView()
     {
         dataBinding.loginUrl = AppConfig.BASE_REQUEST_URL + "sign/in"

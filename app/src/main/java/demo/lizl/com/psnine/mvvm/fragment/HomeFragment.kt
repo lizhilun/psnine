@@ -12,10 +12,8 @@ import demo.lizl.com.psnine.mvvm.viewmodel.PostViewModel
 import demo.lizl.com.psnine.util.ActivityUtil
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>()
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
 {
-    override fun getLayoutResId() = R.layout.fragment_home
-
     override fun initView()
     {
         val viewModel = ViewModelProvider.AndroidViewModelFactory(UiApplication.instance).create(PostViewModel::class.java)

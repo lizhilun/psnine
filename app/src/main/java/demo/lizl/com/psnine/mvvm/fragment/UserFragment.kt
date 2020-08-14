@@ -10,11 +10,11 @@ import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.GameListAdapter
 import demo.lizl.com.psnine.adapter.InfoGridAdapter
-import demo.lizl.com.psnine.model.ResultModel
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.constant.EventConstant
 import demo.lizl.com.psnine.databinding.FragmentUserBinding
+import demo.lizl.com.psnine.model.ResultModel
 import demo.lizl.com.psnine.mvvm.activity.GameDetailActivity
 import demo.lizl.com.psnine.mvvm.activity.LoginActivity
 import demo.lizl.com.psnine.mvvm.base.BaseFragment
@@ -26,15 +26,13 @@ import demo.lizl.com.psnine.util.UserInfoUpdateUtil
 import kotlinx.android.synthetic.main.fragment_user.*
 
 
-class UserFragment : BaseFragment<FragmentUserBinding>()
+class UserFragment : BaseFragment<FragmentUserBinding>(R.layout.fragment_user)
 {
 
     private val gameListAdapter = GameListAdapter()
 
     private val userInfoViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(UiApplication.instance).create(UserInfoViewModel::class.java)
     private val userGameViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(UiApplication.instance).create(UserGameViewModel::class.java)
-
-    override fun getLayoutResId() = R.layout.fragment_user
 
     override fun initView()
     {

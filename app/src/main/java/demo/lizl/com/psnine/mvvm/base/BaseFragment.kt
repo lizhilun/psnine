@@ -10,7 +10,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import demo.lizl.com.psnine.util.DialogUtil
 
-abstract class BaseFragment<DB : ViewDataBinding> : Fragment()
+abstract class BaseFragment<DB : ViewDataBinding>(private val layoutResId: Int) : Fragment()
 {
     protected var TAG = this.javaClass.simpleName
 
@@ -26,7 +26,7 @@ abstract class BaseFragment<DB : ViewDataBinding> : Fragment()
     {
         Log.d(TAG, "onCreateView")
 
-        dataBinding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false)
+        dataBinding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
         dataBinding.lifecycleOwner = this
 
         return dataBinding.root
@@ -78,8 +78,6 @@ abstract class BaseFragment<DB : ViewDataBinding> : Fragment()
         Log.d(TAG, "onDestroy")
         super.onDestroy()
     }
-
-    abstract fun getLayoutResId(): Int
 
     abstract fun initView()
 }
