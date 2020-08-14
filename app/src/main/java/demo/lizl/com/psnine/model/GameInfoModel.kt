@@ -1,6 +1,6 @@
-package demo.lizl.com.psnine.bean
+package demo.lizl.com.psnine.model
 
-data class GameInfoItem(val coverUrl: String, val gameName: String, val gameDetailUrl: String, var lastUpdateTime: String? = null)
+data class GameInfoModel(val coverUrl: String, val gameName: String, val gameDetailUrl: String, var lastUpdateTime: String? = null)
 {
     var gameCupInfo: String? = null
 

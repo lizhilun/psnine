@@ -6,7 +6,7 @@
 
         <variable
             name="replyPostItem"
-            type="demo.lizl.com.psnine.bean.ReplyPostItem" />
+            type="demo.lizl.com.psnine.model.ReplyPostModel" />
 
         <variable
             name="subReplyAdapter"

@@ -2,8 +2,8 @@ package demo.lizl.com.psnine.mvvm.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import demo.lizl.com.psnine.bean.CupInfoItem
-import demo.lizl.com.psnine.bean.ReplyPostItem
+import demo.lizl.com.psnine.model.CupInfoModel
+import demo.lizl.com.psnine.model.ReplyPostModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -14,8 +14,8 @@ class CupTipViewModel : ViewModel()
 
     private var curCupTipUrl = ""
 
-    private val cupTipLiveData = MutableLiveData<MutableList<ReplyPostItem>>()
-    private val cupInfoLiveData = MutableLiveData<CupInfoItem>()
+    private val cupTipLiveData = MutableLiveData<MutableList<ReplyPostModel>>()
+    private val cupInfoLiveData = MutableLiveData<CupInfoModel>()
 
     fun getCupTipLiveData() = cupTipLiveData
 
@@ -37,9 +37,9 @@ class CupTipViewModel : ViewModel()
             val cupName = cupInfoElement.getElementsByTag("h1").first()?.ownText().orEmpty()
             val cupDescription = cupInfoElement.getElementsByTag("em").first()?.ownText().orEmpty()
 
-            cupInfoLiveData.postValue(CupInfoItem(cupName, cupDescription, cupCover))
+            cupInfoLiveData.postValue(CupInfoModel(cupName, cupDescription, cupCover))
 
-            val postList = mutableListOf<ReplyPostItem>()
+            val postList = mutableListOf<ReplyPostModel>()
             doc.getElementsByClass("post").forEach { postElement ->
 
                 val writerUrl = postElement.getElementsByTag("a").first()?.attr("href").orEmpty()
@@ -48,7 +48,7 @@ class CupTipViewModel : ViewModel()
                 val writerId = postElement.getElementsByClass("psnnode").first()?.ownText().orEmpty()
                 val postTime = postElement.getElementsByClass("meta").first()?.ownText().orEmpty()
 
-                val replyPoItem = ReplyPostItem(postWriterAvatarUrl, postContent, writerId, postTime, writerUrl)
+                val replyPoItem = ReplyPostModel(postWriterAvatarUrl, postContent, writerId, postTime, writerUrl)
 
                 postList.add(replyPoItem)
             }
@@ -60,28 +60,28 @@ class CupTipViewModel : ViewModel()
                 val postWriterAvatarUrl = newPostElement.getElementsByTag("img").attr("src")
                 val postContent = newPostElement.getElementsByClass("content pb10").text()
                 val writerId = newPostElement.getElementsByClass("psnnode").first()?.ownText().orEmpty()
-                val metaElement = newPostElement.getElementsByClass("meta")
-                val spanElementList = if (metaElement.size > 1) newPostElement.getElementsByClass("meta")[1].getElementsByTag("span") else null
+                val spanElementList = newPostElement.getElementsByClass("meta").getOrNull(1)?.getElementsByTag("span")
                 val postTime = spanElementList?.last()?.ownText().orEmpty()
 
-                val subReplyList = mutableListOf<ReplyPostItem>()
+                val subReplyList = mutableListOf<ReplyPostModel>()
                 newPostElement.getElementsByClass("sonlist").select("li").forEach { subReplyPostElement ->
                     val subContent = subReplyPostElement.getElementsByClass("content").first()?.ownText().orEmpty()
                     val aElementList = subReplyPostElement.getElementsByTag("a")
-                    val subWriterUrl = if (aElementList.size > 1) aElementList[1].attr("href") else ""
-                    val subWriterId = if (aElementList.size > 1) aElementList[1].ownText() else ""
-                    val atUserUrl = if (aElementList.size > 2) aElementList[2].attr("href") else ""
-                    val atUserId = if (aElementList.size > 2) aElementList[2].ownText() else ""
+                    val subWriterUrl = aElementList.getOrNull(1)?.attr("href").orEmpty()
+                    val subWriterId = aElementList.getOrNull(1)?.ownText().orEmpty()
+                    val atUserUrl = aElementList.getOrNull(2)?.attr("href").orEmpty()
+                    val atUserId = aElementList.getOrNull(2)?.ownText().orEmpty()
                     val subPostTime = newPostElement.getElementsByClass("h-p").first()?.text().orEmpty()
 
-                    val subReplyPostItem = ReplyPostItem("", subContent, subWriterId, subPostTime, subWriterUrl)
-                    subReplyPostItem.atUserId = atUserId
-                    subReplyPostItem.atUserUrl = atUserUrl
+                    val subReplyPostItem = ReplyPostModel("", subContent, subWriterId, subPostTime, subWriterUrl).apply {
+                        this.atUserId = atUserId
+                        this.atUserUrl = atUserUrl
+                    }
 
                     subReplyList.add(subReplyPostItem)
                 }
 
-                val replyPoItem = ReplyPostItem(postWriterAvatarUrl, postContent, writerId, postTime, writerUrl)
+                val replyPoItem = ReplyPostModel(postWriterAvatarUrl, postContent, writerId, postTime, writerUrl)
                 replyPoItem.subReplyPostList.addAll(subReplyList)
 
                 postList.add(replyPoItem)

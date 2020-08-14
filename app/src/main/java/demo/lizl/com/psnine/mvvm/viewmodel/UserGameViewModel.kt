@@ -3,7 +3,7 @@ package demo.lizl.com.psnine.mvvm.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import demo.lizl.com.psnine.bean.GameInfoItem
+import demo.lizl.com.psnine.model.GameInfoModel
 import demo.lizl.com.psnine.config.AppConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -34,7 +34,7 @@ class UserGameViewModel : ViewModel()
     private var sortGameCondition = SORT_GAME_BY_TIME
     private var sortGamePlatform = GAME_PLATFORM_ALL
 
-    private val userGameLiveData = MutableLiveData<MutableList<GameInfoItem>>()
+    private val userGameLiveData = MutableLiveData<MutableList<GameInfoModel>>()
     private val userGameCountLiveData = MutableLiveData<Int>()
 
     fun getUserGameLiveData() = userGameLiveData
@@ -106,9 +106,9 @@ class UserGameViewModel : ViewModel()
         }
     }
 
-    private fun getGameListFromGameElementList(gameElementList: Elements?): MutableList<GameInfoItem>
+    private fun getGameListFromGameElementList(gameElementList: Elements?): MutableList<GameInfoModel>
     {
-        val gameList = mutableListOf<GameInfoItem>()
+        val gameList = mutableListOf<GameInfoModel>()
         gameElementList?.forEach { gameElement ->
             try
             {
@@ -120,7 +120,7 @@ class UserGameViewModel : ViewModel()
                 val isPS4Game = gameElement.getElementsByClass("pf_ps4").size > 0
                 val isPS3Game = gameElement.getElementsByClass("pf_ps3").size > 0
                 val isPSVGame = gameElement.getElementsByClass("pf_psv").size > 0
-                val gameInfoItem = GameInfoItem(coverUrl, gameName, gameDetailUrl, lastUpdateTime)
+                val gameInfoItem = GameInfoModel(coverUrl, gameName, gameDetailUrl, lastUpdateTime)
                 gameInfoItem.completionRate = completionRate
                 gameInfoItem.isPS3Game = isPS3Game
                 gameInfoItem.isPS4Game = isPS4Game

@@ -5,27 +5,25 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.bean.PostItem
+import demo.lizl.com.psnine.model.PostModel
 import demo.lizl.com.psnine.custom.other.CustomDiffUtil
 import demo.lizl.com.psnine.databinding.ItemPostBinding
 
-class PostListAdapter : BaseQuickAdapter<PostItem, BaseViewHolder>(R.layout.item_post), LoadMoreModule
+class PostListAdapter : BaseQuickAdapter<PostModel, BaseViewHolder>(R.layout.item_post), LoadMoreModule
 {
 
-    private var onPostItemClickListener: ((PostItem) -> Unit)? = null
-    private var onPostAvatarClickListener: ((PostItem) -> Unit)? = null
+    private var onPostAvatarClickListener: ((PostModel) -> Unit)? = null
 
     init
     {
         setDiffCallback(CustomDiffUtil({ oldItem, newItem -> oldItem.postDetailUrl == newItem.postDetailUrl }, { oldItem, newItem -> oldItem == newItem }))
     }
 
-    override fun convert(helper: BaseViewHolder, item: PostItem)
+    override fun convert(helper: BaseViewHolder, model: PostModel)
     {
         DataBindingUtil.getBinding<ItemPostBinding>(helper.itemView)?.apply {
-            postItem = item
-            ivPostIcon.setOnClickListener { onPostAvatarClickListener?.invoke(item) }
-            root.setOnClickListener { onPostItemClickListener?.invoke(item) }
+            postItem = model
+            ivPostIcon.setOnClickListener { onPostAvatarClickListener?.invoke(model) }
             executePendingBindings()
         }
     }
@@ -35,12 +33,15 @@ class PostListAdapter : BaseQuickAdapter<PostItem, BaseViewHolder>(R.layout.item
         DataBindingUtil.bind<ItemPostBinding>(viewHolder.itemView)
     }
 
-    fun setOnPostItemClickListener(onPostItemClickListener: ((PostItem) -> Unit))
+    fun setOnPostItemClickListener(onPostItemClickListener: ((PostModel) -> Unit))
     {
-        this.onPostItemClickListener = onPostItemClickListener;
+        setOnItemClickListener { _, _, position ->
+            val model = getItemOrNull(position) ?: return@setOnItemClickListener
+            onPostItemClickListener.invoke(model)
+        }
     }
 
-    fun setOnPostAvatarClickListener(onPostAvatarClickListener: ((PostItem) -> Unit))
+    fun setOnPostAvatarClickListener(onPostAvatarClickListener: ((PostModel) -> Unit))
     {
         this.onPostAvatarClickListener = onPostAvatarClickListener
     }

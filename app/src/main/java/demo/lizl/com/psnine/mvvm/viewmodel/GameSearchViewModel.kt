@@ -3,7 +3,7 @@ package demo.lizl.com.psnine.mvvm.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import demo.lizl.com.psnine.bean.GameInfoItem
+import demo.lizl.com.psnine.model.GameInfoModel
 import demo.lizl.com.psnine.config.AppConfig
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ class GameSearchViewModel : ViewModel()
     private var curSearchStr = ""
     private var curSearchPage = 1
 
-    private val searchResultLiveData = MutableLiveData<MutableList<GameInfoItem>>()
+    private val searchResultLiveData = MutableLiveData<MutableList<GameInfoModel>>()
     private val searchResultCountLiveData = MutableLiveData<Int>()
 
     fun getSearchResultLiveData() = searchResultLiveData
@@ -44,9 +44,9 @@ class GameSearchViewModel : ViewModel()
         }
     }
 
-    private fun getSearchResult(searchStr: String, resultPage: Int): MutableList<GameInfoItem>
+    private fun getSearchResult(searchStr: String, resultPage: Int): MutableList<GameInfoModel>
     {
-        val gameList = mutableListOf<GameInfoItem>()
+        val gameList = mutableListOf<GameInfoModel>()
 
         try
         {
@@ -78,12 +78,14 @@ class GameSearchViewModel : ViewModel()
                     searchResultCountLiveData.postValue(searchResultCount)
                 }
 
-                val gameInfoItem = GameInfoItem(gameCoverUrl, gameName, gameDetailUrl)
-                gameInfoItem.isPS3Game = isPS3Game
-                gameInfoItem.isPS4Game = isPS4Game
-                gameInfoItem.isPSVGame = isPSVGame
-                gameInfoItem.gameCupInfo = gameCupInfo
-                gameInfoItem.perfectRate = perfectRate
+                val gameInfoItem = GameInfoModel(gameCoverUrl, gameName, gameDetailUrl).apply {
+                    this.isPS3Game = isPS3Game
+                    this.isPS4Game = isPS4Game
+                    this.isPSVGame = isPSVGame
+                    this.gameCupInfo = gameCupInfo
+                    this.perfectRate = perfectRate
+                }
+
                 gameList.add(gameInfoItem)
             }
         }

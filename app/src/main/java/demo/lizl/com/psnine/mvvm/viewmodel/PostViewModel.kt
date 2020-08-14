@@ -3,7 +3,7 @@ package demo.lizl.com.psnine.mvvm.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import demo.lizl.com.psnine.bean.PostItem
+import demo.lizl.com.psnine.model.PostModel
 import demo.lizl.com.psnine.config.AppConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -16,7 +16,7 @@ class PostViewModel : ViewModel()
 
     private var curPostPage = 1
 
-    private val postLiveData = MutableLiveData<MutableList<PostItem>>()
+    private val postLiveData = MutableLiveData<MutableList<PostModel>>()
 
     fun getPostLiveData() = postLiveData
 
@@ -38,9 +38,9 @@ class PostViewModel : ViewModel()
         }
     }
 
-    private fun getPostItemListFromPostPage(postPage: Int): MutableList<PostItem>
+    private fun getPostItemListFromPostPage(postPage: Int): MutableList<PostModel>
     {
-        val postList = mutableListOf<PostItem>()
+        val postList = mutableListOf<PostModel>()
 
         try
         {
@@ -57,7 +57,7 @@ class PostViewModel : ViewModel()
                 val postDetailUrl = postDetailElement.select("a").attr("href")
                 val userId = postElement.getElementsByClass("psnnode").text()
                 val timeInfo = postElement.getElementsByClass("meta").first()?.ownText().orEmpty()
-                val postItem = PostItem(imageUrl, text, userId, timeInfo, postDetailUrl)
+                val postItem = PostModel(imageUrl, text, userId, timeInfo, postDetailUrl)
                 postList.add(postItem)
             }
         }

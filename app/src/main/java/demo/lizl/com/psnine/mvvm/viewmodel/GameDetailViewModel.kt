@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
-import demo.lizl.com.psnine.bean.GameCupGroupItem
-import demo.lizl.com.psnine.bean.GameCupItem
-import demo.lizl.com.psnine.bean.GameInfoItem
-import demo.lizl.com.psnine.bean.InfoItem
+import demo.lizl.com.psnine.model.GameCupGroupModel
+import demo.lizl.com.psnine.model.GameCupModel
+import demo.lizl.com.psnine.model.GameInfoModel
+import demo.lizl.com.psnine.model.InfoModel
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.custom.function.deleteStr
@@ -22,9 +22,9 @@ class GameDetailViewModel : ViewModel()
 
     private var gameDetailUrl = ""
 
-    private val gameInfoLiveData = MutableLiveData<GameInfoItem>()
-    private val gameCupInfoLiveData = MutableLiveData<MutableList<InfoItem>>()
-    private val gameCupGroupLiveData = MutableLiveData<MutableList<GameCupGroupItem>>()
+    private val gameInfoLiveData = MutableLiveData<GameInfoModel>()
+    private val gameCupInfoLiveData = MutableLiveData<MutableList<InfoModel>>()
+    private val gameCupGroupLiveData = MutableLiveData<MutableList<GameCupGroupModel>>()
 
     fun getGameInfoLiveData() = gameInfoLiveData
     fun getGameCupInfoLiveData() = gameCupInfoLiveData
@@ -73,22 +73,22 @@ class GameDetailViewModel : ViewModel()
                     val lastCupTime = if (cupInfoElement.size > 1) cupInfoElement[1].ownText() else "--"
                     val totalTime = if (cupInfoElement.size > 2) cupInfoElement[2].ownText() else "--"
 
-                    gameCupInfoLiveData.postValue(mutableListOf<InfoItem>().apply {
-                        add(InfoItem(UiApplication.instance.getString(R.string.game_progress), gameProgress))
-                        add(InfoItem(UiApplication.instance.getString(R.string.first_cup), firstCupTime))
-                        add(InfoItem(UiApplication.instance.getString(R.string.last_cup), lastCupTime))
-                        add(InfoItem(UiApplication.instance.getString(R.string.total_time), totalTime))
+                    gameCupInfoLiveData.postValue(mutableListOf<InfoModel>().apply {
+                        add(InfoModel(UiApplication.instance.getString(R.string.game_progress), gameProgress))
+                        add(InfoModel(UiApplication.instance.getString(R.string.first_cup), firstCupTime))
+                        add(InfoModel(UiApplication.instance.getString(R.string.last_cup), lastCupTime))
+                        add(InfoModel(UiApplication.instance.getString(R.string.total_time), totalTime))
                     })
                 }
             }
 
             val gameCupInfo = "$platinumCount $goldCount $silverCount $bronzeCount $perfectRate"
 
-            val gameInfoItem = GameInfoItem(gameCoverUrl, gameName, "")
+            val gameInfoItem = GameInfoModel(gameCoverUrl, gameName, "")
             gameInfoItem.gameCupInfo = gameCupInfo
             gameInfoLiveData.postValue(gameInfoItem)
 
-            val gameCupGroupList = mutableListOf<GameCupGroupItem>()
+            val gameCupGroupList = mutableListOf<GameCupGroupModel>()
             doc.getElementsByClass("list").forEach { element ->
 
                 val gameCupListElement = element.select("tr")
@@ -97,7 +97,7 @@ class GameDetailViewModel : ViewModel()
                 val gameCupCoverUrl = gameCupListElement[0].getElementsByTag("img").attr("src")
                 val gameCupCount = gameCupListElement[0].getElementsByTag("em").text()
 
-                val gameCupItemList = mutableListOf<GameCupItem>()
+                val gameCupItemList = mutableListOf<GameCupModel>()
 
                 for (i in 1 until gameCupListElement.size)
                 {
@@ -122,11 +122,11 @@ class GameDetailViewModel : ViewModel()
                     val cupTips = gameCupListElement[i].getElementsByClass("alert-success pd5").text()
                     val cupGetTime = gameCupListElement[i].getElementsByClass("lh180 alert-success pd5 r").text()
 
-                    val gameCupItem = GameCupItem(cupCoverUrl, cupName, cupDes, cupTips, cupGetTime, cupType, cupTipsUrl)
+                    val gameCupItem = GameCupModel(cupCoverUrl, cupName, cupDes, cupTips, cupGetTime, cupType, cupTipsUrl)
                     gameCupItemList.add(gameCupItem)
                 }
 
-                gameCupGroupList.add(GameCupGroupItem(gameCupName, gameCupCoverUrl, gameCupCount, gameCupItemList))
+                gameCupGroupList.add(GameCupGroupModel(gameCupName, gameCupCoverUrl, gameCupCount, gameCupItemList))
             }
 
             gameCupGroupLiveData.postValue(gameCupGroupList)

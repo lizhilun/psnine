@@ -12,7 +12,7 @@
 
         <variable
             name="gameCupItem"
-            type="demo.lizl.com.psnine.bean.GameCupItem" />
+            type="demo.lizl.com.psnine.model.GameCupModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

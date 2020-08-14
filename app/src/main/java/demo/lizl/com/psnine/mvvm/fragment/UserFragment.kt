@@ -10,7 +10,7 @@ import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.GameListAdapter
 import demo.lizl.com.psnine.adapter.InfoGridAdapter
-import demo.lizl.com.psnine.bean.ResultItem
+import demo.lizl.com.psnine.model.ResultModel
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.constant.EventConstant
@@ -52,8 +52,8 @@ class UserFragment : BaseFragment<FragmentUserBinding>()
 
         fam_menu.setClosedOnTouchOutside(true)
 
-        val userInfoUpdateCallBack = { resultItem: ResultItem ->
-            when (resultItem.result)
+        val userInfoUpdateCallBack = { resultModel: ResultModel ->
+            when (resultModel.result)
             {
                 AppConstant.RESULT_SUCCESS ->
                 {
@@ -63,8 +63,8 @@ class UserFragment : BaseFragment<FragmentUserBinding>()
                 }
                 else                       ->
                 {
-                    DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.notify_failed_to_update_info), resultItem.failedReason) {
-                        if (resultItem.failedReason == getString(R.string.notify_need_login_first))
+                    DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.notify_failed_to_update_info), resultModel.failedReason) {
+                        if (resultModel.failedReason == getString(R.string.notify_need_login_first))
                         {
                             ActivityUtil.turnToActivity(LoginActivity::class.java)
                         }

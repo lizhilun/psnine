@@ -10,7 +10,7 @@
 
         <variable
             name="discountItem"
-            type="demo.lizl.com.psnine.bean.DiscountGameItem" />
+            type="demo.lizl.com.psnine.model.DiscountGameModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

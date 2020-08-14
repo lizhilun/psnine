@@ -11,15 +11,15 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
-import demo.lizl.com.psnine.bean.ReplyPostItem
+import demo.lizl.com.psnine.model.ReplyPostModel
 import demo.lizl.com.psnine.custom.function.deleteStr
 import demo.lizl.com.psnine.custom.other.CustomLinkMovementMethod
 import demo.lizl.com.psnine.mvvm.activity.UserDetailActivity
 import demo.lizl.com.psnine.util.ActivityUtil
 import kotlinx.android.synthetic.main.item_sub_reply_post_item.view.*
 
-class SubReplyListAdapter(postList: List<ReplyPostItem>) :
-        BaseQuickAdapter<ReplyPostItem, SubReplyListAdapter.ViewHolder>(R.layout.item_sub_reply_post_item, postList.toMutableList())
+class SubReplyListAdapter(postList: List<ReplyPostModel>) :
+        BaseQuickAdapter<ReplyPostModel, SubReplyListAdapter.ViewHolder>(R.layout.item_sub_reply_post_item, postList.toMutableList())
 {
 
     companion object
@@ -29,40 +29,40 @@ class SubReplyListAdapter(postList: List<ReplyPostItem>) :
         val atIdText = ContextCompat.getColor(UiApplication.instance, R.color.color_sub_reply_post_at_user_id_text)
     }
 
-    override fun convert(helper: ViewHolder, item: ReplyPostItem)
+    override fun convert(helper: ViewHolder, model: ReplyPostModel)
     {
-        helper.bindViewHolder(item)
+        helper.bindViewHolder(model)
     }
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
     {
-        fun bindViewHolder(postItem: ReplyPostItem)
+        fun bindViewHolder(postModel: ReplyPostModel)
         {
-            val postContent = " ${postItem.postWriterId}  ${postItem.atUserId} ${postItem.postContent}"
+            val postContent = " ${postModel.postWriterId}  ${postModel.atUserId} ${postModel.postContent}"
 
             val spannable = SpannableString(postContent)
 
             spannable.setSpan(object : BackgroundColorSpan(writerIdTextBg)
-            {}, 0, postItem.postWriterId.length + 2, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+            {}, 0, postModel.postWriterId.length + 2, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
 
             spannable.setSpan(object : WriterIDSpan()
             {
                 override fun onClick(p0: View)
                 {
-                    ActivityUtil.turnToActivity(UserDetailActivity::class.java, postItem.postWriterId)
+                    ActivityUtil.turnToActivity(UserDetailActivity::class.java, postModel.postWriterId)
                 }
-            }, 0, postItem.postWriterId.length + 2, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+            }, 0, postModel.postWriterId.length + 2, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
 
 
-            if (postItem.atUserId != null)
+            if (postModel.atUserId != null)
             {
                 spannable.setSpan(object : AtUserIDSpan()
                 {
                     override fun onClick(p0: View)
                     {
-                        ActivityUtil.turnToActivity(UserDetailActivity::class.java, postItem.atUserId!!.deleteStr("@"))
+                        ActivityUtil.turnToActivity(UserDetailActivity::class.java, postModel.atUserId!!.deleteStr("@"))
                     }
-                }, postItem.postWriterId.length + 3, postItem.postWriterId.length + 3 + postItem.atUserId!!.length + 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                }, postModel.postWriterId.length + 3, postModel.postWriterId.length + 3 + postModel.atUserId!!.length + 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
             }
 
             itemView.tv_replay_content.text = spannable

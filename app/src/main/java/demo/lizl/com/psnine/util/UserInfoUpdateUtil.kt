@@ -5,7 +5,7 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import demo.lizl.com.psnine.UiApplication
-import demo.lizl.com.psnine.bean.ResultItem
+import demo.lizl.com.psnine.model.ResultModel
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.AppConstant
 import kotlinx.coroutines.GlobalScope
@@ -23,7 +23,7 @@ object UserInfoUpdateUtil
         }
     }
 
-    fun updateUserInfo(psnId: String, updateUrl: String, resultCallBack: (ResultItem) -> Unit)
+    fun updateUserInfo(psnId: String, updateUrl: String, resultCallBack: (ResultModel) -> Unit)
     {
         webView.removeJavascriptInterface("java_obj")
         webView.addJavascriptInterface(InJavaScriptLocalObj(resultCallBack), "java_obj")
@@ -52,7 +52,7 @@ object UserInfoUpdateUtil
 
                 if (url == "${AppConfig.BASE_REQUEST_URL}psnid/$psnId")
                 {
-                    resultCallBack.invoke(ResultItem(AppConstant.RESULT_SUCCESS))
+                    resultCallBack.invoke(ResultModel(AppConstant.RESULT_SUCCESS))
                 }
 
                 return super.shouldOverrideUrlLoading(view, url)
@@ -62,7 +62,7 @@ object UserInfoUpdateUtil
         webView.loadUrl(updateUrl)
     }
 
-    class InJavaScriptLocalObj(private val resultCallBack: (ResultItem) -> Unit)
+    class InJavaScriptLocalObj(private val resultCallBack: (ResultModel) -> Unit)
     {
         @JavascriptInterface
         fun showSource(html: String)
@@ -74,7 +74,7 @@ object UserInfoUpdateUtil
 
                 Log.d(TAG, "showSource:$title")
 
-                resultCallBack.invoke(ResultItem(AppConstant.RESULT_FAILED, title))
+                resultCallBack.invoke(ResultModel(AppConstant.RESULT_FAILED, title))
             }
         }
 

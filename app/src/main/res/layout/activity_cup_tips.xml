@@ -6,7 +6,7 @@
 
         <variable
             name="cupInfoItem"
-            type="demo.lizl.com.psnine.bean.CupInfoItem" />
+            type="demo.lizl.com.psnine.model.CupInfoModel" />
 
         <variable
             name="replyPostListAdapter"

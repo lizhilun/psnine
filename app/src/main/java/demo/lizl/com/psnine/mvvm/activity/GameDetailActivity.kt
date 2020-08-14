@@ -7,7 +7,7 @@ import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.GameCupGroupListAdapter
 import demo.lizl.com.psnine.adapter.InfoGridAdapter
-import demo.lizl.com.psnine.bean.GameCupGroupItem
+import demo.lizl.com.psnine.model.GameCupGroupModel
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.databinding.ActivityGameDetailBinding
 import demo.lizl.com.psnine.mvvm.base.BaseActivity
@@ -61,7 +61,7 @@ class GameDetailActivity : BaseActivity<ActivityGameDetailBinding>()
             gameCupGroupListAdapter.setDiffNewData(viewModel.getGameCupGroupLiveData().value)
             return
         }
-        val gameCupGroupList = mutableListOf<GameCupGroupItem>()
+        val gameCupGroupList = mutableListOf<GameCupGroupModel>()
         viewModel.getGameCupGroupLiveData().value?.forEach { gameCupGroupItem ->
             val cupList = gameCupGroupItem.gameCupList.filter { it.cupGetTime.isEmpty() }
             if (cupList.isEmpty()) return@forEach

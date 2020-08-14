@@ -3,7 +3,7 @@ package demo.lizl.com.psnine.mvvm.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import demo.lizl.com.psnine.bean.DiscountGameItem
+import demo.lizl.com.psnine.model.DiscountGameModel
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.custom.function.deleteStr
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +17,7 @@ class DiscountViewModel : ViewModel()
 
     private var curDiscountGamePage = 1
 
-    private val discountLiveData = MutableLiveData<MutableList<DiscountGameItem>>()
+    private val discountLiveData = MutableLiveData<MutableList<DiscountGameModel>>()
     private val discountCountLiveData = MutableLiveData<Int>()
 
     fun getDiscountLiveData() = discountLiveData
@@ -43,9 +43,9 @@ class DiscountViewModel : ViewModel()
         }
     }
 
-    private fun getDiscountGameList(pageIndex: Int): MutableList<DiscountGameItem>
+    private fun getDiscountGameList(pageIndex: Int): MutableList<DiscountGameModel>
     {
-        val discountGameList = mutableListOf<DiscountGameItem>()
+        val discountGameList = mutableListOf<DiscountGameModel>()
 
         try
         {
@@ -88,7 +88,7 @@ class DiscountViewModel : ViewModel()
                 val secondQuaIndex = psnGameInfo.indexOf("'", firstQuaIndex + 1)
                 val psnGameId = psnGameInfo.substring(firstQuaIndex + 1, secondQuaIndex)
 
-                val discountGameItem = DiscountGameItem(gameName, gameCoverUrl, discountRate, discountTime, gamePlatform, isLowest, oriPrice,
+                val discountGameItem = DiscountGameModel(gameName, gameCoverUrl, discountRate, discountTime, gamePlatform, isLowest, oriPrice,
                         notMemberPrice, memberPrice, psnGameId)
                 discountGameList.add(discountGameItem)
             }

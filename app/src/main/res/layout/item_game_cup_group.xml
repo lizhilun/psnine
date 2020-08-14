@@ -4,13 +4,13 @@
 
     <data>
 
-        <import type="demo.lizl.com.psnine.bean.GameCupGroupItem" />
+        <import type="demo.lizl.com.psnine.model.GameCupGroupModel" />
 
         <import type="demo.lizl.com.psnine.adapter.GameCupListAdapter" />
 
         <variable
             name="gameCupGroupItem"
-            type="GameCupGroupItem" />
+            type="GameCupGroupModel" />
 
         <variable
             name="gameCupListAdapter"

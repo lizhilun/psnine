@@ -6,7 +6,7 @@
 
         <variable
             name="postItem"
-            type="demo.lizl.com.psnine.bean.PostItem" />
+            type="demo.lizl.com.psnine.model.PostModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

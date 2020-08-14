@@ -4,14 +4,12 @@ import androidx.databinding.DataBindingUtil
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.bean.GameInfoItem
+import demo.lizl.com.psnine.model.GameInfoModel
 import demo.lizl.com.psnine.custom.other.CustomDiffUtil
 import demo.lizl.com.psnine.databinding.ItemGameBinding
 
-class GameListAdapter : BaseQuickAdapter<GameInfoItem, BaseViewHolder>(R.layout.item_game)
+class GameListAdapter : BaseQuickAdapter<GameInfoModel, BaseViewHolder>(R.layout.item_game)
 {
-    private var gameItemClickListener: ((GameInfoItem) -> Unit)? = null
-
     init
     {
         setDiffCallback(CustomDiffUtil({ oldItem, newItem -> oldItem.gameDetailUrl == newItem.gameDetailUrl }, { oldItem, newItem -> oldItem == newItem }))
@@ -22,18 +20,20 @@ class GameListAdapter : BaseQuickAdapter<GameInfoItem, BaseViewHolder>(R.layout.
         DataBindingUtil.bind<ItemGameBinding>(viewHolder.itemView)
     }
 
-    override fun convert(helper: BaseViewHolder, item: GameInfoItem)
+    override fun convert(helper: BaseViewHolder, model: GameInfoModel)
     {
         DataBindingUtil.getBinding<ItemGameBinding>(helper.itemView)?.apply {
-            gameInfoItem = item
-            root.setOnClickListener { gameItemClickListener?.invoke(item) }
+            gameInfoItem = model
             executePendingBindings()
         }
     }
 
-    fun setGameItemClickListener(gameItemClickListener: (GameInfoItem) -> Unit)
+    fun setGameItemClickListener(gameItemClickListener: (GameInfoModel) -> Unit)
     {
-        this.gameItemClickListener = gameItemClickListener
+        setOnItemClickListener { _, _, position ->
+            val model = getItemOrNull(position) ?: return@setOnItemClickListener
+            gameItemClickListener.invoke(model)
+        }
     }
 
 }

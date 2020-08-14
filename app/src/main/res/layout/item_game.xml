@@ -13,7 +13,7 @@
 
         <variable
             name="gameInfoItem"
-            type="demo.lizl.com.psnine.bean.GameInfoItem" />
+            type="demo.lizl.com.psnine.model.GameInfoModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

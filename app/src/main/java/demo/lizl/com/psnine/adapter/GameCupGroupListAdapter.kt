@@ -5,31 +5,31 @@ import androidx.databinding.DataBindingUtil
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.bean.GameCupGroupItem
+import demo.lizl.com.psnine.model.GameCupGroupModel
 import demo.lizl.com.psnine.custom.other.CustomDiffUtil
 import demo.lizl.com.psnine.databinding.ItemGameCupGroupBinding
 
-class GameCupGroupListAdapter : BaseQuickAdapter<GameCupGroupItem, BaseViewHolder>(R.layout.item_game_cup_group)
+class GameCupGroupListAdapter : BaseQuickAdapter<GameCupGroupModel, BaseViewHolder>(R.layout.item_game_cup_group)
 {
     companion object
     {
         private const val KEY_LIST_CHANGED = "KEY_LIST_CHANGED"
     }
 
-    override fun convert(helper: BaseViewHolder, item: GameCupGroupItem)
+    override fun convert(helper: BaseViewHolder, model: GameCupGroupModel)
     {
         helper.getBinding<ItemGameCupGroupBinding>()?.apply {
-            gameCupGroupItem = item
-            gameCupListAdapter = GameCupListAdapter(item.gameCupList)
+            gameCupGroupItem = model
+            gameCupListAdapter = GameCupListAdapter(model.gameCupList)
             executePendingBindings()
         }
     }
 
-    override fun convert(helper: BaseViewHolder, item: GameCupGroupItem, payloads: List<Any>)
+    override fun convert(helper: BaseViewHolder, model: GameCupGroupModel, payloads: List<Any>)
     {
         if (payloads.isEmpty())
         {
-            convert(helper, item)
+            convert(helper, model)
             return
         }
         val bundle = payloads.first()
@@ -41,7 +41,7 @@ class GameCupGroupListAdapter : BaseQuickAdapter<GameCupGroupItem, BaseViewHolde
                 helper.getBinding<ItemGameCupGroupBinding>()?.apply {
                     if (rvGameCupList.adapter is GameCupListAdapter)
                     {
-                        (rvGameCupList.adapter as GameCupListAdapter).setDiffNewData(item.gameCupList.toMutableList())
+                        (rvGameCupList.adapter as GameCupListAdapter).setDiffNewData(model.gameCupList.toMutableList())
                     }
                 }
             }
