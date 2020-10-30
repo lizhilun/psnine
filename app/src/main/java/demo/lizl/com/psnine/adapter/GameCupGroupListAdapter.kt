@@ -5,9 +5,9 @@ import androidx.databinding.DataBindingUtil
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.model.GameCupGroupModel
 import demo.lizl.com.psnine.custom.other.CustomDiffUtil
 import demo.lizl.com.psnine.databinding.ItemGameCupGroupBinding
+import demo.lizl.com.psnine.model.GameCupGroupModel
 
 class GameCupGroupListAdapter : BaseQuickAdapter<GameCupGroupModel, BaseViewHolder>(R.layout.item_game_cup_group)
 {
@@ -16,20 +16,33 @@ class GameCupGroupListAdapter : BaseQuickAdapter<GameCupGroupModel, BaseViewHold
         private const val KEY_LIST_CHANGED = "KEY_LIST_CHANGED"
     }
 
-    override fun convert(helper: BaseViewHolder, model: GameCupGroupModel)
+    init
+    {
+        setDiffCallback(CustomDiffUtil({ oldItem, newItem -> oldItem.gameCupCoverUrl == newItem.gameCupCoverUrl }, { oldItem, newItem -> oldItem == newItem },
+                { oldItem, newItem ->
+                    val bundle = Bundle()
+                    if (oldItem.gameCupList != newItem.gameCupList)
+                    {
+                        bundle.putBoolean(KEY_LIST_CHANGED, true)
+                    }
+                    bundle
+                }))
+    }
+
+    override fun convert(helper: BaseViewHolder, item: GameCupGroupModel)
     {
         helper.getBinding<ItemGameCupGroupBinding>()?.apply {
-            gameCupGroupItem = model
-            gameCupListAdapter = GameCupListAdapter(model.gameCupList)
+            gameCupGroupItem = item
+            gameCupListAdapter = GameCupListAdapter(item.gameCupList)
             executePendingBindings()
         }
     }
 
-    override fun convert(helper: BaseViewHolder, model: GameCupGroupModel, payloads: List<Any>)
+    override fun convert(helper: BaseViewHolder, item: GameCupGroupModel, payloads: List<Any>)
     {
         if (payloads.isEmpty())
         {
-            convert(helper, model)
+            convert(helper, item)
             return
         }
         val bundle = payloads.first()
@@ -41,7 +54,7 @@ class GameCupGroupListAdapter : BaseQuickAdapter<GameCupGroupModel, BaseViewHold
                 helper.getBinding<ItemGameCupGroupBinding>()?.apply {
                     if (rvGameCupList.adapter is GameCupListAdapter)
                     {
-                        (rvGameCupList.adapter as GameCupListAdapter).setDiffNewData(model.gameCupList.toMutableList())
+                        (rvGameCupList.adapter as GameCupListAdapter).setDiffNewData(item.gameCupList.toMutableList())
                     }
                 }
             }
@@ -51,20 +64,5 @@ class GameCupGroupListAdapter : BaseQuickAdapter<GameCupGroupModel, BaseViewHold
     override fun onItemViewHolderCreated(viewHolder: BaseViewHolder, viewType: Int)
     {
         DataBindingUtil.bind<ItemGameCupGroupBinding>(viewHolder.itemView)
-    }
-
-    init
-    {
-        setDiffCallback(CustomDiffUtil({ oldItem, newItem -> oldItem.gameCupCoverUrl == newItem.gameCupCoverUrl },
-            { oldItem, newItem -> oldItem == newItem },
-            { oldItem, newItem ->
-                val bundle = Bundle()
-                if (oldItem.gameCupList != newItem.gameCupList)
-                {
-                    bundle.putBoolean(KEY_LIST_CHANGED, true)
-                }
-                bundle
-            })
-        )
     }
 }

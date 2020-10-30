@@ -4,10 +4,10 @@ import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import demo.lizl.com.psnine.UiApplication
-import demo.lizl.com.psnine.model.ResultModel
+import com.blankj.utilcode.util.Utils
 import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.constant.AppConstant
+import demo.lizl.com.psnine.model.ResultModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
@@ -17,7 +17,7 @@ object UserInfoUpdateUtil
     private val TAG = "UserInfoUpdateUtil"
 
     private val webView by lazy {
-        WebView(UiApplication.instance).apply {
+        WebView(Utils.getApp()).apply {
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
         }

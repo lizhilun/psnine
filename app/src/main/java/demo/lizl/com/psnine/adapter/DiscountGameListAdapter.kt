@@ -5,9 +5,9 @@ import androidx.databinding.DataBindingUtil
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.model.DiscountGameModel
 import demo.lizl.com.psnine.custom.other.CustomDiffUtil
 import demo.lizl.com.psnine.databinding.ItemDiscountGameBinding
+import demo.lizl.com.psnine.model.DiscountGameModel
 
 class DiscountGameListAdapter : BaseQuickAdapter<DiscountGameModel, BaseViewHolder>(R.layout.item_discount_game)
 {
@@ -21,10 +21,10 @@ class DiscountGameListAdapter : BaseQuickAdapter<DiscountGameModel, BaseViewHold
         DataBindingUtil.bind<ItemDiscountGameBinding>(viewHolder.itemView)
     }
 
-    override fun convert(helper: BaseViewHolder, model: DiscountGameModel)
+    override fun convert(helper: BaseViewHolder, item: DiscountGameModel)
     {
         helper.getBinding<ItemDiscountGameBinding>()?.apply {
-            discountItem = model
+            discountItem = item
             executePendingBindings()
             tvOriginalPrice.paint?.flags = Paint.STRIKE_THRU_TEXT_FLAG
         }

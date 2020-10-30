@@ -3,7 +3,6 @@ package demo.lizl.com.psnine.mvvm.fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.PostListAdapter
 import demo.lizl.com.psnine.databinding.FragmentHomeBinding
 import demo.lizl.com.psnine.mvvm.activity.PostDetailActivity
@@ -16,7 +15,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
 {
     override fun initView()
     {
-        val viewModel = ViewModelProvider.AndroidViewModelFactory(UiApplication.instance).create(PostViewModel::class.java)
+        val viewModel = ViewModelProvider.AndroidViewModelFactory(requireActivity().application).create(PostViewModel::class.java)
 
         refresh_layout.setOnRefreshListener { viewModel.refreshPostList() }
         refresh_layout.setOnLoadMoreListener { viewModel.loadMorePost() }

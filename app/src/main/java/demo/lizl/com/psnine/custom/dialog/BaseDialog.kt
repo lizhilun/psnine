@@ -8,11 +8,8 @@ import androidx.core.view.isVisible
 import demo.lizl.com.psnine.R
 import kotlinx.android.synthetic.main.layout_base_dialog.*
 
-
-abstract class BaseDialog(context: Context, val title: String, private val hasBottomButton: Boolean) : Dialog(context, R.style.GlobalDialogStyle)
+open class BaseDialog(context: Context, private val layoutResId: Int, private val hasBottomButton: Boolean = false) : Dialog(context, R.style.GlobalDialogStyle)
 {
-    constructor(context: Context, title: String) : this(context, title, true)
-
     protected val TAG = javaClass.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -23,11 +20,11 @@ abstract class BaseDialog(context: Context, val title: String, private val hasBo
         val view = layoutInflater.inflate(R.layout.layout_base_dialog, null)
         setContentView(view)
 
-        val contentView = layoutInflater.inflate(getDialogContentViewResId(), null)
+        val contentView = layoutInflater.inflate(layoutResId, null)
         fl_content_view.addView(contentView)
 
         group_bottom_view.isVisible = hasBottomButton
-        tv_title.text = title
+        tv_title.text = getTitleText()
 
         tv_confirm.setOnClickListener {
             dismiss()
@@ -46,16 +43,20 @@ abstract class BaseDialog(context: Context, val title: String, private val hasBo
         // 设置Dialog宽度
         val params = window?.attributes ?: return
         val display = context.resources.displayMetrics
-        var min = display.heightPixels
-        // 宽度设置为宽高最小值的80%（兼容横屏）
-        if (min > display.widthPixels) min = display.widthPixels
+        val min = display.heightPixels.coerceAtMost(display.widthPixels)
         params.width = (min * 0.8).toInt()
         window?.attributes = params
     }
 
-    abstract fun getDialogContentViewResId(): Int
+    open fun initView()
+    {
 
-    abstract fun initView()
+    }
 
-    abstract fun onConfirmButtonClick()
+    open fun getTitleText() = ""
+
+    open fun onConfirmButtonClick()
+    {
+
+    }
 }

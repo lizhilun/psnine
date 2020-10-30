@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.DiscountGameListAdapter
 import demo.lizl.com.psnine.adapter.GameListAdapter
 import demo.lizl.com.psnine.adapter.ViewPagerAdapter
@@ -30,14 +29,18 @@ class GameFragment : BaseFragment<FragmentGameBinding>(R.layout.fragment_game)
     private val searchResultListAdapter = GameListAdapter()
     private val discountGameListAdapter = DiscountGameListAdapter()
 
-    private val hotGameViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(UiApplication.instance).create(HotGameViewModel::class.java)
-    private val gameSearchViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(UiApplication.instance).create(GameSearchViewModel::class.java)
-    private val discountViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(UiApplication.instance).create(DiscountViewModel::class.java)
+    private lateinit var hotGameViewModel: HotGameViewModel
+    private lateinit var gameSearchViewModel: GameSearchViewModel
+    private lateinit var discountViewModel: DiscountViewModel
 
     private var hasNoMoreDiscountGame = false
 
     override fun initView()
     {
+        hotGameViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application).create(HotGameViewModel::class.java)
+        gameSearchViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application).create(GameSearchViewModel::class.java)
+        discountViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application).create(DiscountViewModel::class.java)
+
         refresh_layout.setEnableRefresh(true)
         refresh_layout.isNestedScrollingEnabled = false
 

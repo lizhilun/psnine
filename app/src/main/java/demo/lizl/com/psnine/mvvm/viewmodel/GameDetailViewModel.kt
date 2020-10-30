@@ -3,15 +3,15 @@ package demo.lizl.com.psnine.mvvm.viewmodel
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.blankj.utilcode.util.StringUtils
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.UiApplication
+import demo.lizl.com.psnine.config.AppConfig
+import demo.lizl.com.psnine.constant.AppConstant
+import demo.lizl.com.psnine.custom.function.deleteStr
 import demo.lizl.com.psnine.model.GameCupGroupModel
 import demo.lizl.com.psnine.model.GameCupModel
 import demo.lizl.com.psnine.model.GameInfoModel
 import demo.lizl.com.psnine.model.InfoModel
-import demo.lizl.com.psnine.config.AppConfig
-import demo.lizl.com.psnine.constant.AppConstant
-import demo.lizl.com.psnine.custom.function.deleteStr
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -74,10 +74,10 @@ class GameDetailViewModel : ViewModel()
                     val totalTime = if (cupInfoElement.size > 2) cupInfoElement[2].ownText() else "--"
 
                     gameCupInfoLiveData.postValue(mutableListOf<InfoModel>().apply {
-                        add(InfoModel(UiApplication.instance.getString(R.string.game_progress), gameProgress))
-                        add(InfoModel(UiApplication.instance.getString(R.string.first_cup), firstCupTime))
-                        add(InfoModel(UiApplication.instance.getString(R.string.last_cup), lastCupTime))
-                        add(InfoModel(UiApplication.instance.getString(R.string.total_time), totalTime))
+                        add(InfoModel(StringUtils.getString(R.string.game_progress), gameProgress))
+                        add(InfoModel(StringUtils.getString(R.string.first_cup), firstCupTime))
+                        add(InfoModel(StringUtils.getString(R.string.last_cup), lastCupTime))
+                        add(InfoModel(StringUtils.getString(R.string.total_time), totalTime))
                     })
                 }
             }

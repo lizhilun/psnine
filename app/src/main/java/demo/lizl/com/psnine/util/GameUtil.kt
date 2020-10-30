@@ -1,9 +1,9 @@
 package demo.lizl.com.psnine.util
 
 import android.util.Log
-import androidx.core.content.ContextCompat
+import com.blankj.utilcode.util.ColorUtils
+import com.blankj.utilcode.util.StringUtils
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.custom.function.deleteChinese
 import demo.lizl.com.psnine.custom.function.deleteStr
@@ -15,7 +15,7 @@ object GameUtil
     @JvmStatic
     fun getPrefectRateColor(perfectRate: Float): Int
     {
-        return ContextCompat.getColor(UiApplication.instance, when
+        return ColorUtils.getColor(when
         {
             perfectRate > 60 -> R.color.color_perfect_rate_extremely_easy
             perfectRate > 40 -> R.color.color_perfect_rate_easy
@@ -30,7 +30,7 @@ object GameUtil
     @JvmStatic
     fun getPrefectRateDescription(perfectRate: Float): String
     {
-        return UiApplication.instance.getString(when
+        return StringUtils.getString(when
         {
             perfectRate > 60 -> R.string.extremely_easy
             perfectRate > 40 -> R.string.easy
@@ -45,7 +45,7 @@ object GameUtil
     @JvmStatic
     fun getCompletionRateColor(completionRate: Float): Int
     {
-        return ContextCompat.getColor(UiApplication.instance, when
+        return ColorUtils.getColor(when
         {
             completionRate < 25 -> R.color.color_game_completion_rate_low
             completionRate < 50 -> R.color.color_game_completion_rate_just_so_so
@@ -57,7 +57,7 @@ object GameUtil
     @JvmStatic
     fun getPlatformColor(platform: String): Int
     {
-        return ContextCompat.getColor(UiApplication.instance, when (platform)
+        return ColorUtils.getColor(when (platform)
         {
             "PS3" -> R.color.color_bg_label_PS3_game
             "PSV" -> R.color.color_bg_label_PSV_game
@@ -69,7 +69,7 @@ object GameUtil
     @JvmStatic
     fun getGameCupBgColor(cupType: Int): Int
     {
-        return ContextCompat.getColor(UiApplication.instance, when (cupType)
+        return ColorUtils.getColor(when (cupType)
         {
             AppConstant.GAME_CUP_TYPE_PLATINUM -> R.color.color_game_cup_bg_platinum
             AppConstant.GAME_CUP_TYPE_GOLD     -> R.color.color_game_cup_bg_gold

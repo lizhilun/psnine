@@ -4,7 +4,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.GameCupGroupListAdapter
 import demo.lizl.com.psnine.adapter.InfoGridAdapter
 import demo.lizl.com.psnine.constant.AppConstant
@@ -17,12 +16,14 @@ class GameDetailActivity : BaseActivity<ActivityGameDetailBinding>(R.layout.acti
 {
     private val gameCupGroupListAdapter = GameCupGroupListAdapter()
 
-    private val viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(UiApplication.instance).create(GameDetailViewModel::class.java)
+    private lateinit var viewModel: GameDetailViewModel
 
     private var isFilterGet = false
 
     override fun initView()
     {
+        viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(GameDetailViewModel::class.java)
+
         val gameDetailUrl = intent?.getStringExtra(AppConstant.BUNDLE_DATA_STRING).orEmpty()
 
         viewModel.bindGameDetailUrl(gameDetailUrl)

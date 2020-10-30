@@ -1,6 +1,7 @@
 package demo.lizl.com.psnine.mvvm.activity
 
 import android.os.Bundle
+import com.blankj.utilcode.util.FragmentUtils
 import demo.lizl.com.psnine.R
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.databinding.ActivityUserDetailBinding
@@ -14,7 +15,6 @@ class UserDetailActivity : BaseActivity<ActivityUserDetailBinding>(R.layout.acti
         val psnId = intent?.getStringExtra(AppConstant.BUNDLE_DATA_STRING).orEmpty()
         val userFragment = UserFragment()
         userFragment.arguments = Bundle().apply { putString(AppConstant.BUNDLE_DATA_STRING, psnId) }
-        supportFragmentManager.beginTransaction().replace(R.id.container, userFragment).commit()
-        supportFragmentManager.beginTransaction().show(userFragment).commit()
+        FragmentUtils.add(supportFragmentManager, userFragment, R.id.container)
     }
 }

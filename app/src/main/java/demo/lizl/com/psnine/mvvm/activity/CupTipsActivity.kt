@@ -3,7 +3,6 @@ package demo.lizl.com.psnine.mvvm.activity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.ReplyPostListAdapter
 import demo.lizl.com.psnine.constant.AppConstant
 import demo.lizl.com.psnine.databinding.ActivityCupTipsBinding
@@ -16,7 +15,7 @@ class CupTipsActivity : BaseActivity<ActivityCupTipsBinding>(R.layout.activity_c
     {
         val cupTipsUrl = intent?.getStringExtra(AppConstant.BUNDLE_DATA_STRING).orEmpty()
 
-        val viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(UiApplication.instance).create(CupTipViewModel::class.java)
+        val viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(CupTipViewModel::class.java)
 
         viewModel.bindCupTipsUrl(cupTipsUrl)
 

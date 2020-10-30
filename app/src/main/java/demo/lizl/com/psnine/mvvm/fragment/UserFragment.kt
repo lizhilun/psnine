@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.blankj.utilcode.util.ToastUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.UiApplication
 import demo.lizl.com.psnine.adapter.GameListAdapter
 import demo.lizl.com.psnine.adapter.InfoGridAdapter
 import demo.lizl.com.psnine.config.AppConfig
@@ -31,12 +30,15 @@ class UserFragment : BaseFragment<FragmentUserBinding>(R.layout.fragment_user)
 
     private val gameListAdapter = GameListAdapter()
 
-    private val userInfoViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(UiApplication.instance).create(UserInfoViewModel::class.java)
-    private val userGameViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(UiApplication.instance).create(UserGameViewModel::class.java)
+    private lateinit var userInfoViewModel: UserInfoViewModel
+    private lateinit var userGameViewModel: UserGameViewModel
 
     override fun initView()
     {
         var psnId = activity?.intent?.extras?.getString(AppConstant.BUNDLE_DATA_STRING, "")
+
+        userInfoViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application).create(UserInfoViewModel::class.java)
+        userGameViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application).create(UserGameViewModel::class.java)
 
         dataBinding.isOwenAccount = psnId.isNullOrBlank()
 
@@ -125,17 +127,17 @@ class UserFragment : BaseFragment<FragmentUserBinding>(R.layout.fragment_user)
             val platform = when (gamePlatform)
             {
                 getString(R.string.all) -> UserGameViewModel.GAME_PLATFORM_ALL
-                "PSV"                   -> UserGameViewModel.GAME_PLATFORM_PSV
-                "PS3"                   -> UserGameViewModel.GAME_PLATFORM_PS3
-                "PS4"                   -> UserGameViewModel.GAME_PLATFORM_PS4
+                "PSV" -> UserGameViewModel.GAME_PLATFORM_PSV
+                "PS3" -> UserGameViewModel.GAME_PLATFORM_PS3
+                "PS4" -> UserGameViewModel.GAME_PLATFORM_PS4
                 else                    -> UserGameViewModel.GAME_PLATFORM_ALL
             }
             val condition = when (sortCondition)
             {
-                getString(R.string.newest)             -> UserGameViewModel.SORT_GAME_BY_TIME
+                getString(R.string.newest) -> UserGameViewModel.SORT_GAME_BY_TIME
                 getString(R.string.fastest_completion) -> UserGameViewModel.SORT_GAME_BY_FASTEST_PROGRESS
                 getString(R.string.slowest_completion) -> UserGameViewModel.SORT_GAME_BY_SLOWEST_PROGRESS
-                getString(R.string.perfect_difficult)  -> UserGameViewModel.SORT_GAME_BY_PERFECT_DIFFICULT
+                getString(R.string.perfect_difficult) -> UserGameViewModel.SORT_GAME_BY_PERFECT_DIFFICULT
                 else                                   -> UserGameViewModel.SORT_GAME_BY_TIME
             }
             userGameViewModel.sortUserGame(platform, condition)

@@ -9,16 +9,6 @@ import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 
 class UiApplication : Application()
 {
-    init
-    {
-        instance = this
-    }
-
-    companion object
-    {
-        lateinit var instance: UiApplication
-    }
-
     override fun onCreate()
     {
         super.onCreate()

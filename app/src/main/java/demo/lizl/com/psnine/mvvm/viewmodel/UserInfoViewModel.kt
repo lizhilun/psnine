@@ -3,11 +3,11 @@ package demo.lizl.com.psnine.mvvm.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.blankj.utilcode.util.StringUtils
 import demo.lizl.com.psnine.R
-import demo.lizl.com.psnine.UiApplication
+import demo.lizl.com.psnine.config.AppConfig
 import demo.lizl.com.psnine.model.InfoModel
 import demo.lizl.com.psnine.model.UserInfoModel
-import demo.lizl.com.psnine.config.AppConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -64,11 +64,11 @@ class UserInfoViewModel : ViewModel()
                 val totalCupCount = (gameTableElement[4].childNodes()[0] as TextNode).text()
 
                 userGameInfoLiveData.postValue(mutableListOf<InfoModel>().apply {
-                    add(InfoModel(UiApplication.instance.getString(R.string.total_game_count), totalGameCount))
-                    add(InfoModel(UiApplication.instance.getString(R.string.perfect_game_count), perfectGameCount))
-                    add(InfoModel(UiApplication.instance.getString(R.string.pit_game_count), pitGameCount))
-                    add(InfoModel(UiApplication.instance.getString(R.string.completion_rate), gameCompletionRate))
-                    add(InfoModel(UiApplication.instance.getString(R.string.total_cup_count), totalCupCount))
+                    add(InfoModel(StringUtils.getString(R.string.total_game_count), totalGameCount))
+                    add(InfoModel(StringUtils.getString(R.string.perfect_game_count), perfectGameCount))
+                    add(InfoModel(StringUtils.getString(R.string.pit_game_count), pitGameCount))
+                    add(InfoModel(StringUtils.getString(R.string.completion_rate), gameCompletionRate))
+                    add(InfoModel(StringUtils.getString(R.string.total_cup_count), totalCupCount))
                 })
             }
             catch (e: Exception)
