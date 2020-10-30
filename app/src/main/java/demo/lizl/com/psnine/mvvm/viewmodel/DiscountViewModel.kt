@@ -3,9 +3,8 @@ package demo.lizl.com.psnine.mvvm.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import demo.lizl.com.psnine.model.DiscountGameModel
 import demo.lizl.com.psnine.config.AppConfig
-import demo.lizl.com.psnine.custom.function.deleteStr
+import demo.lizl.com.psnine.model.DiscountGameModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -76,7 +75,7 @@ class DiscountViewModel : ViewModel()
 
                 val isLowest = discountGameElement.getElementsByClass("dd_status dd_status_best").isNotEmpty()
                 val gameNameInfo = discountGameElement.getElementsByClass("dd_title mb10").text()
-                val gameName = gameNameInfo.deleteStr("《").deleteStr("》")
+                val gameName = gameNameInfo.substringAfter("《").substringBeforeLast("》")
                 val discountInfoElements = discountGameElement.getElementsByClass("dd_text")
                 if (discountInfoElements.size < 2) return@forEach
                 val discountTime = discountInfoElements[discountInfoElements.size - 1].text()
